@@ -3,92 +3,92 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://example.org/note/another-note/</loc>
+    <loc>/note/2017/06/14/another-note/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>/categories/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/example/</loc>
+    <loc>/categories/example/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/note/</loc>
+    <loc>/note/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/tutorial/</loc>
+    <loc>/tags/tutorial/</loc>
     <lastmod>2017-06-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/note/a-quick-note/</loc>
+    <loc>/note/2017/06/13/a-quick-note/</loc>
     <lastmod>2017-06-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/post/2016-02-14-hello-markdown/</loc>
+    <loc>/post/2016/02/14/a-plain-markdown-post/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/blogdown/</loc>
+    <loc>/tags/blogdown/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/categories/hugo/</loc>
+    <loc>/categories/hugo/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/markdown/</loc>
+    <loc>/tags/markdown/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/mathjax/</loc>
+    <loc>/tags/mathjax/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/pandoc/</loc>
+    <loc>/tags/pandoc/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/tags/rstudio/</loc>
+    <loc>/tags/rstudio/</loc>
     <lastmod>2016-02-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/post/2015-07-23-lorem-ipsum/</loc>
+    <loc>/post/2015/07/23/lorem-ipsum/</loc>
     <lastmod>2015-07-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://example.org/about/</loc>
+    <loc>/about/</loc>
   </url>
   
 </urlset>
