@@ -2,7 +2,7 @@ body {
   max-width: 800px;
   margin: auto;
   padding: 1em;
-  line-height: 1.5em;
+  line-height: 1.2em;
 }
 
 /* header and footer areas */
@@ -29,7 +29,7 @@ pre {
   padding: 1em;
   overflow-x: auto;
 }
-code { background: #f9f9f9; }
+code { background: #b38181; }
 pre code { background: none; }
 
 /* misc elements */
@@ -37,8 +37,9 @@ img, iframe, video { max-width: 100%; }
 main { hyphens: auto; }
 blockquote {
   background: #f9f9f9;
-  border-left: 5px solid #ccc;
+  border-left: 1px solid #ccc;
   padding: 3px 1em 3px;
+  margin-left: 0%;
 }
 
 table {

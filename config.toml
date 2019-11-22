@@ -8,25 +8,33 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 footnotereturnlinkcontents = "↩"
 
 [permalinks]
-    post = "/post/:year/:month/:day/:slug/"
-    note = "/note/:year/:month/:day/:slug/"
+    post = "/post/:year:month:day-:slug/"
+    weekly = "/weekly/:year:month:day-:slug/"
 
 [[menu.main]]
     name = "Home"
     url = "/"
     weight = 1
 [[menu.main]]
-    name = "About"
-    url = "/about/"
+    name = "Post"
+    url = "/post/"
     weight = 2
+[[menu.main]]
+    name = "Weekly"
+    url = "/weekly/"
+    weight = 3
 [[menu.main]]
     name = "Categories"
     url = "/categories/"
-    weight = 3
+    weight = 4
 [[menu.main]]
     name = "Tags"
     url = "/tags/"
-    weight = 4
+    weight = 5
+[[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 6
 [[menu.main]]
     name = "Subscribe"
     url = "/index.xml"
