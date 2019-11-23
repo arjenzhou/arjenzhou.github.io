@@ -4,6 +4,4 @@ var Vue = new Vue({}) 而内部规范在 Vue 中可以不赋值
 new Vue({}) 所以考虑对 ESLint 进行一些定制化配置。
 查看官方文档无果之后，考虑找到开发人员，以下为交流过程：
 arjenzhou: Hi, because I customized the rules, so I want to build and run eslint locally, what should I do?
-platinumazure: @arjenzhou You should be able to install ESLint locally with npm install &amp;ndash;save-dev eslint, and then run with .</description></item><item><title>A Plain Markdown Post</title><link>/post/2016/02/14-a-plain-markdown-post/</link><pubDate>Sun, 14 Feb 2016 00:00:00 +0000</pubDate><guid>/post/2016/02/14-a-plain-markdown-post/</guid><description>This sample post is mainly for blogdown users. If you do not use blogdown, you can skip the first section.
-1. Markdown or R Markdown This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
-You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.</description></item></channel></rss>
+platinumazure: @arjenzhou You should be able to install ESLint locally with npm install &amp;ndash;save-dev eslint, and then run with .</description></item></channel></rss>
