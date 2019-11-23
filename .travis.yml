@@ -1,10 +1,13 @@
 sudo: false
 language: go
+go:
+  - "1.8"
 git:
     depth: 1
-install: go get -v github.com/gohugoio/hugo
+install: 
+    - go get -v github.com/gohugoio/hugo
 script:
-    hugo
+    - hugo
 deploy:
     provider: pages
     skip_cleanup: true
@@ -13,7 +16,7 @@ deploy:
         branch: source
     local_dir: public
     repo: arjenzhou/arjenzhou.github.io
-    fqdn: https://arjenzhou.github.io
+    fqdn: jcorn.cn
     target_branch: master
     email: zhouyang.zy@protonmail.com
     name: zhouyang
