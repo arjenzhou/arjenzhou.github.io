@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>s on 散拾兄</title><link>/tags/s/</link><description>Recent content in s on 散拾兄</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 29 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/s/index.xml" rel="self" type="application/rss+xml"/><item><title>我与开源——写在阿里巴巴编程之夏之后</title><link>/post/2019/08/29-%E6%88%91%E4%B8%8E%E5%BC%80%E6%BA%90%E5%86%99%E5%9C%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E4%B9%8B%E5%90%8E/</link><pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate><guid>/post/2019/08/29-%E6%88%91%E4%B8%8E%E5%BC%80%E6%BA%90%E5%86%99%E5%9C%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%A4%8F%E4%B9%8B%E5%90%8E/</guid><description>关于阿里巴巴编程之夏的介绍可以参考 AliOS-things 同学的文章 https://zhuanlan.zhihu.com/p/79863308
+借秋招的一个间歇期，记录一下我的开源历程。算是对自己的人生阶段的一个记录。
+从小学时使用开源软件成为受益者，到第一次到开源社区中成为贡献者，我用了十年。不求回报地默默贡献，得到他人的肯定便觉得欢欣雀跃，也许这就是开源的魅力所在。
+图1，赵老师在 Jenkins 中文社区的发言
+我第一次正式参与到开源项目中，是在去年的九月。
+去年四月的时候，在上海有幸认识了家辉，我们当时便成为了朋友。也是通过他，我了解到了 GSoC。半年之后，觉得是开始套瓷的时间了，便想挑选几个社区来有针对性的交流。第一个关注的是 Apache 的 Kylin 社区，虽然主要开发者是中国人，但是方向和我期望的不太一样，所以后来没有选择它。后来在 GSoC-CN 中根据往年的申请情况，选择了 Jenkins 社区，巧合的是 Jenkins 中文社区刚刚成立，而 Jenkins 社区中活跃的参与者赵老师 @Rick 又是中国人，所以从九月到第二年的三月我便一直在 Jenkins 社区中做贡献，期间成为了 Jenkins-infra member。
+图2，赵老师由 KK 宣布为最有价值参与者
+转折发生在二月和三月。在年前我和赵老师提到过想申请他的 multibranch plugin，他也提醒过我多次要提早准备。但是我期间一直没有在其 gitter channel 中发言，二月的时候有一个印度的同学也参与到其中。同时在三月时春招受挫，和在蚂蚁的家纯学长聊了聊，决定放弃 GSoC，参与到 Kafka 中去。
+图3，和学长的交流
+四月的一个偶然机会，了解到 ASoC 的举办，而其中恰好有我想要深入学习的 Dubbo 社区，于是便在 issue 中留言。我没有马上得到回复，而我又不想错过这次机会，于是在 Jira 中留言、给社区发邮件、给导师发邮件、给 aliopensource 发邮件。久久没有得到回复的我有点绝望，当时又去接触了 Spring Cloud Alibaba 社区。后来乎兴老师在 Jira 中回复了我，@cvictory 也在 issue 中回复了我，aliopensource 和社区也都回复了我邮件，让我先写 proposal。有 GSoC 的经历，其实我的提案早就写完了，但是 ASoC 的提案描述相对来说不够具体，很难有针对性的给出解决方案，就这样踏上了漫长的交流之路&amp;hellip;</description></item></channel></rss>
