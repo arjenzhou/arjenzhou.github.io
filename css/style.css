@@ -23,16 +23,17 @@ hr {
 }
 
 /* code */
-pre {
-  padding: 1em;
-  color: rgba(55, 69, 71, 0.735);
+/* pre {
   overflow-x: auto;
   border-radius: 5px;
-  background:ghostwhite;
+  padding: 5px;
+} */
+
+code {
+  background: #f8f8f8;
+  overflow-x: auto;
+  color: #333;
 }
-code { background: #fdfb965b; 
-border-radius: 5px;}
-pre code { background: none; }
 
 /* misc elements */
 img, iframe, video { max-width: 100%; }
