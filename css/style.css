@@ -1,27 +1,77 @@
 body {
-  max-width: 70%;
+  max-width: 75%;
   margin: auto;
   padding: 1em;
-  line-height: 1.2em;
+  line-height: 1.3em;
+  color: #444;
 }
 
 /* header and footer areas */
-.menu { padding: 0; }
-.menu li { display: inline-block; }
-.article-meta, .menu a {
+.menu {
+  padding: 0;
+}
+.menu li {
+  display: inline-block;
+}
+.article-meta,
+.menu a {
   text-decoration: none;
   background: #eee;
   padding: 5px;
   border-radius: 5px;
 }
-.menu, .article-meta, footer { text-align: center; }
-.title { font-size: 1.1em; }
-footer a { text-decoration: none; }
+.menu a:link {
+  color: #111;
+}
+.menu a:visited {
+  color: #111;
+}
+.menu,
+.article-meta,
+footer {
+  text-align: center;
+}
+.title {
+  font-size: 1.1em;
+}
+footer a {
+  text-decoration: none;
+}
+footer a:link {
+  color: #111;
+}
+footer a:visited {
+  color: #111;
+}
 hr {
   border-style: dashed;
   color: #ddd;
 }
 
+a:link {
+  color: #2479cc;
+} /* 未访问链接*/
+a:visited {
+  color: #2479cc;
+} /* 已访问链接 */
+a:hover {
+  color: #2f4f4d;
+} /* 鼠标移动到链接上 */
+a:active {
+  color: #0000ff;
+} /* 鼠标点击时 */
+a:link {
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:active {
+  text-decoration: underline;
+}
 /* code */
 /* pre {
   overflow-x: auto;
@@ -29,15 +79,25 @@ hr {
   padding: 5px;
 } */
 
-code {
+.title {
+  color: #000;
+  font-family: Verdana, Tahoma, STHeiti, "Noto Sans CJK SC", "Microsoft YaHei", SimHei;
+}
+
+/* code {
   background: #f8f8f8;
   overflow-x: auto;
   color: #333;
-}
-
+} */
 /* misc elements */
-img, iframe, video { max-width: 100%; }
-main { hyphens: auto; }
+img,
+iframe,
+video {
+  max-width: 100%;
+}
+main {
+  hyphens: auto;
+}
 blockquote {
   background: #f9f9f9;
   border-left: 3px solid #ccc;
@@ -50,6 +110,15 @@ table {
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
 }
-table thead th { border-bottom: 1px solid #ddd; }
-th, td { padding: 5px; }
-thead, tfoot, tr:nth-child(even) { background: #eee; }
+table thead th {
+  border-bottom: 1px solid #ddd;
+}
+th,
+td {
+  padding: 5px;
+}
+thead,
+tfoot,
+tr:nth-child(even) {
+  background: #eee;
+}

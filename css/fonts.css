@@ -1,7 +1,14 @@
 body {
-  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-family: Oxygen, "Avenir Next",monospace;
+  font-size: 16px;
 }
 code {
   font-family: "Lucida Console", Monaco, monospace;
   font-size: 85%;
+  background: #f8f8f8;
+  overflow-x: auto;
+  color: #333;
+}
+.menu, footer{
+  font-family: Georgia, 'Times New Roman', Times, serif;
 }
