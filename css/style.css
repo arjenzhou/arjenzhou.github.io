@@ -75,8 +75,9 @@ a{
   -webkit-transition: color .15s ease-in-out;
   transition: color .15s ease-in-out;
 }
-.link a {
+.link a, .list a {
   text-decoration: none;
+  color: #222;
 }
 .header a, footer a {
   color: #222;
