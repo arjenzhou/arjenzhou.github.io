@@ -15,7 +15,7 @@ Martin 说，通过让分布式锁服务器为每个锁提供令牌可以避免�
 设计概述 以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。
 假设 该系统在以下前提设计实现：
 该系统由许多机器组成，这些机器经常会出错。所以系统必须持续检测以便能够检查、容忍错误，并且能够恢复回来。 该系统支持小型文件，但是不会对其作出优化。 关注性能的应用经常对一批读操作进行排序，以便提高性能。 在文件写入之后，很少会再次修改。 系统必须高效地处理好并发问题。 高且平稳的带宽比低延迟重要。 接口 GFS 提供了和文件系统类似的接口。文件以文件路径名严格组织。除了传统的 CRUD 之外，GFS 还提供了快照和 record append。快照能高效地复制一个文件或目录，record append 用来解决多个客户端的并发问题。
-架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 *chunk*。在 chunk 被创建时，master 分配给它一个64位全局常量 *chunk handle*。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
+架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 chunk 。在 chunk 被创建时，master 分配给它一个64位全局常量 *chunk handle *。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
 master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。 client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。 client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。</description></item><item><title>Google MapReduce</title><link>/article/2020/03/google-map-reduce/</link><pubDate>Fri, 20 Mar 2020 00:00:00 +0000</pubDate><guid>/article/2020/03/google-map-reduce/</guid><description>无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。
 概念 Google 提出了一种 Map-Reduce 的模型。map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。
 编程模型 就如前面提到的，用户编写的 Map 将所有的输入处理成中间状态的键值对，MapReduce 根据中间状态的 Key 将其整理到一起（因为数据在不同的机器上），并将其交给 Reduce。
