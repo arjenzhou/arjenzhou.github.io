@@ -7,7 +7,7 @@ link: http://antirez.com/news/101
 author: antirez
 ---
 
-分布式系统研究者 Martin Kleppmann 昨天发布了一篇 Redlock (http://redis.io/topics/distlock) 的分析文章^[http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html]。
+分布式系统研究者 Martin Kleppmann 昨天发布了一篇 Redlock[1]的分析文章[2]。
 
 Redlock 是我设计用于 Redis 的客户端分布式锁定算法。该算法编排了一组客户端节点，这些节点实现了具有特定功能的数据存储，以便创建一个多主容错的、安全的、具有自动释放功能的分布式锁。
 你可以使用 MySQL 而非 Redis 来实现 Redlock。
@@ -16,7 +16,7 @@ Redlock 是我设计用于 Redis 的客户端分布式锁定算法。该算法�
 
 自从我发布 Redlock 以来，人们就以多种语言实现了该功能并将其用于不同的目的。
 
-Martin 对这个算法的分析结论是 Redlock 不安全。我在最初的 Redis 规范^[http://redis.io/topics/distlock]中请求帮助分析，很高兴 Martin 发布了一个分析文章。非常感谢 Martin，尽管我不同意他的观点。好处是，与其他编程领域不同，分布式系统在数学上是非黑即白的。因此，某种算法要么可以保证给定的属性集，要么在某些假设下算法可能会无法保证它们。在此分析中，我将分析 Martin 的分析，以便该领域的其他专家可以检查这两个文档（分析和反分析），最终我们可以了解 Redlock 是否被认为是安全的。
+Martin 对这个算法的分析结论是 Redlock 不安全。我在最初的 Redis 规范[3]中请求帮助分析，很高兴 Martin 发布了一个分析文章。非常感谢 Martin，尽管我不同意他的观点。好处是，与其他编程领域不同，分布式系统在数学上是非黑即白的。因此，某种算法要么可以保证给定的属性集，要么在某些假设下算法可能会无法保证它们。在此分析中，我将分析 Martin 的分析，以便该领域的其他专家可以检查这两个文档（分析和反分析），最终我们可以了解 Redlock 是否被认为是安全的。
 
 为什么 Martin 认为 Redlock 不安全
 ---
@@ -169,3 +169,8 @@ Redlock 系统模型不具有这些复杂性，也不需要额外的硬件。仅
 如果能从专家那里得到更多的反馈，并使用 Jepsen 或类似的工具对算法进行测试，从而积累更多的数据，那就太好了。
 
 非常感谢我的朋友们帮我审阅了这篇文章。
+
+---
+[1] http://redis.io/topics/distlock  
+[2] http://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html  
+[3] http://redis.io/topics/distlock
