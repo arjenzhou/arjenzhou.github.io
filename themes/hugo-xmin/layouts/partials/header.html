@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ .Site.Title }}</title>
+  <link rel="stylesheet" href="{{ "/css/atom-one-light.css" | relURL }}" />
+  <link rel="stylesheet" href="{{ "/css/style.css" | relURL }}" />
+  <link rel="stylesheet" href="{{ "/css/fonts.css" | relURL }}" />
+  <link rel="icon" type="image/png" sizes="32x32"   href="{{ relURL "/images/favicon.ico" }}" />
+  <script src="{{ "/js/highlight.min.js" | relURL }}"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  {{ partial "head_custom.html" . }}
+</head>
+<body>
+  <nav>
+    <ul class="header">
+      {{ range .Site.Menus.main }}
+      <li><a href="{{ .URL | relURL }}">{{ .Name }}</a></li>
+      {{ end }}
+    </ul>
+    <hr />
+  </nav>
+</body>
+
+</html>

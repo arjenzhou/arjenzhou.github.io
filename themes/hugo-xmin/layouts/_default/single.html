@@ -1,0 +1,31 @@
+{{if not .IsHome }}
+{{ partial "header.html" . }}
+{{ end }}
+{{ if not (eq (.Params.categories) nil) }}
+    <a class="article__tag" href="https://{{ .Site.Params.url }}/categories/{{ index (apply .Params.categories "urlize" ".") 0 }}">{{ index .Params.categories 0 }}</a>
+{{ end }}
+{{ if eq (.Params.categories) nil }}
+<span class="article__tag">{{ if eq (path.Dir (path.Dir (path.Dir .File.Path))) "weekly" }}weekly{{ end }}</span>
+{{ end }}
+<center><span class="title">
+    {{ .Title | markdownify }}
+<span class="link">{{ if eq (path.Dir (path.Dir (path.Dir .File.Path))) "translation" }}by {{ .Params.author }}{{ end }}</span>
+
+</span></center>
+<span class="date">
+    {{ .Date.Format "Jan 02, 2006" }} 
+</span>
+<!-- <span class="dot"></span> -->
+<!-- <span class="link"><a href="{{ .Permalink }}">https://{{ .Site.Params.url }}{{ .Permalink }}</a> -->
+</span>
+<br>
+{{ if not (eq (.Params.link) nil ) }}<span class="link">from <a href="{{ .Params.link }}">{{ .Params.link }}</a>{{ end }}</span> 
+<hr>
+</div>
+<main>
+{{ .Content }}
+</main>
+{{ partial "comment.html" . }}
+{{if not .IsHome }}
+{{ partial "footer.html" . }}
+{{ end }}

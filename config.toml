@@ -1,0 +1,60 @@
+baseurl = "/"
+languageCode = "en-us"
+title = "0xab.de"
+theme = "hugo-xmin"
+googleAnalytics = ""
+disqusShortname = ""
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+footnotereturnlinkcontents = "↩"
+
+[permalinks]
+    post = "/post/:year/:month/:day/:slug"
+    weekly = "/weekly/:year/:month/:day/:slug"
+    translation = "/translation/:year/:month/:day/:slug"
+    note = "/note/:year/:month/:day/:slug"
+
+
+[[menu.main]]
+    name = "Article"
+    url = "/article/"
+    weight = 1
+[[menu.main]]
+    name = "Weekly"
+    url = "/weekly/"
+    weight = 2
+[[menu.main]]
+    name = "Translation"
+    url = "/translation/"
+    weight = 3
+[[menu.main]]
+    name = "Reproduction"
+    url = "/reproduction/"
+    weight = 4
+[[menu.main]]
+    name = "Category"
+    url = "/categories/"
+    weight = 5
+[[menu.main]]
+    name = "Resume"
+    url = "/resume"
+    weight = 6
+[[menu.main]]
+    name = "Subscribe"
+    url = "/feed.xml"
+
+[params]
+    url = "0xab.de"
+    description = "坚守技术信仰，务实、自驱、负责到底，成就他人"
+    footer = ""
+[highlighting] 
+  pygmentsUseClassic       = true
+  pygmentsCodeFences       = true
+  pygmentsStyle            = "autumn"
+
+[outputs]
+home = [ "RSS", "HTML"]
+
+[outputFormats]
+[outputFormats.RSS]
+mediatype = "application/rss"
+baseName = "feed"
