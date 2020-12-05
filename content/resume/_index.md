@@ -21,15 +21,15 @@
 			"time": "2019"
 		},
 		{
-			"name": "Bugbye",
+			"name": "bugbye",
 			"description": "Code defect detection platform",
 			"role": "Responsible for the development of code style detection and web IDE (icoding) integration",
 			"time": "2019"
 		},
 		{
-			"name": "Youdata",
+			"name": "youdata",
 			"description": "BI platform (youdata.163.com)",
-			"role": "Responsible for the development of data extraction module",
+			"role": "Responsible for the development of data transmission module",
 			"time": "2020~"
 		}
 	]
