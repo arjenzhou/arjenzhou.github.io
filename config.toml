@@ -16,23 +16,23 @@ footnotereturnlinkcontents = "↩"
 
 [[menu.main]]
     name = "Article"
-    url = "/article/"
+    url = "/article"
     weight = 1
 [[menu.main]]
     name = "Weekly"
-    url = "/weekly/"
+    url = "/weekly"
     weight = 2
 [[menu.main]]
     name = "Translation"
-    url = "/translation/"
+    url = "/translation"
     weight = 3
 [[menu.main]]
     name = "Reproduction"
-    url = "/reproduction/"
+    url = "/reproduction"
     weight = 4
 [[menu.main]]
     name = "Category"
-    url = "/categories/"
+    url = "/categories"
     weight = 5
 [[menu.main]]
     name = "Resume"
