@@ -7,7 +7,7 @@ CCS 概念：计算机系统管理→可靠性；软件及其工程→云计算�
 Paxos 算法[16]与分布式一致性关系密切。虽然它很成功，但是 Paxos 晦涩难懂，造成了其难以推理、正确实现和安全优化。这已经在无数次用更简单的术语解释算法的尝试[4, 17, 22, 23, 25, 29, 35]中得到明显体现了，而且这也是 Raft[28] 的目的。
 Raft 的作者声称 Raft 与 Paxos 同样高效而更易懂，因此为实现具体系统提供了更好的基础。Raft 以这三种不同的方式来寻求实现这点：
 演示 首先，Raft 论文引入了一个描述在状态机复制上下文中基于 leader 选举的一致性的新抽象。 事实证明，这种务实的演示在工程师中非常受欢迎。
-简单 其次，Raft 算法的优先考虑简洁性而不是性能。例如，Raft 按顺序决定日志条目而 Paxos 允许乱序决定，但需要额外的协议来填充可能出现的日志空隙。</description></item><item><title>Spark Overview</title><link>/article/2020/11/spark-overview/</link><pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate><guid>/article/2020/11/spark-overview/</guid><description>Spark: Cluster Computing with Working Sets MapReduce （下称 MR）任务包含主要五两个步骤：Map、Sort、Combine、Shuffle、 Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。
+简单 其次，Raft 算法的优先考虑简洁性而不是性能。例如，Raft 按顺序决定日志条目而 Paxos 允许乱序决定，但需要额外的协议来填充可能出现的日志空隙。</description></item><item><title>Spark Papers</title><link>/article/2020/11/spark-papers/</link><pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate><guid>/article/2020/11/spark-papers/</guid><description>Spark: Cluster Computing with Working Sets MapReduce （下称 MR）任务包含主要五两个步骤：Map、Sort、Combine、Shuffle、 Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。
 由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：
 迭代任务（迭代机器学习算法） 交互式数据分析工具 Spark 提出了 RDD (Resilient Distributed Dataset) 模型来处理此类问题。RDD 是一个被分布在一组机器上的只读的对象集，当一个分区丢失时 RDD 能够很快通过重新计算的方式来重建。RDD 能够被保存在内存中，并以类似 MR 的 并行操作方式 得到重用。RDD 通过一种叫做 血统（lineage） 的概念实现容错：如果 RDD 的一部分丢失了，那么 RDD 有足够的信息（该 RDD 是怎么从其他 RDD 计算出来的）来重建该部分。
 在 Spark 中，RDD 以 Scala 对象的形式存在。并且 RDD 能够通过以下几种形式构造出来：
