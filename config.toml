@@ -19,10 +19,6 @@ footnotereturnlinkcontents = "↩"
     url = "/article"
     weight = 1
 [[menu.main]]
-    name = "Weekly"
-    url = "/weekly"
-    weight = 2
-[[menu.main]]
     name = "Translation"
     url = "/translation"
     weight = 3

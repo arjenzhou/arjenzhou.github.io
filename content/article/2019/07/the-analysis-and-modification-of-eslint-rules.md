@@ -58,15 +58,15 @@ Thanks you a lot! @platinumazure
 
 ## 抽象语法树
 
-Javascript Parser 将 JS 代码转换成 AST，代码扫描工具通过 AST 对代码进行分析检查^[https://segmentfault.com/a/1190000014389494],之后，我们查看源码具体分析规则的实现。
+Javascript Parser 将 JS 代码转换成 AST，代码扫描工具通过 AST 对代码进行分析检查[1],之后，我们查看源码具体分析规则的实现。
 
-## 规则：no-new^[https://eslint.org/docs/rules/no-new]
+## 规则：no-new[2]
 
 <center>![](/pic/post/2019/07/2019-07-03-eslint/Untitled-e2c002d7-01d4-413c-901e-d4084403438c.png)</center>
 
-<center>*图1，ESLint 中 no-new 规则实现部分代码^[https://github.com/eslint/eslint/blob/master/lib/rules/no-new.js]*</center> 
+<center>*图1，ESLint 中 no-new 规则实现部分代码[3]*</center> 
 
-我们在官方文档^[https://eslint.org/docs/developer-guide/working-with-rules#rule-basics]中找到红色方框中语句的含义：
+我们在官方文档[4]中找到红色方框中语句的含义：
 
 <center>![](/pic/post/2019/07/2019-07-03-eslint/Untitled-99eae98f-2d7b-4c8d-87ff-9f29975d58a7.png)</center>
 
@@ -91,4 +91,12 @@ Javascript Parser 将 JS 代码转换成 AST，代码扫描工具通过 AST 对�
 
 <center>*图5，修改后的代码，豁免了触发规则的情况*</center>
 
-> 附: JS 语法树分析工具^[https://astexplorer.net/]
+> 附: JS 语法树分析工具[5]
+
+---
+
+[1] https://segmentfault.com/a/1190000014389494  
+[2] https://eslint.org/docs/rules/no-new  
+[3] https://github.com/eslint/eslint/blob/master/lib/rules/no-new.js  
+[4] https://eslint.org/docs/developer-guide/working-with-rules#rule-basics  
+[5] https://astexplorer.net
