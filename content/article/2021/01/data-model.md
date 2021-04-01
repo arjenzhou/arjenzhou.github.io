@@ -1,8 +1,8 @@
 ---
-title: 写给女朋友的 SQL 教程——数据模型
+title: SQL 基础——数据模型
 date: '2021-01-24'
 categories: 
-    - Data Product Manager
+    - SQL
 ---
 
 > 本文中以斜体表示的定义部分内容可能相对晦涩，可以参照后续解释进行理解。
@@ -20,7 +20,7 @@ categories:
 
 > 想象这样一种情况：学生张三修了双学位，而恰好这两个专业属于不同的两个学院，那么层次模型应该如何构造？也就是说，层次模型难以表达**多对多**的结构。
 
-另外，在 Department 和 Students 之间加入 Class 结点，这显然是合理的。如果用户在设计数据库结构时没有考虑周到，导致后续对结构进行的更改，这势必会对整体结构造成很大的影响。
+另外，在 Department 和 Students 之间加入 Class 结点，这显然是合理的。如果用户在设计数据库结构时没有考虑周到，导致后续对结构进行更改，这势必会对整体结构造成很大的影响。
 
 ## 网状模型
 
@@ -64,7 +64,7 @@ categories:
 
 Order 表用于表达对一项 Chemical 采购的信息，它包含了用于记录 Chemical 和 Supplier 的 chemical_id 和 supplier_id，这样就能够通过这张表找到实际购买的 Chemical 和 这个 Chemical 对应的 Supplier。同时还要记录这一项购买的数量和花费。
 
-表3，Order 表
+*表3，Order 表*
 | order_id | supplier_id | chemical_id | amount | totalcost |
 |:----------:|:-------------:|:-------------:|:--------:|:-----------:|
 | 1        | 2           | 1           | 3      | 300       |
@@ -72,12 +72,12 @@ Order 表用于表达对一项 Chemical 采购的信息，它包含了用于记�
 
 此时用户发现了一个问题：一次购买了多种 Chemical 时，Order 表并没有记录这次购买的总价。难道要用户逐一计算吗？这时可以增加一个 Order_Total 表，用于记录每次采购对多种 Chemical 的 Order 关系，同时在 Order 表中增加一列用于标示它属于哪次购买。
 
-表4，Order_Total 表
+*表4，Order_Total 表*
 | order_total_id | total | order_time |
 |:----------------:|:-------:|:------------:|
 | 1              | 500   | 2020-12-12 |
 
-表5，修改后的 Order 表
+*表5，修改后的 Order 表*
 | order_id | supplier_id | chemical_id | order_total_id | amount | totalcost |
 |:----------:|:-------------:|:-------------:|:----------------:|:--------:|:-----------:|
 | 1        | 2           | 1           | 1              | 3      | 300       |

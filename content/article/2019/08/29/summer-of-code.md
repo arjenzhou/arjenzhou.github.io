@@ -1,5 +1,5 @@
 ---
-title: Me and Open Source-After Alibaba Summer of Code
+title: Open Source and I - After Alibaba Summer of Code
 date: '2019-08-29'
 categories: 
     - Summary
