@@ -1,11 +1,23 @@
+@media (max-width: 683px) {
+    body {
+        padding: 20px;
+    }
+}
+
+@media (min-width: 683px) {
+    body {
+        max-width: 50%;
+    }
+}
+
 body {
   font-size: 1rem;
   background: #f5f7f8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
-  max-width: 50%;
   margin: auto;
+  content-visibility: auto;
 }
 p {
   font-size: 1rem;
