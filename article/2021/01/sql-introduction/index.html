@@ -1,3 +1,75 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>0xab.de</title><link rel=stylesheet href=/css/atom-one-light.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css><link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico><script src=/js/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script></head><body><nav><ul class=header><li><a href=/article>Article</a></li><li><a href=/translation>Translation</a></li><li><a href=/reproduction>Reproduction</a></li><li><a href=/categories>Category</a></li><li><a href=/resume>Resume</a></li><li><a href=/feed.xml>Subscribe</a></li></ul><hr></nav></body></html><a class=article__tag href=https://0xab.de/categories/sql>SQL</a>
-<center><span class=title>SQL 基础——历史和关系模型
-<span class=link></span></span></center><span class=date>Jan 23, 2021</span></span><br></span><hr></div><main><p>学习新概念经常陷入的误区之一是：先生硬地记下，而不是尝试理解其含义。读书时老师经常讲“要理解着记忆”，这个思想在此处也同理。一个新概念必然是为了解决一个问题而出现的，所以在介绍新概念之前，要首先了解其诞生的历史背景。</p><p>1970年代，IBM 的工程师从 Edgar F. Codd 的关系模型[1]中得到灵感，设计了一个用于操作他们的半结构化数据库 System R[2]的语言：<em>SEQUEL</em> (<em>Structured English Query Language</em>)，由于商标原因后改称为 SQL。这也是经常有人将 SQL 读作 <em>[siːkwəl]</em> 的原因。SQL 先后在 System/38, SQL/DS, DB2 等基于 System R 的数据库上大放异彩，这让Oracle (Relational Software, Inc.) 从中得到了灵感。1979年，Oracle 发布了他们的第一个基于 SQL 的商用数据库：Oracle V2。SQL 在商用关系型数据库上的成功使得其成为了事实标准，ANSI 和 ISO 也随后相继采用 SQL 作为标准。</p><p><strong>SQL</strong> 是 <strong>Structured Query Language</strong> 的缩写，从字面上翻译过来是“结构化查询语言”。“查询”和“语言”两词容易理解，那么何为“结构化”？既然 SQL 为操作关系模型而设计的，那么要解释“结构化”就首先要解释什么是“关系模型”。</p><p>关系模型认为数据都是以关系的形式存在的。想象一张标准的 Excel 表，每一行代表着一条记录（元组），每一列代表着这条记录中的一个属性（字段）。在关系模型中，将这张表的结构称为<strong>关系模式</strong> (<strong>relation schema</strong>), 表的值被称为关系。关系模式是对关系的描述。想象一张学生信息的表格，每个学生都要填写其姓名、学号、专业班级等信息，这些信息就是这个关系的<strong>属性</strong>；每个学生信息都是表格中的一行<strong>记录</strong>/<strong>元组</strong>。在学生填写表格之前。需要在表头给出每一列所需要填写的信息，表头中对每一列给出的约束就是关系模式。学生填写的一行行数据的集合就是关系，关系是关系模式在某一时刻的内容。关系模式规定了关系的<strong>结构</strong>，<strong>SQL 即是被设计用来对这种结构进行查询的语言</strong>。</p><p><em>表1，学生表格的一种结构</em></p><table><thead><tr><th style=text-align:center>姓名</th><th style=text-align:center>学号</th><th style=text-align:center>专业</th></tr></thead><tbody><tr><td style=text-align:center>张三</td><td style=text-align:center>222016XXXX</td><td style=text-align:center>软件工程</td></tr></tbody></table><p>SQL 在成为结构化查询的事实标准后，其使用的范围已经不局限于 RDBMS 领域。比如在大数据领域中，几乎所有组件都离不开 Google 提出的“三驾马车”。在开源实现中，HDFS 和 MapReduce 这两驾马车组成了 Hadoop 的核心。但是 Hadoop 有非常陡峭的学习曲线，颇有“不食人间烟火”的高冷意味。既然 SQL 的通用性这么强，能否通过 SQL 来实现 Hadoop 的使用？于是 Hive 应运而生了。Hive 是一个数据仓库，它能够将 Hive SQL (一种类似 SQL 的语言[4])转换成 MapReduce 任务，从而提交到 Hadoop 集群上。</p><hr><p>[1] <a href=https://en.wikipedia.org/wiki/Relational_model>https://en.wikipedia.org/wiki/Relational_model</a><br>[2] <a href=https://en.wikipedia.org/wiki/IBM_System_R>https://en.wikipedia.org/wiki/IBM_System_R</a><br>[3] 这里的数据库模式对应三级模式中的概念模式<br>[4] ISO 规定了 SQL 标准，各数据库采用不同了语法的<strong>方言</strong></p></main><div id=disqus_thread></div><script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><footer></footer></body></html>
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>0xab.de</title>
+<link rel=stylesheet href=/css/atom-one-light.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico>
+<script src=/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</head>
+<body>
+<nav>
+<ul class=header>
+<li><a href=/article>Article</a></li>
+<li><a href=/translation>Translation</a></li>
+<li><a href=/reproduction>Reproduction</a></li>
+<li><a href=/categories>Category</a></li>
+<li><a href=/resume>Resume</a></li>
+<li><a href=/feed.xml>Subscribe</a></li>
+</ul>
+<hr>
+</nav>
+</body>
+</html>
+<a class=article__tag href=https://0xab.de/categories/sql>SQL</a>
+<center><span class=title>
+SQL 基础——历史和关系模型
+<span class=link></span>
+</span></center>
+<span class=date>
+Jan 23, 2021
+</span>
+</span>
+<br>
+</span>
+<hr>
+</div>
+<main>
+<p>学习新概念经常陷入的误区之一是：先生硬地记下，而不是尝试理解其含义。读书时老师经常讲“要理解着记忆”，这个思想在此处也同理。一个新概念必然是为了解决一个问题而出现的，所以在介绍新概念之前，要首先了解其诞生的历史背景。</p>
+<p>1970年代，IBM 的工程师从 Edgar F. Codd 的关系模型[1]中得到灵感，设计了一个用于操作他们的半结构化数据库 System R[2]的语言：<em>SEQUEL</em> (<em>Structured English Query Language</em>)，由于商标原因后改称为 SQL。这也是经常有人将 SQL 读作 <em>[siːkwəl]</em> 的原因。SQL 先后在 System/38, SQL/DS, DB2 等基于 System R 的数据库上大放异彩，这让Oracle (Relational Software, Inc.) 从中得到了灵感。1979年，Oracle 发布了他们的第一个基于 SQL 的商用数据库：Oracle V2。SQL 在商用关系型数据库上的成功使得其成为了事实标准，ANSI 和 ISO 也随后相继采用 SQL 作为标准。</p>
+<p><strong>SQL</strong> 是 <strong>Structured Query Language</strong> 的缩写，从字面上翻译过来是“结构化查询语言”。“查询”和“语言”两词容易理解，那么何为“结构化”？既然 SQL 为操作关系模型而设计的，那么要解释“结构化”就首先要解释什么是“关系模型”。</p>
+<p>关系模型认为数据都是以关系的形式存在的。想象一张标准的 Excel 表，每一行代表着一条记录（元组），每一列代表着这条记录中的一个属性（字段）。在关系模型中，将这张表的结构称为<strong>关系模式</strong> (<strong>relation schema</strong>), 表的值被称为关系。关系模式是对关系的描述。想象一张学生信息的表格，每个学生都要填写其姓名、学号、专业班级等信息，这些信息就是这个关系的<strong>属性</strong>；每个学生信息都是表格中的一行<strong>记录</strong>/<strong>元组</strong>。在学生填写表格之前。需要在表头给出每一列所需要填写的信息，表头中对每一列给出的约束就是关系模式。学生填写的一行行数据的集合就是关系，关系是关系模式在某一时刻的内容。关系模式规定了关系的<strong>结构</strong>，<strong>SQL 即是被设计用来对这种结构进行查询的语言</strong>。</p>
+<p><em>表1，学生表格的一种结构</em></p>
+<table>
+<thead>
+<tr>
+<th style=text-align:center>姓名</th>
+<th style=text-align:center>学号</th>
+<th style=text-align:center>专业</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style=text-align:center>张三</td>
+<td style=text-align:center>222016XXXX</td>
+<td style=text-align:center>软件工程</td>
+</tr>
+</tbody>
+</table>
+<p>SQL 在成为结构化查询的事实标准后，其使用的范围已经不局限于 RDBMS 领域。比如在大数据领域中，几乎所有组件都离不开 Google 提出的“三驾马车”。在开源实现中，HDFS 和 MapReduce 这两驾马车组成了 Hadoop 的核心。但是 Hadoop 有非常陡峭的学习曲线，颇有“不食人间烟火”的高冷意味。既然 SQL 的通用性这么强，能否通过 SQL 来实现 Hadoop 的使用？于是 Hive 应运而生了。Hive 是一个数据仓库，它能够将 Hive SQL (一种类似 SQL 的语言[4])转换成 MapReduce 任务，从而提交到 Hadoop 集群上。</p>
+<hr>
+<p>[1] <a href=https://en.wikipedia.org/wiki/Relational_model>https://en.wikipedia.org/wiki/Relational_model</a><br>
+[2] <a href=https://en.wikipedia.org/wiki/IBM_System_R>https://en.wikipedia.org/wiki/IBM_System_R</a><br>
+[3] 这里的数据库模式对应三级模式中的概念模式<br>
+[4] ISO 规定了 SQL 标准，各数据库采用不同了语法的<strong>方言</strong></p>
+</main>
+<div id=disqus_thread></div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<footer>
+</footer>
+</body>
+</html>

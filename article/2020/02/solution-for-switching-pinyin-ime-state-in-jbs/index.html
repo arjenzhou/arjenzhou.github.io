@@ -1,6 +1,49 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>0xab.de</title><link rel=stylesheet href=/css/atom-one-light.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/fonts.css><link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico><script src=/js/highlight.min.js></script><script>hljs.initHighlightingOnLoad()</script></head><body><nav><ul class=header><li><a href=/article>Article</a></li><li><a href=/translation>Translation</a></li><li><a href=/reproduction>Reproduction</a></li><li><a href=/categories>Category</a></li><li><a href=/resume>Resume</a></li><li><a href=/feed.xml>Subscribe</a></li></ul><hr></nav></body></html><a class=article__tag href=https://0xab.de/categories/configuration>Configuration</a>
-<center><span class=title>Solution for switching between lowercase and Chinese pinyin with Caps Lock in Jetbrains IDEs
-<span class=link></span></span></center><span class=date>Feb 12, 2020</span></span><br></span><hr></div><main><p>TL;DR:</p><p>Add <code>TICapsLockLanguageSwitchCapable - true</code> to your input method&rsquo;s Info.plist[1]</p><h2 id=background>Background</h2><p>Last month I encountered a problem with Chinese input method (Rime, Baidu, Sogou, etc), the symptoms is that I couldn&rsquo;t switch between pinyin and lowercase letters with the Caps Lock which can pressed by my little finger in Jetbrains IDEs, which has been my habit since I used macOS.</p><p>Before using third-party input methods, it works well with apple pinyin method. But the restriction of it drives me to seek any other IMEs. Rime is a good choice which fits the need of programmers but something of cloud is one of the shortcomings. But none of these is a obstacle except the defect that switching between English and Chinese. My Rime&rsquo;s configuration is something like:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>patch</span>:
+<!doctype html><html lang=en-us>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>0xab.de</title>
+<link rel=stylesheet href=/css/atom-one-light.css>
+<link rel=stylesheet href=/css/style.css>
+<link rel=stylesheet href=/css/fonts.css>
+<link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico>
+<script src=/js/highlight.min.js></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</head>
+<body>
+<nav>
+<ul class=header>
+<li><a href=/article>Article</a></li>
+<li><a href=/translation>Translation</a></li>
+<li><a href=/reproduction>Reproduction</a></li>
+<li><a href=/categories>Category</a></li>
+<li><a href=/resume>Resume</a></li>
+<li><a href=/feed.xml>Subscribe</a></li>
+</ul>
+<hr>
+</nav>
+</body>
+</html>
+<a class=article__tag href=https://0xab.de/categories/configuration>Configuration</a>
+<center><span class=title>
+Solution for switching between lowercase and Chinese pinyin with Caps Lock in Jetbrains IDEs
+<span class=link></span>
+</span></center>
+<span class=date>
+Feb 12, 2020
+</span>
+</span>
+<br>
+</span>
+<hr>
+</div>
+<main>
+<p>TL;DR:</p>
+<p>Add <code>TICapsLockLanguageSwitchCapable - true</code> to your input method&rsquo;s Info.plist[1]</p>
+<h2 id=background>Background</h2>
+<p>Last month I encountered a problem with Chinese input method (Rime, Baidu, Sogou, etc), the symptoms is that I couldn&rsquo;t switch between pinyin and lowercase letters with the Caps Lock which can pressed by my little finger in Jetbrains IDEs, which has been my habit since I used macOS.</p>
+<p>Before using third-party input methods, it works well with apple pinyin method. But the restriction of it drives me to seek any other IMEs. Rime is a good choice which fits the need of programmers but something of cloud is one of the shortcomings. But none of these is a obstacle except the defect that switching between English and Chinese. My Rime&rsquo;s configuration is something like:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>patch</span>:
   <span style=color:#f92672>ascii_composer/good_old_caps_lock</span>: <span style=color:#66d9ef>false</span>
   <span style=color:#f92672>ascii_composer/switch_key</span>:
     <span style=color:#f92672>Caps_Lock</span>: <span style=color:#ae81ff>commit_code</span>
@@ -8,6 +51,31 @@
     <span style=color:#f92672>Shift_R</span>: <span style=color:#ae81ff>noop</span>
     <span style=color:#f92672>Control_L</span>: <span style=color:#ae81ff>noop</span>
     <span style=color:#f92672>Control_R</span>: <span style=color:#ae81ff>noop</span>
-</code></pre></div><p>as what I said above, it doesn&rsquo;t work in any of Jetbrains IDEs. Unfortunately, as long as it is a Chinese input method, then it won&rsquo;t work.</p><h2 id=a-solution-maybe>A Solution? Maybe</h2><p>There are some solutions that not solve the situation fundamentally.</p><ul><li>use shift to switch the state of IME.</li><li>use other software to modify the Caps Lock key map.</li></ul><p>You will be very disappointed if you get such solutions after a hard searching. Yes, that&rsquo;s not my solution.</p><h2 id=follow-my-step>Follow my step</h2><p>Of course I should ask Jetbrains for help, but after searching in the issue tracker they seems not practiced in solve Chinese IME problems. Swtiching Java runtime does totally not work.</p><p>In fact, apple IME do switch by changing from ABC to Chinese pinyin (2 IMEs). But Baidu or Sogou provides a drop-down bar for selecting the switch key to change its state and, I can start from this.</p><p>After macOS 10.15, there is a public interface enables the Caps Lock key to switch between Latin and non-Latin input sources[1]. So wo can add this into my IME which have not added it.</p><p>There is a feasible method by terminal:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>cd /Library/Input Methods/<span style=color:#f92672>[</span>YOUR IME.app<span style=color:#f92672>]</span>/Contents <span style=color:#f92672>&amp;&amp;</span> sudo /usr/libexec/PlistBuddy -c <span style=color:#e6db74>&#39;Add :TICapsLockLanguageSwitchCapable bool true&#39;</span> Info.plist
-</code></pre></div><p>You can verify it with</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>/usr/libexec/PlistBuddy -c <span style=color:#e6db74>&#39;print&#39;</span> Info.plist | grep TICapsLockLanguageSwitchCapable
-</code></pre></div><p>which will return <code>true</code>.</p><p>Or you can edit it with a plist editor directly.</p><hr><p>[1] <a href="https://developer.apple.com/documentation/bundleresources/information_property_list/ticapslocklanguageswitchcapable?language=objc">https://developer.apple.com/documentation/bundleresources/information_property_list/ticapslocklanguageswitchcapable?language=objc</a></p></main><div id=disqus_thread></div><script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><footer></footer></body></html>
+</code></pre></div><p>as what I said above, it doesn&rsquo;t work in any of Jetbrains IDEs. Unfortunately, as long as it is a Chinese input method, then it won&rsquo;t work.</p>
+<h2 id=a-solution-maybe>A Solution? Maybe</h2>
+<p>There are some solutions that not solve the situation fundamentally.</p>
+<ul>
+<li>use shift to switch the state of IME.</li>
+<li>use other software to modify the Caps Lock key map.</li>
+</ul>
+<p>You will be very disappointed if you get such solutions after a hard searching. Yes, that&rsquo;s not my solution.</p>
+<h2 id=follow-my-step>Follow my step</h2>
+<p>Of course I should ask Jetbrains for help, but after searching in the issue tracker they seems not practiced in solve Chinese IME problems. Swtiching Java runtime does totally not work.</p>
+<p>In fact, apple IME do switch by changing from ABC to Chinese pinyin (2 IMEs). But Baidu or Sogou provides a drop-down bar for selecting the switch key to change its state and, I can start from this.</p>
+<p>After macOS 10.15, there is a public interface enables the Caps Lock key to switch between Latin and non-Latin input sources[1]. So wo can add this into my IME which have not added it.</p>
+<p>There is a feasible method by terminal:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>cd /Library/Input Methods/<span style=color:#f92672>[</span>YOUR IME.app<span style=color:#f92672>]</span>/Contents <span style=color:#f92672>&amp;&amp;</span> sudo /usr/libexec/PlistBuddy -c <span style=color:#e6db74>&#39;Add :TICapsLockLanguageSwitchCapable bool true&#39;</span> Info.plist
+</code></pre></div><p>You can verify it with</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>/usr/libexec/PlistBuddy -c <span style=color:#e6db74>&#39;print&#39;</span> Info.plist | grep TICapsLockLanguageSwitchCapable
+</code></pre></div><p>which will return <code>true</code>.</p>
+<p>Or you can edit it with a plist editor directly.</p>
+<hr>
+<p>[1] <a href="https://developer.apple.com/documentation/bundleresources/information_property_list/ticapslocklanguageswitchcapable?language=objc">https://developer.apple.com/documentation/bundleresources/information_property_list/ticapslocklanguageswitchcapable?language=objc</a></p>
+</main>
+<div id=disqus_thread></div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<footer>
+</footer>
+</body>
+</html>
