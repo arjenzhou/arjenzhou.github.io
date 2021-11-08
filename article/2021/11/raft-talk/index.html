@@ -71,7 +71,7 @@ Nov 08, 2021
 <h2 id=实现>实现</h2>
 <p>上面那一堆简单来说，Raft 就是研究怎么去管理 replicated log 的。首先要有一个 leader，它来管理所有 log、接受请求&mldr;什么麻烦上都交给 leader. 所以 leader 选举至关重要。选完了 leader，在集群处理任务时如何复制日志也是 Raft 需要着重考虑的。此外还得保证一致性啥的&mldr;</p>
 <h3 id=leader-election>Leader election</h3>
-<p>集群的所有对外的轻轻都是 leader 完成的，要是 follwer 收到了外部的请求，就把这个请求转发给 leader. 那么怎么选 leader 呢？</p>
+<p>集群的所有对外的请求都是 leader 完成的，要是 follwer 收到了外部的请求，就把这个请求转发给 leader. 那么怎么选 leader 呢？</p>
 <p>Raft 引入了一个随机长度的 term (一个逻辑时钟)，当需要选 leader 时会开启一个新的 term 来投票。每人只有一票，候选人（candidate）要求其它节点给它投票，当获得了大多数票 candidate 就变成了新的 leader. 只要没选出来 leader 就重新再选。</p>
 <p>咋界定需要选 leader 呢？当一个节点很久没收到 leader 的消息（心跳）了，那么它就主观认为 leader 宕掉了，它就成为候选人参加选举；如果一个节点发现了一个 term 比当前 leader 大的新 leader，那么它也会客观认为这个 term 更大的 leader 是新的 leader。</p>
 <p>此外，选举 leader 时候还有一些限制：候选者要求日志是最新的，不能只同步了一部分；follower 不能刚选完举就立马开启下一轮选举。这两点是为了简化 Raft 作出的一些优化设计。</p>
