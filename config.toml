@@ -1,7 +1,7 @@
 baseurl = "/"
 languageCode = "en-us"
-title = "0xab.de"
-theme = "hugo-xmin"
+title = "arjenzhou"
+theme = "archie"
 googleAnalytics = ""
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
@@ -15,9 +15,13 @@ footnotereturnlinkcontents = "↩"
 
 
 [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+[[menu.main]]
     name = "Article"
     url = "/article"
-    weight = 1
+    weight = 2
 [[menu.main]]
     name = "Translation"
     url = "/translation"
@@ -31,17 +35,17 @@ footnotereturnlinkcontents = "↩"
     url = "/categories"
     weight = 5
 [[menu.main]]
-    name = "Resume"
-    url = "/resume"
-    weight = 6
-[[menu.main]]
     name = "Subscribe"
     url = "/feed.xml"
 
 [params]
-    url = "0xab.de"
+    url = "arjenzhou.com"
     description = "坚守技术信仰，务实、自驱、负责到底，成就他人"
     footer = ""
+    mode = "auto"
+    math = "true"
+    mermaid = "true"
+
 [highlighting] 
   pygmentsUseClassic       = true
   pygmentsCodeFences       = true

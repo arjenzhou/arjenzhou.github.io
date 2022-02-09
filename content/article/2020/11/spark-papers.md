@@ -236,11 +236,11 @@ D-Streams *transformations* 和 *output operation* 与 RDD 类似。此外还提
 
 - **Incremental** **aggregation**
 
-    按时间窗口聚合
+按时间窗口聚合
 
-- **State** **tracking**
+- **State tracking**
 
-    追踪状态的变化
+追踪状态的变化
 
 D-Streams 的一致性机制非常简单，因为时间能自然地离散到时间间隔上，每个时间间隔输出的 RDD 反映这个和上一个时间间隔的所有输入。这在无论输出和状态 RDD 是否被分散到集群中都是一样的。
 
