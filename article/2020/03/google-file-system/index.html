@@ -28,10 +28,13 @@ master 上保存了所有文件系统的元数据。包括命名空间，访问�
 架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 chunk 。在 chunk 被创建时，master 分配给它一个64位全局常量 chunk handle 。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
 master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。 client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。 client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。">
 <link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css>
 <link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
-</head>
-<body>
+<link rel=stylesheet href=/katex/katex.min.css>
+<script defer src=/katex/katex.min.js></script>
+<script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
+<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script>
+</head><body>
 <div class=content><header>
 <div class=main>
 <a href=/>arjenzhou</a>
@@ -49,7 +52,10 @@ master 上保存了所有文件系统的元数据。包括命名空间，访问�
 <article>
 <div class=title>
 <h1 class=title>Google File System</h1>
-<div class=meta>Posted on Mar 29, 2020</div>
+<span class=link></span>
+<div class=meta>Posted on Mar 29, 2020
+</span> <hr>
+</div>
 </div>
 <section class=body>
 <p>GFS 是谷歌开发的分布式文件系统，也是上一篇 <a href=../google-map-reduce/>MapReduce</a> 最终输出文件的存放位置。</p>

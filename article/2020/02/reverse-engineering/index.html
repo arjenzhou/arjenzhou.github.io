@@ -34,10 +34,13 @@ SQL 注入 撞库失败后联想到 SQL 注入的方式，找到了 sqlmap[3] �
 逆向工程 既然服务端没有收获，那么就尝试从客户端入手。拿来 apk 解压得到 dex 文件，果然没有加壳。用 dex2jar[4]将其转成 jar。这里遇到一个问题[5]，在 GitHub 上最新的 release(2.1 or later) 已经解决。之后用 Java Decompiler[6] 打开 jar 查看源码。仔细查找后，奇怪地发现所有包都是导入的依赖，没有域名对应的包，也没有开发者编写的代码。这明显不合理。后来想到用 adb 来找当前栈顶 Activity 的方法。
 adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0/p' 结果竟然是 uni.">
 <link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css>
 <link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
-</head>
-<body>
+<link rel=stylesheet href=/katex/katex.min.css>
+<script defer src=/katex/katex.min.js></script>
+<script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
+<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script>
+</head><body>
 <div class=content><header>
 <div class=main>
 <a href=/>arjenzhou</a>
@@ -55,7 +58,10 @@ adb shell dumpsys activity activities | sed -En -e '/Running activities/,/Run #0
 <article>
 <div class=title>
 <h1 class=title>A note of android reverse engineering</h1>
-<div class=meta>Posted on Feb 1, 2020</div>
+<span class=link></span>
+<div class=meta>Posted on Feb 1, 2020
+</span> <hr>
+</div>
 </div>
 <section class=body>
 <h2 id=起因>起因</h2>

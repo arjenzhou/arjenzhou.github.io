@@ -37,10 +37,13 @@
 既然要超过半数的节点达成一致，那么也就是说至少它们之间要互相交流，不然怎么能达成一致呢？设计过稍微复杂点的系统的人都知道，这个命题一听就很难，n 个节点每两个交流就得 n 的阶乘次了，这题还是让别人做吧。开玩笑，咱是那怂人吗？说上咱就上 (指 Raft)。Raft 简化了达成共识的条件，它描述了一个单 leader 的集群，leader 来决定是否更新到某个状态。这可比多 leader 或者无 leader 的容易理解多了，谁是领导听谁的呗，Majority + leader，在我们这叫民主集中制。
 在 Raft 论文中描述，它将问题简化成了 leader election 和 log replication.">
 <link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css>
 <link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
-</head>
-<body>
+<link rel=stylesheet href=/katex/katex.min.css>
+<script defer src=/katex/katex.min.js></script>
+<script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
+<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script>
+</head><body>
 <div class=content><header>
 <div class=main>
 <a href=/>arjenzhou</a>
@@ -58,7 +61,10 @@
 <article>
 <div class=title>
 <h1 class=title>谈谈我理解的 Raft</h1>
-<div class=meta>Posted on Nov 8, 2021</div>
+<span class=link></span>
+<div class=meta>Posted on Nov 8, 2021
+</span> <hr>
+</div>
 </div>
 <section class=body>
 <p>自几年前偶然得知 Raft 之后，便粗略了解了 Raft, Paxos, 共识（一致性）这些概念。当时的想法是：这些算法听起来就挺装逼的，赶紧去看看咋回事。等到认真一看 Raft 论文，20页，太多了还是算了吧。

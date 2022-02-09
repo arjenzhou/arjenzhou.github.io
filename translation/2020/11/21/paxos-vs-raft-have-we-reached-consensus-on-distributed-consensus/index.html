@@ -40,10 +40,13 @@ Raft 的作者声称 Raft 与 Paxos 同样高效而更易懂，因此为实现�
 演示 首先，Raft 论文引入了一个描述在状态机复制上下文中基于 leader 选举的一致性的新抽象。 事实证明，这种务实的演示在工程师中非常受欢迎。
 简单 其次，Raft 算法的优先考虑简洁性而不是性能。例如，Raft 按顺序决定日志条目而 Paxos 允许乱序决定，但需要额外的协议来填充可能出现的日志空隙。">
 <link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css>
 <link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
-</head>
-<body>
+<link rel=stylesheet href=/katex/katex.min.css>
+<script defer src=/katex/katex.min.js></script>
+<script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
+<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script>
+</head><body>
 <div class=content><header>
 <div class=main>
 <a href=/>arjenzhou</a>
@@ -61,7 +64,10 @@ Raft 的作者声称 Raft 与 Paxos 同样高效而更易懂，因此为实现�
 <article>
 <div class=title>
 <h1 class=title>Paxos vs Raft: Have we reached consensus on distributed consensus?</h1>
-<div class=meta>Posted on Nov 21, 2020</div>
+<span class=link></span>
+<div class=meta>Posted on Nov 21, 2020
+<span class=link>from <a href=https://arxiv.org/pdf/2004.05074.pdf>https://arxiv.org/pdf/2004.05074.pdf</a></span> <hr>
+</div>
 </div>
 <section class=body>
 <h2 id=摘要>摘要</h2>
