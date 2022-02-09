@@ -1,43 +1,57 @@
-<!doctype html><html lang=en-us>
-<head>
+<!doctype html><html><head>
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>0xab.de</title>
-<link rel=stylesheet href=/css/atom-one-light.css>
-<link rel=stylesheet href=/css/style.css>
-<link rel=stylesheet href=/css/fonts.css>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico>
-<script src=/js/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Google File System - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="GFS 是谷歌开发的分布式文件系统，也是上一篇 MapReduce 最终输出文件的存放位置。
+设计概述 以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。
+假设 该系统在以下前提设计实现：
+ 该系统由许多机器组成，这些机器经常会出错。所以系统必须持续检测以便能够检查、容忍错误，并且能够恢复回来。 该系统支持小型文件，但是不会对其作出优化。 关注性能的应用经常对一批读操作进行排序，以便提高性能。 在文件写入之后，很少会再次修改。 系统必须高效地处理好并发问题。 高且平稳的带宽比低延迟重要。  接口 GFS 提供了和文件系统类似的接口。文件以文件路径名严格组织。除了传统的 CRUD 之外，GFS 还提供了快照和 record append。快照能高效地复制一个文件或目录，record append 用来解决多个客户端的并发问题。
+架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 chunk 。在 chunk 被创建时，master 分配给它一个64位全局常量 chunk handle 。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
+master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。 client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。 client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。">
+<meta property="og:image" content>
+<meta property="og:title" content="Google File System">
+<meta property="og:description" content="GFS 是谷歌开发的分布式文件系统，也是上一篇 MapReduce 最终输出文件的存放位置。
+设计概述 以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。
+假设 该系统在以下前提设计实现：
+ 该系统由许多机器组成，这些机器经常会出错。所以系统必须持续检测以便能够检查、容忍错误，并且能够恢复回来。 该系统支持小型文件，但是不会对其作出优化。 关注性能的应用经常对一批读操作进行排序，以便提高性能。 在文件写入之后，很少会再次修改。 系统必须高效地处理好并发问题。 高且平稳的带宽比低延迟重要。  接口 GFS 提供了和文件系统类似的接口。文件以文件路径名严格组织。除了传统的 CRUD 之外，GFS 还提供了快照和 record append。快照能高效地复制一个文件或目录，record append 用来解决多个客户端的并发问题。
+架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 chunk 。在 chunk 被创建时，master 分配给它一个64位全局常量 chunk handle 。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
+master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。 client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。 client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/article/2020/03/google-file-system/"><meta property="article:section" content="article">
+<meta property="article:published_time" content="2020-03-29T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-03-29T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Google File System">
+<meta name=twitter:description content="GFS 是谷歌开发的分布式文件系统，也是上一篇 MapReduce 最终输出文件的存放位置。
+设计概述 以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。
+假设 该系统在以下前提设计实现：
+ 该系统由许多机器组成，这些机器经常会出错。所以系统必须持续检测以便能够检查、容忍错误，并且能够恢复回来。 该系统支持小型文件，但是不会对其作出优化。 关注性能的应用经常对一批读操作进行排序，以便提高性能。 在文件写入之后，很少会再次修改。 系统必须高效地处理好并发问题。 高且平稳的带宽比低延迟重要。  接口 GFS 提供了和文件系统类似的接口。文件以文件路径名严格组织。除了传统的 CRUD 之外，GFS 还提供了快照和 record append。快照能高效地复制一个文件或目录，record append 用来解决多个客户端的并发问题。
+架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 chunk 。在 chunk 被创建时，master 分配给它一个64位全局常量 chunk handle 。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
+master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。 client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。 client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。">
+<link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
+<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
 </head>
 <body>
-<nav>
-<ul class=header>
-<li><a href=/article>Article</a></li>
-<li><a href=/translation>Translation</a></li>
-<li><a href=/reproduction>Reproduction</a></li>
-<li><a href=/categories>Category</a></li>
-<li><a href=/resume>Resume</a></li>
-<li><a href=/feed.xml>Subscribe</a></li>
-</ul>
-<hr>
-</nav>
-</body>
-</html>
-<a class=article__tag href=https://0xab.de/categories/distributed-systems>Distributed Systems</a>
-<center><span class=title>
-Google File System
-<span class=link></span>
-</span></center>
-<span class=date>
-Mar 29, 2020
-</span>
-</span>
-<br>
-</span>
-<hr>
+<div class=content><header>
+<div class=main>
+<a href=/>arjenzhou</a>
 </div>
+<nav>
+<a href=/>Home</a>
+<a href=/article>Article</a>
+<a href=/translation>Translation</a>
+<a href=/reproduction>Reproduction</a>
+<a href=/categories>Category</a>
+<a href=/feed.xml>Subscribe</a>
+</nav>
+</header>
 <main>
+<article>
+<div class=title>
+<h1 class=title>Google File System</h1>
+<div class=meta>Posted on Mar 29, 2020</div>
+</div>
+<section class=body>
 <p>GFS 是谷歌开发的分布式文件系统，也是上一篇 <a href=../google-map-reduce/>MapReduce</a> 最终输出文件的存放位置。</p>
 <h2 id=设计概述>设计概述</h2>
 <p>以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。</p>
@@ -156,11 +170,15 @@ client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文
 <hr>
 <p>相比 MapReduce，GFS 的细节更多，但是很好理解。许多其他分布式系统的设计思想与之大体相同。比如租约、版本号，很容易联想到 <a href=/translation/2020/02/03/how-to-do-distributed-locking/>How to do distributed locking</a>。懒删除又能够在 ES index 的删除中找到相似之处。后写日志可以联想到 MySQL，而写时复制在操作系统中更为常见。</p>
 <p>[1] <a href=https://www.zhihu.com/question/20485173>https://www.zhihu.com/question/20485173</a></p>
+</section>
+<div class=post-tags>
+</div>
+</article>
 </main>
-<div id=disqus_thread></div>
-<script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 <footer>
+<hr>⚡️
+2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
 </footer>
+</div>
 </body>
 </html>

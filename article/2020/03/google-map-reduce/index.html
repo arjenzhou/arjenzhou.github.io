@@ -1,43 +1,57 @@
-<!doctype html><html lang=en-us>
-<head>
+<!doctype html><html><head>
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>0xab.de</title>
-<link rel=stylesheet href=/css/atom-one-light.css>
-<link rel=stylesheet href=/css/style.css>
-<link rel=stylesheet href=/css/fonts.css>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico>
-<script src=/js/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Google MapReduce - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。
+概念 Google 提出了一种 Map-Reduce 的模型。map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。
+编程模型 就如前面提到的，用户编写的 Map 将所有的输入处理成中间状态的键值对，MapReduce 根据中间状态的 Key 将其整理到一起（因为数据在不同的机器上），并将其交给 Reduce。
+之后，同样是用户编写的 Reduce 将 Key 相同的中间键值对合并到一起。合并的数据集可能只是一小部分。
+下面是一个单词计数的例子：
+map (String key, String value) // key document name // value document content for each word w int value: EmitIntermediate (w, &#34;1&#34;); reduce (String key, Iterator value) // key a word // values a list of counts int result = 0; for each v in values: result += ParseInt (v); Emit(AsString (result)); map 函数将出现过的单词与其出现过的次数相关联，这里是1。 reduce 函数将相同单词出现的次数求和。">
+<meta property="og:image" content>
+<meta property="og:title" content="Google MapReduce">
+<meta property="og:description" content="无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。
+概念 Google 提出了一种 Map-Reduce 的模型。map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。
+编程模型 就如前面提到的，用户编写的 Map 将所有的输入处理成中间状态的键值对，MapReduce 根据中间状态的 Key 将其整理到一起（因为数据在不同的机器上），并将其交给 Reduce。
+之后，同样是用户编写的 Reduce 将 Key 相同的中间键值对合并到一起。合并的数据集可能只是一小部分。
+下面是一个单词计数的例子：
+map (String key, String value) // key document name // value document content for each word w int value: EmitIntermediate (w, &#34;1&#34;); reduce (String key, Iterator value) // key a word // values a list of counts int result = 0; for each v in values: result += ParseInt (v); Emit(AsString (result)); map 函数将出现过的单词与其出现过的次数相关联，这里是1。 reduce 函数将相同单词出现的次数求和。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/article/2020/03/google-map-reduce/"><meta property="article:section" content="article">
+<meta property="article:published_time" content="2020-03-20T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-03-20T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Google MapReduce">
+<meta name=twitter:description content="无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。
+概念 Google 提出了一种 Map-Reduce 的模型。map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。
+编程模型 就如前面提到的，用户编写的 Map 将所有的输入处理成中间状态的键值对，MapReduce 根据中间状态的 Key 将其整理到一起（因为数据在不同的机器上），并将其交给 Reduce。
+之后，同样是用户编写的 Reduce 将 Key 相同的中间键值对合并到一起。合并的数据集可能只是一小部分。
+下面是一个单词计数的例子：
+map (String key, String value) // key document name // value document content for each word w int value: EmitIntermediate (w, &#34;1&#34;); reduce (String key, Iterator value) // key a word // values a list of counts int result = 0; for each v in values: result += ParseInt (v); Emit(AsString (result)); map 函数将出现过的单词与其出现过的次数相关联，这里是1。 reduce 函数将相同单词出现的次数求和。">
+<link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
+<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
 </head>
 <body>
-<nav>
-<ul class=header>
-<li><a href=/article>Article</a></li>
-<li><a href=/translation>Translation</a></li>
-<li><a href=/reproduction>Reproduction</a></li>
-<li><a href=/categories>Category</a></li>
-<li><a href=/resume>Resume</a></li>
-<li><a href=/feed.xml>Subscribe</a></li>
-</ul>
-<hr>
-</nav>
-</body>
-</html>
-<a class=article__tag href=https://0xab.de/categories/distributed-systems>Distributed Systems</a>
-<center><span class=title>
-Google MapReduce
-<span class=link></span>
-</span></center>
-<span class=date>
-Mar 20, 2020
-</span>
-</span>
-<br>
-</span>
-<hr>
+<div class=content><header>
+<div class=main>
+<a href=/>arjenzhou</a>
 </div>
+<nav>
+<a href=/>Home</a>
+<a href=/article>Article</a>
+<a href=/translation>Translation</a>
+<a href=/reproduction>Reproduction</a>
+<a href=/categories>Category</a>
+<a href=/feed.xml>Subscribe</a>
+</nav>
+</header>
 <main>
+<article>
+<div class=title>
+<h1 class=title>Google MapReduce</h1>
+<div class=meta>Posted on Mar 20, 2020</div>
+</div>
+<section class=body>
 <p>无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。</p>
 <h2 id=概念>概念</h2>
 <p>Google 提出了一种 Map-Reduce 的模型。<strong>map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。</strong> 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。</p>
@@ -146,11 +160,15 @@ C 2
 <p>中间状态键值对被分成多份数据。在同一份数据中，键值对是以 Key 的顺序排列的（上面提到的 shuffle）。</p>
 <hr>
 <p>可以看出，除去与分布式系统部分相关的功能来说，这个系统很容易理解。需要关注的点在 map 和 reduce 的处理（但这实际上是用户负责编写的），master 与 worker 之间的 RPC 及任务调度上。但是被忽略掉的往往就是最关键的的共识机制，而分布式系统的魅力也在于此。</p>
+</section>
+<div class=post-tags>
+</div>
+</article>
 </main>
-<div id=disqus_thread></div>
-<script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 <footer>
+<hr>⚡️
+2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
 </footer>
+</div>
 </body>
 </html>

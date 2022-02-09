@@ -1,43 +1,69 @@
-<!doctype html><html lang=en-us>
-<head>
+<!doctype html><html><head>
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>0xab.de</title>
-<link rel=stylesheet href=/css/atom-one-light.css>
-<link rel=stylesheet href=/css/style.css>
-<link rel=stylesheet href=/css/fonts.css>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico>
-<script src=/js/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Paxos vs Raft: Have we reached consensus on distributed consensus? - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="摘要 分布式一致性是构建具有容错、强一致性特点的分布式系统的重要原语。在众多分布式公式算法中，其中有两个统治着生产系统：经典、也是以晦涩难懂著称的 Paxos；较新的、与 Paxos 相比更易理解的 Raft。
+本文主要研究 Paxos 和 Raft 那个是更好的分布式一致性解决方案。我们通过使用 Raft 的术语和语用抽象来描述简化的 Paxos 算法，从而对两者进行精确分析，以确定它们之间的区别。
+我们发现 Paxos 和 Raft 都采用相似的方式来达成分布式一致性，它们之间的区别只在于 leader 选举。最值得注意的是，Raft 只允许有最新日志的节点成为 leader，而 Paxos 允许任何节点成为 leader，前提是之后更新其日志来保证为最新。对于这样的简单性来时，Raft 的方法出奇的高效，因为与 Paxos 不同，它在 leader 选举时不需要日志条目的交换。我们推测，Raft 的可理解性大多来自于论文的清楚陈述，而不是展现出的基本算法的基础。
+CCS 概念：计算机系统管理→可靠性；软件及其工程→云计算；计算理论→分布式算法
+关键词：状态机复制，分布式一致性，Paxos，Raft
+1 简介 状态机复制[32]广泛用于将一群不可靠的主机组成一个可靠的能够提供强一致性保证包括线性化[13]的服务。据此，程序员能够通过复制状态机将服务看作一个单点系统，从而轻松推断出预期的表现。状态机复制需要每个状态机以相同的顺序接受相同的操作，这可以通过分布式一致性实现。
+Paxos 算法[16]与分布式一致性关系密切。虽然它很成功，但是 Paxos 晦涩难懂，造成了其难以推理、正确实现和安全优化。这已经在无数次用更简单的术语解释算法的尝试[4, 17, 22, 23, 25, 29, 35]中得到明显体现了，而且这也是 Raft[28] 的目的。
+Raft 的作者声称 Raft 与 Paxos 同样高效而更易懂，因此为实现具体系统提供了更好的基础。Raft 以这三种不同的方式来寻求实现这点：
+演示 首先，Raft 论文引入了一个描述在状态机复制上下文中基于 leader 选举的一致性的新抽象。 事实证明，这种务实的演示在工程师中非常受欢迎。
+简单 其次，Raft 算法的优先考虑简洁性而不是性能。例如，Raft 按顺序决定日志条目而 Paxos 允许乱序决定，但需要额外的协议来填充可能出现的日志空隙。">
+<meta property="og:image" content>
+<meta property="og:title" content="Paxos vs Raft: Have we reached consensus on distributed consensus?">
+<meta property="og:description" content="摘要 分布式一致性是构建具有容错、强一致性特点的分布式系统的重要原语。在众多分布式公式算法中，其中有两个统治着生产系统：经典、也是以晦涩难懂著称的 Paxos；较新的、与 Paxos 相比更易理解的 Raft。
+本文主要研究 Paxos 和 Raft 那个是更好的分布式一致性解决方案。我们通过使用 Raft 的术语和语用抽象来描述简化的 Paxos 算法，从而对两者进行精确分析，以确定它们之间的区别。
+我们发现 Paxos 和 Raft 都采用相似的方式来达成分布式一致性，它们之间的区别只在于 leader 选举。最值得注意的是，Raft 只允许有最新日志的节点成为 leader，而 Paxos 允许任何节点成为 leader，前提是之后更新其日志来保证为最新。对于这样的简单性来时，Raft 的方法出奇的高效，因为与 Paxos 不同，它在 leader 选举时不需要日志条目的交换。我们推测，Raft 的可理解性大多来自于论文的清楚陈述，而不是展现出的基本算法的基础。
+CCS 概念：计算机系统管理→可靠性；软件及其工程→云计算；计算理论→分布式算法
+关键词：状态机复制，分布式一致性，Paxos，Raft
+1 简介 状态机复制[32]广泛用于将一群不可靠的主机组成一个可靠的能够提供强一致性保证包括线性化[13]的服务。据此，程序员能够通过复制状态机将服务看作一个单点系统，从而轻松推断出预期的表现。状态机复制需要每个状态机以相同的顺序接受相同的操作，这可以通过分布式一致性实现。
+Paxos 算法[16]与分布式一致性关系密切。虽然它很成功，但是 Paxos 晦涩难懂，造成了其难以推理、正确实现和安全优化。这已经在无数次用更简单的术语解释算法的尝试[4, 17, 22, 23, 25, 29, 35]中得到明显体现了，而且这也是 Raft[28] 的目的。
+Raft 的作者声称 Raft 与 Paxos 同样高效而更易懂，因此为实现具体系统提供了更好的基础。Raft 以这三种不同的方式来寻求实现这点：
+演示 首先，Raft 论文引入了一个描述在状态机复制上下文中基于 leader 选举的一致性的新抽象。 事实证明，这种务实的演示在工程师中非常受欢迎。
+简单 其次，Raft 算法的优先考虑简洁性而不是性能。例如，Raft 按顺序决定日志条目而 Paxos 允许乱序决定，但需要额外的协议来填充可能出现的日志空隙。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/translation/2020/11/21/paxos-vs-raft-have-we-reached-consensus-on-distributed-consensus/"><meta property="article:section" content="translation">
+<meta property="article:published_time" content="2020-11-21T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-11-21T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Paxos vs Raft: Have we reached consensus on distributed consensus?">
+<meta name=twitter:description content="摘要 分布式一致性是构建具有容错、强一致性特点的分布式系统的重要原语。在众多分布式公式算法中，其中有两个统治着生产系统：经典、也是以晦涩难懂著称的 Paxos；较新的、与 Paxos 相比更易理解的 Raft。
+本文主要研究 Paxos 和 Raft 那个是更好的分布式一致性解决方案。我们通过使用 Raft 的术语和语用抽象来描述简化的 Paxos 算法，从而对两者进行精确分析，以确定它们之间的区别。
+我们发现 Paxos 和 Raft 都采用相似的方式来达成分布式一致性，它们之间的区别只在于 leader 选举。最值得注意的是，Raft 只允许有最新日志的节点成为 leader，而 Paxos 允许任何节点成为 leader，前提是之后更新其日志来保证为最新。对于这样的简单性来时，Raft 的方法出奇的高效，因为与 Paxos 不同，它在 leader 选举时不需要日志条目的交换。我们推测，Raft 的可理解性大多来自于论文的清楚陈述，而不是展现出的基本算法的基础。
+CCS 概念：计算机系统管理→可靠性；软件及其工程→云计算；计算理论→分布式算法
+关键词：状态机复制，分布式一致性，Paxos，Raft
+1 简介 状态机复制[32]广泛用于将一群不可靠的主机组成一个可靠的能够提供强一致性保证包括线性化[13]的服务。据此，程序员能够通过复制状态机将服务看作一个单点系统，从而轻松推断出预期的表现。状态机复制需要每个状态机以相同的顺序接受相同的操作，这可以通过分布式一致性实现。
+Paxos 算法[16]与分布式一致性关系密切。虽然它很成功，但是 Paxos 晦涩难懂，造成了其难以推理、正确实现和安全优化。这已经在无数次用更简单的术语解释算法的尝试[4, 17, 22, 23, 25, 29, 35]中得到明显体现了，而且这也是 Raft[28] 的目的。
+Raft 的作者声称 Raft 与 Paxos 同样高效而更易懂，因此为实现具体系统提供了更好的基础。Raft 以这三种不同的方式来寻求实现这点：
+演示 首先，Raft 论文引入了一个描述在状态机复制上下文中基于 leader 选举的一致性的新抽象。 事实证明，这种务实的演示在工程师中非常受欢迎。
+简单 其次，Raft 算法的优先考虑简洁性而不是性能。例如，Raft 按顺序决定日志条目而 Paxos 允许乱序决定，但需要额外的协议来填充可能出现的日志空隙。">
+<link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
+<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
 </head>
 <body>
-<nav>
-<ul class=header>
-<li><a href=/article>Article</a></li>
-<li><a href=/translation>Translation</a></li>
-<li><a href=/reproduction>Reproduction</a></li>
-<li><a href=/categories>Category</a></li>
-<li><a href=/resume>Resume</a></li>
-<li><a href=/feed.xml>Subscribe</a></li>
-</ul>
-<hr>
-</nav>
-</body>
-</html>
-<a class=article__tag href=https://0xab.de/categories/distributed-systems>Distributed Systems</a>
-<center><span class=title>
-Paxos vs Raft: Have we reached consensus on distributed consensus?
-<span class=link>by Heidi Howard, Richard Mortier</span>
-</span></center>
-<span class=date>
-Nov 21, 2020
-</span>
-</span>
-<br>
-<span class=link>from <a href=https://arxiv.org/pdf/2004.05074.pdf>https://arxiv.org/pdf/2004.05074.pdf</a></span>
-<hr>
+<div class=content><header>
+<div class=main>
+<a href=/>arjenzhou</a>
 </div>
+<nav>
+<a href=/>Home</a>
+<a href=/article>Article</a>
+<a href=/translation>Translation</a>
+<a href=/reproduction>Reproduction</a>
+<a href=/categories>Category</a>
+<a href=/feed.xml>Subscribe</a>
+</nav>
+</header>
 <main>
+<article>
+<div class=title>
+<h1 class=title>Paxos vs Raft: Have we reached consensus on distributed consensus?</h1>
+<div class=meta>Posted on Nov 21, 2020</div>
+</div>
+<section class=body>
 <h2 id=摘要>摘要</h2>
 <p>分布式一致性是构建具有容错、强一致性特点的分布式系统的重要原语。在众多分布式公式算法中，其中有两个统治着生产系统：经典、也是以晦涩难懂著称的 Paxos；较新的、与 Paxos 相比更易理解的 Raft。</p>
 <p>本文主要研究 Paxos 和 Raft 那个是更好的分布式一致性解决方案。我们通过使用 Raft 的术语和语用抽象来描述简化的 Paxos 算法，从而对两者进行精确分析，以确定它们之间的区别。</p>
@@ -200,11 +226,15 @@ plex. ACM Comput. Surv. 47, 3 (Feb. 2015).<br>
 and Wilkes, J. Large-scale cluster management at google with borg. In Proceedings of the Tenth European Conference on Computer Systems (New York, NY, USA, 2015), EuroSys ’15, Association for Computing Machinery.<br>
 [37] Zhang, Y., Ramadan, E., Mekky, H., and Zhang, Z.-L. When raft meets sdn: How to elect a leader and reach consensus in an unruly network. In Proceedings of the First Asia-Pacific Workshop on Network- ing (New York, NY, USA, 2017), APNet’17, Association for Computing Machinery, pp. 1–7.<br>
 [38] Zheng, J., Lin, Q., Xu, J., Wei, C., Zeng, C., Yang, P., and Zhang, Y. Paxosstore: High-availability storage made practical in wechat. Proc. VLDB Endow. 10, 12 (Aug. 2017), 1730–1741.</p>
+</section>
+<div class=post-tags>
+</div>
+</article>
 </main>
-<div id=disqus_thread></div>
-<script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 <footer>
+<hr>⚡️
+2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
 </footer>
+</div>
 </body>
 </html>

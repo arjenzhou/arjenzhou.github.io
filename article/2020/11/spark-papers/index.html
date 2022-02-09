@@ -1,43 +1,54 @@
-<!doctype html><html lang=en-us>
-<head>
+<!doctype html><html><head>
 <meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>0xab.de</title>
-<link rel=stylesheet href=/css/atom-one-light.css>
-<link rel=stylesheet href=/css/style.css>
-<link rel=stylesheet href=/css/fonts.css>
-<link rel=icon type=image/png sizes=32x32 href=/images/favicon.ico>
-<script src=/js/highlight.min.js></script>
-<script>hljs.initHighlightingOnLoad()</script>
+<meta http-equiv=x-ua-compatible content="IE=edge"><title>Spark Papers - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Spark: Cluster Computing with Working Sets MapReduce （下称 MR）任务包含主要五两个步骤：Map、Sort、Combine、Shuffle、 Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。
+由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：
+ 迭代任务（迭代机器学习算法） 交互式数据分析工具  Spark 提出了 RDD (Resilient Distributed Dataset) 模型来处理此类问题。RDD 是一个被分布在一组机器上的只读的对象集，当一个分区丢失时 RDD 能够很快通过重新计算的方式来重建。RDD 能够被保存在内存中，并以类似 MR 的 并行操作方式 得到重用。RDD 通过一种叫做 血统（lineage） 的概念实现容错：如果 RDD 的一部分丢失了，那么 RDD 有足够的信息（该 RDD 是怎么从其他 RDD 计算出来的）来重建该部分。
+在 Spark 中，RDD 以 Scala 对象的形式存在。并且 RDD 能够通过以下几种形式构造出来：
+ 来自共享文件系统（如 HDFS）中的一个文件 并行化（parallelizing） 一个 Scala 集合 转化（transforming）于一个已经存在的 RDD 改变一个已存在 RDD 的持久性（persistence）  cache：将 RDD 暂存于内存以便稍后重用 save：将 RDD 存于类似 HDFS 的分布式文件系统    对于 cache 这种情况来说，如果集群中没有足够的内存来缓存一个数据集（dataset）的所有部分，那么 Spark 会在使用它们时重新计算。">
+<meta property="og:image" content>
+<meta property="og:title" content="Spark Papers">
+<meta property="og:description" content="Spark: Cluster Computing with Working Sets MapReduce （下称 MR）任务包含主要五两个步骤：Map、Sort、Combine、Shuffle、 Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。
+由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：
+ 迭代任务（迭代机器学习算法） 交互式数据分析工具  Spark 提出了 RDD (Resilient Distributed Dataset) 模型来处理此类问题。RDD 是一个被分布在一组机器上的只读的对象集，当一个分区丢失时 RDD 能够很快通过重新计算的方式来重建。RDD 能够被保存在内存中，并以类似 MR 的 并行操作方式 得到重用。RDD 通过一种叫做 血统（lineage） 的概念实现容错：如果 RDD 的一部分丢失了，那么 RDD 有足够的信息（该 RDD 是怎么从其他 RDD 计算出来的）来重建该部分。
+在 Spark 中，RDD 以 Scala 对象的形式存在。并且 RDD 能够通过以下几种形式构造出来：
+ 来自共享文件系统（如 HDFS）中的一个文件 并行化（parallelizing） 一个 Scala 集合 转化（transforming）于一个已经存在的 RDD 改变一个已存在 RDD 的持久性（persistence）  cache：将 RDD 暂存于内存以便稍后重用 save：将 RDD 存于类似 HDFS 的分布式文件系统    对于 cache 这种情况来说，如果集群中没有足够的内存来缓存一个数据集（dataset）的所有部分，那么 Spark 会在使用它们时重新计算。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/article/2020/11/spark-papers/"><meta property="article:section" content="article">
+<meta property="article:published_time" content="2020-11-13T00:00:00+00:00">
+<meta property="article:modified_time" content="2020-11-13T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Spark Papers">
+<meta name=twitter:description content="Spark: Cluster Computing with Working Sets MapReduce （下称 MR）任务包含主要五两个步骤：Map、Sort、Combine、Shuffle、 Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。
+由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：
+ 迭代任务（迭代机器学习算法） 交互式数据分析工具  Spark 提出了 RDD (Resilient Distributed Dataset) 模型来处理此类问题。RDD 是一个被分布在一组机器上的只读的对象集，当一个分区丢失时 RDD 能够很快通过重新计算的方式来重建。RDD 能够被保存在内存中，并以类似 MR 的 并行操作方式 得到重用。RDD 通过一种叫做 血统（lineage） 的概念实现容错：如果 RDD 的一部分丢失了，那么 RDD 有足够的信息（该 RDD 是怎么从其他 RDD 计算出来的）来重建该部分。
+在 Spark 中，RDD 以 Scala 对象的形式存在。并且 RDD 能够通过以下几种形式构造出来：
+ 来自共享文件系统（如 HDFS）中的一个文件 并行化（parallelizing） 一个 Scala 集合 转化（transforming）于一个已经存在的 RDD 改变一个已存在 RDD 的持久性（persistence）  cache：将 RDD 暂存于内存以便稍后重用 save：将 RDD 存于类似 HDFS 的分布式文件系统    对于 cache 这种情况来说，如果集群中没有足够的内存来缓存一个数据集（dataset）的所有部分，那么 Spark 会在使用它们时重新计算。">
+<link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
+<link rel=stylesheet type=text/css media=screen href=/css/main.2f9b5946627215dc1ae7fa5f82bfc9cfcab000329136befeea5733f21e77d68f.css>
+<link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
 </head>
 <body>
-<nav>
-<ul class=header>
-<li><a href=/article>Article</a></li>
-<li><a href=/translation>Translation</a></li>
-<li><a href=/reproduction>Reproduction</a></li>
-<li><a href=/categories>Category</a></li>
-<li><a href=/resume>Resume</a></li>
-<li><a href=/feed.xml>Subscribe</a></li>
-</ul>
-<hr>
-</nav>
-</body>
-</html>
-<a class=article__tag href=https://0xab.de/categories/big-data>Big Data</a>
-<center><span class=title>
-Spark Papers
-<span class=link></span>
-</span></center>
-<span class=date>
-Nov 13, 2020
-</span>
-</span>
-<br>
-</span>
-<hr>
+<div class=content><header>
+<div class=main>
+<a href=/>arjenzhou</a>
 </div>
+<nav>
+<a href=/>Home</a>
+<a href=/article>Article</a>
+<a href=/translation>Translation</a>
+<a href=/reproduction>Reproduction</a>
+<a href=/categories>Category</a>
+<a href=/feed.xml>Subscribe</a>
+</nav>
+</header>
 <main>
+<article>
+<div class=title>
+<h1 class=title>Spark Papers</h1>
+<div class=meta>Posted on Nov 13, 2020</div>
+</div>
+<section class=body>
 <h2 id=spark-cluster-computing-with-working-sets>Spark: Cluster Computing with Working Sets</h2>
 <p>MapReduce （下称 MR）任务包含主要<del>五</del>两个步骤：Map、<del>Sort、Combine、Shuffle、</del> Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。</p>
 <p>由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：</p>
@@ -208,13 +219,13 @@ usersDF<span style=color:#f92672>.</span>join<span style=color:#f92672>(</span>v
 </li>
 <li>
 <p><strong>Incremental</strong> <strong>aggregation</strong></p>
-<p>按时间窗口聚合</p>
-</li>
-<li>
-<p><strong>State</strong> <strong>tracking</strong></p>
-<p>追踪状态的变化</p>
 </li>
 </ul>
+<p>按时间窗口聚合</p>
+<ul>
+<li><strong>State tracking</strong></li>
+</ul>
+<p>追踪状态的变化</p>
 <p>D-Streams 的一致性机制非常简单，因为时间能自然地离散到时间间隔上，每个时间间隔输出的 RDD 反映这个和上一个时间间隔的所有输入。这在无论输出和状态 RDD 是否被分散到集群中都是一样的。</p>
 <p>D-Streams 与其它持续算子系统的区别在于它将任务分割成小的、确定的批任务。尽管提高了延迟下限，但是能够高效地恢复。</p>
 <hr>
@@ -283,11 +294,15 @@ usersDF<span style=color:#f92672>.</span>join<span style=color:#f92672>(</span>v
 <p>该模型的第二个吸引人的特性是它有强大的一致性语义，叫做<em>前缀一致性（prefix consistency）。</em></p>
 <p>首先，它保证在一个输入源中输入记录相对有序时，输出被合并到相同的记录中。其次，由于结果表是基于输入前缀中的所有数据一次定义的，结果表中所有的行都对应到输入记录上。</p>
 <hr>
+</section>
+<div class=post-tags>
+</div>
+</article>
 </main>
-<div id=disqus_thread></div>
-<script>(function(){var a=document,b=a.createElement('script');b.src='https://arjenzhou.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
-<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
 <footer>
+<hr>⚡️
+2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
 </footer>
+</div>
 </body>
 </html>
