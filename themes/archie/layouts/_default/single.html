@@ -31,5 +31,12 @@
 			{{ end }}
 		</div>
 	</article>
+	<h1>Comments:</h1>
+	<div id="cusdis_thread" data-host="https://cusdis.com"
+		data-app-id="71c1c07d-0104-4d23-9cbc-827c46070d54"
+		data-page-id="{{ .File.UniqueID }}" 
+		data-page-url="{{ .Permalink }}"
+		data-page-title="{{ .Title }}"></div>
+	<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
 </main>
 {{ end }}
