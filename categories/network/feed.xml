@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>network on arjenzhou</title><link>/categories/network/</link><description>Recent content in network on arjenzhou</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 16 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。
+应用场景 从标题中可以看出，ZeroTier 是实现内网穿透的一个手段。简单来说就是能够通过它来实现不同局域网之间的互相访问：在公司局域网能连到家里的网络（不要这么做）
+原理 大致简单了解了一下，局域网中各设备通过互联网与 Zeroier 的“行星服务器”建立 P2P VPN 连接，如果两个设备能够通过 VPN 直连那么就直连，否则通过 ZeroTier 中继。
+简单使用 登录并创建一个 Network 之后，使用 ZeroTier 客户端依据 Network ID 连接到该 Network 并认证后。为该网络分配一个网段，给设备分配 IP 并设置路由规则后就可以使用分配的 IP 互相访问了，是不是很简单？
+注意，将路由器加入 ZeroTier 需要配置防火墙。
+截图举个例子：
+在 IPv4 Auto-Assign 部分，为网络设置 IP 段。 这里我将这个网络设置了 10.242.100.0/24 IP 段。
+设置路由规则 分配 IP 段后要为局域网设置路由规则。
+图中 192.168.6.0/24 是我家里的局域网 IP 段，10.242.100.0/24 是上面 ZeroTier 分配的 IP 段。</description></item></channel></rss>
