@@ -1,9 +1,8 @@
 ---
 title: "Hi, there👋"
-date: "2022-02-T00:35:00+08:00"
 ---
 
-`arjenzhou` is from Hangzhou, China. He is an opensource contributer, and a senior software engineer employed by Netease. He devotes his time to increasing productivity and contributing code to projects which are interested in. He spends spare time on playing video game and watching Bundesliga or Formula 1 games.
+[arjenzhou](https://github.com/arjenzhou) is from Hangzhou, China. He is an opensource contributer, and a software engineer employed by Taobao.com. He devotes his time to increasing productivity and contributing code to projects which are interested in. He spends spare time on playing video games and watching Bundesliga or Formula 1 games.
 
 There had been years since 2016 he wrote his first line of code in Java as a freshman at Dalian Maritime University. 2019, He worked
  on code analyzing as an intern in Baidu. He started to focus on big data related stuff at 2020 when he joined Netease.
