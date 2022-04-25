@@ -1,73 +1,15 @@
-<!doctype html><html><head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge"><title>Week 7, 2020 - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Week 7, 2020 - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.
 MIT 6.824: Distributed Systems requires a precondition that reading through the Google MapReduce paper. I finished it and ready to start this course. The CMU 15-213 course was put on hold because I have some basic related and now former is an emphasis.
-These days I wrote some bussiness code that makes me collapse.">
-<meta property="og:image" content>
-<meta property="og:title" content="Week 7, 2020">
-<meta property="og:description" content="Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.
+These days I wrote some bussiness code that makes me collapse."><meta property="og:image" content><meta property="og:title" content="Week 7, 2020"><meta property="og:description" content="Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.
 MIT 6.824: Distributed Systems requires a precondition that reading through the Google MapReduce paper. I finished it and ready to start this course. The CMU 15-213 course was put on hold because I have some basic related and now former is an emphasis.
-These days I wrote some bussiness code that makes me collapse.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="/weekly/2020/02/16/week-7-2020/"><meta property="article:section" content="weekly">
-<meta property="article:published_time" content="2020-02-16T00:00:00+00:00">
-<meta property="article:modified_time" content="2020-02-16T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Week 7, 2020">
-<meta name=twitter:description content="Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.
+These days I wrote some bussiness code that makes me collapse."><meta property="og:type" content="article"><meta property="og:url" content="/weekly/2020/02/16/week-7-2020/"><meta property="article:section" content="weekly"><meta property="article:published_time" content="2020-02-16T00:00:00+00:00"><meta property="article:modified_time" content="2020-02-16T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Week 7, 2020"><meta name=twitter:description content="Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.
 MIT 6.824: Distributed Systems requires a precondition that reading through the Google MapReduce paper. I finished it and ready to start this course. The CMU 15-213 course was put on hold because I have some basic related and now former is an emphasis.
-These days I wrote some bussiness code that makes me collapse.">
-<link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css>
-<link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
-<link rel=stylesheet href=/katex/katex.min.css>
-<script defer src=/katex/katex.min.js></script>
+These days I wrote some bussiness code that makes me collapse."><link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css><link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)"><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script>
 <script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
-<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script>
-</head><body>
-<div class=content><header>
-<div class=main>
-<a href=/>arjenzhou</a>
-</div>
-<nav>
-<a href=/article>Article</a>
+<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script></head><body><div class=content><header><div class=main><a href=/>arjenzhou</a></div><nav><a href=/article>Article</a>
 <a href=/translation>Translation</a>
 <a href=/reproduction>Reproduction</a>
 <a href=/categories>Category</a>
-<a href=/feed.xml>Subscribe</a>
-</nav>
-</header>
-<main>
-<article>
-<div class=title>
-<h1 class=title>Week 7, 2020</h1>
-<span class=link></span>
-<div class=meta>Posted on Feb 16, 2020
-</span> <hr>
-</div>
-</div>
-<section class=body>
-<p>Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.</p>
-<p>MIT 6.824: Distributed Systems requires a precondition that reading through the Google MapReduce paper. I finished it and ready to start this course. The CMU 15-213 course was put on hold because I have some basic related and now former is an emphasis.</p>
-<p>These days I wrote some bussiness code that makes me collapse. Cumbersome unit tests are meaningful but I really don&rsquo;t want to deal with them.</p>
-<p>I read an article about how to read source code. I really like the top-down method to go through the code, whose precondition is sufficient documents. Most projects did a good job on it. Regrettably, there always some projects do not care about the software engineering, you can&rsquo;t figure out what each module does.
-It&rsquo;s ok in some details in method level code, you can figure it out by the method name. Defects in the architecture document is fatal to developers&mldr;I have contributed to a 30 plus stars repository whose document was outdated for several releases. You would never know how does the extra moudles new added work till have delved into it thanks to the deadline.</p>
-<p>Through 2 weeks deliberate practice, I notice there have been a obviously improvement in the spead of English reading. After long-term course learing it will progress imperceptibly. Let&rsquo;s see.</p>
-<p>I reported a bug[1] of Jetbrains existing since the beginning of the world about the Chinese IME in macOS. The issue was first created 7 years ago, but still not sloved in some conditions. The developers responsed in a time and located it. Also, I reported it to Baidu and Sogou, only Baidu replyed to me and informed to the developers.</p>
-<p>[1] <a href=https://youtrack.jetbrains.com/issue/JBR-1436>https://youtrack.jetbrains.com/issue/JBR-1436</a></p>
-</section>
-<div class=post-tags>
-</div>
-</article>
-<h1>Comments:</h1>
-<div id=cusdis_thread data-host=https://cusdis.com data-app-id=71c1c07d-0104-4d23-9cbc-827c46070d54 data-page-id=0c3df11d0af6ad8ebeff4880e5fb164a data-page-url=/weekly/2020/02/16/week-7-2020/ data-page-title="Week 7, 2020"></div>
-<script async defer src=https://cusdis.com/js/cusdis.es.js></script>
-</main>
-<footer>
-<hr>⚡️
-2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
-</footer>
-</div>
-</body>
-</html>
+<a href=/feed.xml>Subscribe</a></nav></header><main><article><div class=title><h1 class=title>Week 7, 2020</h1><span class=link></span><div class=meta>Posted on Feb 16, 2020</span><hr></div></div><section class=body><p>Till now 89 problems in leetcode were sloved in this phase, 7 in this week as usual.</p><p>MIT 6.824: Distributed Systems requires a precondition that reading through the Google MapReduce paper. I finished it and ready to start this course. The CMU 15-213 course was put on hold because I have some basic related and now former is an emphasis.</p><p>These days I wrote some bussiness code that makes me collapse. Cumbersome unit tests are meaningful but I really don&rsquo;t want to deal with them.</p><p>I read an article about how to read source code. I really like the top-down method to go through the code, whose precondition is sufficient documents. Most projects did a good job on it. Regrettably, there always some projects do not care about the software engineering, you can&rsquo;t figure out what each module does.
+It&rsquo;s ok in some details in method level code, you can figure it out by the method name. Defects in the architecture document is fatal to developers&mldr;I have contributed to a 30 plus stars repository whose document was outdated for several releases. You would never know how does the extra moudles new added work till have delved into it thanks to the deadline.</p><p>Through 2 weeks deliberate practice, I notice there have been a obviously improvement in the spead of English reading. After long-term course learing it will progress imperceptibly. Let&rsquo;s see.</p><p>I reported a bug[1] of Jetbrains existing since the beginning of the world about the Chinese IME in macOS. The issue was first created 7 years ago, but still not sloved in some conditions. The developers responsed in a time and located it. Also, I reported it to Baidu and Sogou, only Baidu replyed to me and informed to the developers.</p><p>[1] <a href=https://youtrack.jetbrains.com/issue/JBR-1436>https://youtrack.jetbrains.com/issue/JBR-1436</a></p></section><div class=post-tags></div></article><h1>Comments:</h1><div id=cusdis_thread data-host=https://cusdis.com data-app-id=71c1c07d-0104-4d23-9cbc-827c46070d54 data-page-id=0c3df11d0af6ad8ebeff4880e5fb164a data-page-url=/weekly/2020/02/16/week-7-2020/ data-page-title="Week 7, 2020"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script></main><footer><hr>⚡️
+2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></footer></div></body></html>

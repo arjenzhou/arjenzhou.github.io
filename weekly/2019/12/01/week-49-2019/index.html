@@ -1,116 +1,14 @@
-<!doctype html><html><head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge"><title>Week 49, 2019 - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：
-Q1: 获取系统时间(gettimeofday())是否会进行系统调用？  Switching Between Processes  A Non-Cooperative Approach: The OS Takes Control  A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one.">
-<meta property="og:image" content>
-<meta property="og:title" content="Week 49, 2019">
-<meta property="og:description" content="挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：
-Q1: 获取系统时间(gettimeofday())是否会进行系统调用？  Switching Between Processes  A Non-Cooperative Approach: The OS Takes Control  A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="/weekly/2019/12/01/week-49-2019/"><meta property="article:section" content="weekly">
-<meta property="article:published_time" content="2019-12-01T00:00:00+00:00">
-<meta property="article:modified_time" content="2019-12-01T00:00:00+00:00">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="Week 49, 2019">
-<meta name=twitter:description content="挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：
-Q1: 获取系统时间(gettimeofday())是否会进行系统调用？  Switching Between Processes  A Non-Cooperative Approach: The OS Takes Control  A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one.">
-<link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet>
-<link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css>
-<link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)">
-<link rel=stylesheet href=/katex/katex.min.css>
-<script defer src=/katex/katex.min.js></script>
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>Week 49, 2019 - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：
+Q1: 获取系统时间(gettimeofday())是否会进行系统调用？  Switching Between Processes  A Non-Cooperative Approach: The OS Takes Control  A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one."><meta property="og:image" content><meta property="og:title" content="Week 49, 2019"><meta property="og:description" content="挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：
+Q1: 获取系统时间(gettimeofday())是否会进行系统调用？  Switching Between Processes  A Non-Cooperative Approach: The OS Takes Control  A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one."><meta property="og:type" content="article"><meta property="og:url" content="/weekly/2019/12/01/week-49-2019/"><meta property="article:section" content="weekly"><meta property="article:published_time" content="2019-12-01T00:00:00+00:00"><meta property="article:modified_time" content="2019-12-01T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Week 49, 2019"><meta name=twitter:description content="挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：
+Q1: 获取系统时间(gettimeofday())是否会进行系统调用？  Switching Between Processes  A Non-Cooperative Approach: The OS Takes Control  A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one."><link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css><link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)"><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script>
 <script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
-<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script>
-</head><body>
-<div class=content><header>
-<div class=main>
-<a href=/>arjenzhou</a>
-</div>
-<nav>
-<a href=/article>Article</a>
+<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script></head><body><div class=content><header><div class=main><a href=/>arjenzhou</a></div><nav><a href=/article>Article</a>
 <a href=/translation>Translation</a>
 <a href=/reproduction>Reproduction</a>
 <a href=/categories>Category</a>
-<a href=/feed.xml>Subscribe</a>
-</nav>
-</header>
-<main>
-<article>
-<div class=title>
-<h1 class=title>Week 49, 2019</h1>
-<span class=link></span>
-<div class=meta>Posted on Dec 1, 2019
-</span> <hr>
-</div>
-</div>
-<section class=body>
-<ol>
-<li>
-<p>挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：</p>
-<h3 id=q1-获取系统时间gettimeofday是否会进行系统调用>Q1: 获取系统时间(gettimeofday())是否会进行系统调用？</h3>
-<ul>
-<li>Switching Between Processes
-<ul>
-<li>A Non-Cooperative Approach: The OS Takes Control
-<ul>
-<li>A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>思考：
-Timer 用于进程切换，此外系统的时间也由它进行维护，那么每次获取系统时间是否会进行系统调用？</p>
-<p>A：
-每个 OS 有不同的实现，对于 OSX 来说，不需要。commpage 会异步地从内核更新包括时间的地址空间。</p>
-<blockquote>
-<p>Briefly, it is a special area of kernel memory that is mapped into the last eight pages of the address space of every process. Among other things, it contains time values that are &ldquo;updated asynchronously from the kernel and read atomically from user space, leading to occasional failures in reading&rdquo;.^[https://stackoverflow.com/questions/40967594/does-gettimeofday-on-macos-use-a-system-call]</p>
-</blockquote>
-<h3 id=q2-为什么-unix-使用-fork-exec-的形式创建进程而不是直接-create>Q2: 为什么 UNIX 使用 fork-exec 的形式创建进程，而不是直接 create</h3>
-<p>A:
-简单来说，采用 fork-exec 可以根据需求组合成不同的应用，而且对于 UNIX 中管道操作较为友好。</p>
-<hr>
-</li>
-<li>
-<p>毕业体检也完成了，不得不说我校的医生专业能力特别强：不需要仪器直接就能测出血压&mldr;</p>
-</li>
-<li>
-<p>庆余年开播了，不得不说我实在不能接受男主角的选角😓</p>
-</li>
-<li>
-<p>leetcode 开始二刷，7天做了9道题。状态就是：easy 秒，medium 在纸上画画能出来， hard 看了题解也得想半天🤣</p>
-</li>
-<li>
-<p>初中同学来大连看演出，陪他逛了逛。大连这个季节加上下雨，星海广场上连个人都没有。</p>
-</li>
-<li>
-<p>下了三天自走棋，果然还是游戏好玩。</p>
-</li>
-<li>
-<p>桌面又收拾了一下，电脑显示器和 pad 又重新布局，感觉还行吧。(图里有本书是彩蛋😆)</p>
-</li>
-</ol>
-<ol start=8>
-<li>
-<p>29 号过生日来着。22岁了反倒没有什么生日的感觉，和往常日子一样看看书、写会儿代码就过去了。</p>
-</li>
-<li>
-<p>找老师谈了谈毕设的事情，结论就是只要工作量足够，随便写什么，到时候题目再改。</p>
-</li>
-</ol>
-</section>
-<div class=post-tags>
-</div>
-</article>
-<h1>Comments:</h1>
-<div id=cusdis_thread data-host=https://cusdis.com data-app-id=71c1c07d-0104-4d23-9cbc-827c46070d54 data-page-id=2ce692bac89a36a49a6173d13e80950b data-page-url=/weekly/2019/12/01/week-49-2019/ data-page-title="Week 49, 2019"></div>
-<script async defer src=https://cusdis.com/js/cusdis.es.js></script>
-</main>
-<footer>
-<hr>⚡️
-2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a>
-</footer>
-</div>
-</body>
-</html>
+<a href=/feed.xml>Subscribe</a></nav></header><main><article><div class=title><h1 class=title>Week 49, 2019</h1><span class=link></span><div class=meta>Posted on Dec 1, 2019</span><hr></div></div><section class=body><ol><li><p>挑了一本上周下载的 Operating Systems: Three easy pieces ^[http://pages.cs.wisc.edu/~remzi/OSTEP/]. 来读，这次尝试不用翻译阅读，起初看地比较吃力，后来觉得越来越顺畅了。这本书从虚拟化、并发和持久化三个方面介绍，这种结构更容易把知识打穿，也是我选择这本书的原因。读了7个 chapter 也发现了几个问题，和群里的朋友们探讨了一下：</p><h3 id=q1-获取系统时间gettimeofday是否会进行系统调用>Q1: 获取系统时间(gettimeofday())是否会进行系统调用？</h3><ul><li>Switching Between Processes<ul><li>A Non-Cooperative Approach: The OS Takes Control<ul><li>A timer device can be programmed to raise an interrupt every so many milliseconds; when the interrupt is raised, the currently running process is halted, and a pre-conﬁgured interrupt handler in the OS runs. At this point, the OS has regained control of the CPU, and thus can do what it pleases: stop the current process, and start a different one.</li></ul></li></ul></li></ul><p>思考：
+Timer 用于进程切换，此外系统的时间也由它进行维护，那么每次获取系统时间是否会进行系统调用？</p><p>A：
+每个 OS 有不同的实现，对于 OSX 来说，不需要。commpage 会异步地从内核更新包括时间的地址空间。</p><blockquote><p>Briefly, it is a special area of kernel memory that is mapped into the last eight pages of the address space of every process. Among other things, it contains time values that are &ldquo;updated asynchronously from the kernel and read atomically from user space, leading to occasional failures in reading&rdquo;.^[https://stackoverflow.com/questions/40967594/does-gettimeofday-on-macos-use-a-system-call]</p></blockquote><h3 id=q2-为什么-unix-使用-fork-exec-的形式创建进程而不是直接-create>Q2: 为什么 UNIX 使用 fork-exec 的形式创建进程，而不是直接 create</h3><p>A:
+简单来说，采用 fork-exec 可以根据需求组合成不同的应用，而且对于 UNIX 中管道操作较为友好。</p><hr></li><li><p>毕业体检也完成了，不得不说我校的医生专业能力特别强：不需要仪器直接就能测出血压&mldr;</p></li><li><p>庆余年开播了，不得不说我实在不能接受男主角的选角😓</p></li><li><p>leetcode 开始二刷，7天做了9道题。状态就是：easy 秒，medium 在纸上画画能出来， hard 看了题解也得想半天🤣</p></li><li><p>初中同学来大连看演出，陪他逛了逛。大连这个季节加上下雨，星海广场上连个人都没有。</p></li><li><p>下了三天自走棋，果然还是游戏好玩。</p></li><li><p>桌面又收拾了一下，电脑显示器和 pad 又重新布局，感觉还行吧。(图里有本书是彩蛋😆)</p></li></ol><ol start=8><li><p>29 号过生日来着。22岁了反倒没有什么生日的感觉，和往常日子一样看看书、写会儿代码就过去了。</p></li><li><p>找老师谈了谈毕设的事情，结论就是只要工作量足够，随便写什么，到时候题目再改。</p></li></ol></section><div class=post-tags></div></article><h1>Comments:</h1><div id=cusdis_thread data-host=https://cusdis.com data-app-id=71c1c07d-0104-4d23-9cbc-827c46070d54 data-page-id=2ce692bac89a36a49a6173d13e80950b data-page-url=/weekly/2019/12/01/week-49-2019/ data-page-title="Week 49, 2019"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script></main><footer><hr>⚡️
+2022 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></footer></div></body></html>
