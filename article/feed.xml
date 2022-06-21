@@ -1,10 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Articles on arjenzhou</title><link>/article/</link><description>Recent content in Articles on arjenzhou</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 16 May 2022 00:00:00 +0000</lastBuildDate><atom:link href="/article/feed.xml" rel="self" type="application/rss+xml"/><item><title>游戏主机对比： Nintendo Switch, Xbox Series S, PlayStation 5</title><link>/article/2022/05/console-review/</link><pubDate>Mon, 16 May 2022 00:00:00 +0000</pubDate><guid>/article/2022/05/console-review/</guid><description>其实这篇文章在22年2月的时候就应该写了，由于各种原因一直拖到现在，所以本文叙述的时间点为2月。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Articles on arjenzhou</title><link>/article/</link><description>Recent content in Articles on arjenzhou</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="/article/feed.xml" rel="self" type="application/rss+xml"/><item><title>Bitcoin, Blockchain</title><link>/article/2022/06/bitcoin-blockchain/</link><pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate><guid>/article/2022/06/bitcoin-blockchain/</guid><description>中本聪的愿望 “传统货币最根本的问题在于信任。中央银行必须让人信任它不会让货币贬值，但历史上这种可信度从来都不存在。银行必须让人信任它能管理好钱财，并让这些财富以电子货币形式流通，但银行却用货币来制造信贷泡沫，使得私人财富缩水。”
+1933年4月5日，为了使政府能够再印制更多现金注入市场，罗斯福总统签署了6102号行政命令，要求美国公民以每金衡盎司20.67美元的价格上交黄金，否则可处以10,000美元的罚款，甚至还可判处入狱服刑5至10年，同时也禁止黄金出口海外，以确保美国拥有的黄金不会外流。 Executive Order 6102 罗斯福没收充公美国人的黄金，并以美元交换，然后让美元贬值了40%，强制推高黄金价，目的是让美国的债务贬值，从而对抗大萧条，造成的后果是美国人的财富被洗劫了40%。
+1974 年，福特总统签署了 Public Law 93-373 即“黄金合法化法案”，1975年美国人可以再一次合法拥有黄金。 Satoshi Nakamoto&amp;#39;s Profile P2PFoundation 是中本聪发布比特币白皮书的网站，在这注册必须提供出生日期，中本聪填写的是1975年4月5日。
+电子支付的问题 互联网上的贸易，几乎都需要借助金融机构作为可资信赖的第三方来处理电子支付信息。是这类系统仍然内生性地受制于“基于信用的模式”的弱点：
+无法实现完全不可逆的交易，因为金融机构总是不可避免地会出面协调争端。 金融中介的存在增加交易的成本，并且限制了实际可行的最小交易规模，也限制了日常的小额支付交易。 这些问题在物理现金交易中是不存在的。
+所以需要这样一种电子支付系统，它基于密码学原理而不基于信用，使得任何达成一致的双方，能够直接进行支付，从而不需要第三方中介的参与。
+雅浦岛的故事 雅浦岛是一个金属资源比较匮乏的岛，就算是石灰岩也要去400英里以外的帕劳岛开采。雅浦岛部落里的探险家们开采这些石灰岩，打制成内部中空呈环形的石轮，然后用木筏运回雅浦岛作为货币使用。这些石轮小的直径30多厘米，大的直径有3米多。为了便于运输，有时会往中间插一根粗壮的木柱。开采难度越高，越漂亮，越大的石币价值越高。 雅浦岛的石币 雅浦石币有个很有趣的特点。交易双方在决定了使用多大的石币付费后，如果那个石头太大了，不方便运输，那么卖家只要在买家的石头上做个标记就可以了，这样就付费了。那个标记就说明这个石头已经属于卖家了，而石头仍然躺在买家屋里。 雅浦岛的石币 岛上有一户首富，但没有人见过他家里的石币。他们家拥有的财产是一个巨大的石币，大小只有上上辈人才知道，因为这个石币一直沉睡在海底。这户人家的祖辈和其他人外出开采石灰岩并制成石币，在用木筏拉回家的归途中遭遇了强烈的暴风雨，为了逃命，探险队只好砍掉拉筏的绳子，于是那块巨大的石币沉入了大海。回村后探险队的成员都替他作证，虽然已掉落大海，但大伙都见证了这块石头的去处，所以不会影响它的价值，它的主人仍然可以用它去买东西，就跟把石币运回家存放起来的效果一样。
+比特币和石币 如果雅浦岛首富想要私下使用这笔巨款，比如偷偷跟自己的情人说：我那块大石头送给你了。这次交易是无效的，因为交易没有广播，并没有其他岛民在旁边作证。但如果首富临死前，当着全岛人民的面说，这块大石头就作为遗产给我的大儿子了。那么这笔交易就是有效的，因为其他岛民都做了见证，并集体更新了头脑里的“账簿”。
+假如雅浦岛上的交易越来越多，大家根本记不住这么多交易，所以打算使用比特币：
+石币：大家都知道这个石币的所有人是村民1，那么他可以将其转账给村民2
+比特币：大家都知道这个比特币的所有人是村民1，那么他可以将其转账给村民2
+在传统的交易中，采取的是账户/余额模型。比如银行账户、微信账户，都是基于账户/余额模型。 账户内的余额是作为一个整体存在的。
+而比特币采用的是 UTXO (Unspent Transaction Output) 模型 BTC Transaction 在比特币中，一笔交易的每一条输入和输出实际上都是 UTXO，输入 UTXO 就是以前交易剩下的， 更准确的说是以前交易的输出 UTXO。除了 coinbase 交易（挖矿奖励）没有输入 UTXO 之外，其它交易都有输入和输出，都可以为多个。在比特币中没有余额概念，只有分散到区块链里的 UTXO。
+谁拥有 UTXO 在雅浦岛上，村民之间可以确定这个石币的所有者是谁。而比特币转账实际上是从一个地址被移动到另一个地址，当村民1想花费0.15个比特币时，如何证明自己拥有这个 UTXO，并且其他人无法假冒村民1来花费这个 UTXO 呢？
+比特币的交易创建的输出其实并非一个简单的公钥地址，而是一个脚本。每一个比特币节点会通过同时执行这解锁和锁定脚本（不是当前的锁定脚本，是指上一个交易的锁定脚本）来验证一笔交易，脚本组合结果为真，则为有效交易。 BTC 交易脚本 这个脚本表达的意思是：谁的签名能匹配这个输出地址，钱就支付给谁。
+所有人都可以验证村民1创建的这个新交易是否有效。如果有效，该交易就会被矿工打包进新的区块，从而成为区块链上不可更改的一部分。
+什么是数字签名
+A 给 B 发送消息前，先对消息生成摘要 (digest)，然后 A 使用私钥对摘要进行加密得到签名 (signature)。之后 A 将签名和消息一同发送给 B</description></item><item><title>游戏主机对比： Nintendo Switch, Xbox Series S, PlayStation 5</title><link>/article/2022/05/console-review/</link><pubDate>Mon, 16 May 2022 00:00:00 +0000</pubDate><guid>/article/2022/05/console-review/</guid><description>其实这篇文章在22年2月的时候就应该写了，由于各种原因一直拖到现在，所以本文叙述的时间点为2月。
 我的 Windows 游戏时代 大概在07年小学三、四年级的时候，我到小学同学家第一次玩到了 GTA: VC，这是我第一次正始接触单机游戏（打字游戏除外）。后来又在他家接触了流星蝴蝶剑，和跑跑卡丁车、天龙八部这些网游。同年，也在堂哥那里玩到了 PSP 版的真三国无双。过了一年家里买了电脑之后，便开始了我自己的游戏之路。各种主流游戏都浅尝辄止，但电脑没少折腾：试过各种游戏外挂，也自己做过游戏补丁；那时我的输入和检索能力、“修电脑的能力”就已经呈现了出来，我一直认为这是我走上程序员之路的契机。直到有一天我发现部分境外网站无法登录之前，那是中文互联网的黄金年代，我很怀念它。
 我不是一个资深的主机玩家，工作前我一直用我的“黑金刚”玩游戏，所以我没有资格来评价各个主机，只能凭借自己的体验简单介绍下我的主观感受。初中时，家里的电脑玩英雄联盟最高只能到30帧，注册了一个 Steam 账号却连 DotA2 都进不去，回想当初肯定是被电脑城的人宰了。大学时游戏没少玩，但只是随便玩玩而已。
 我的黑金刚 MSI GE62。GTX965M 的显卡，配上2GB 的显存属实有点拉胯 Nintendo Switch 等到工作第一年，我入手了 NS。到现在也才只有塞尔达传说：旷野之息算是完全通关了。
 我认为 NS 是一个优秀的游戏机，便携性是它最突出的优势，独占/聚会/家庭游戏是它的特长，主机模式下性能略显尴尬。我没有买过 Switch Pro Controller，其自带的 Joy Controller 仅仅能用而已。任天堂第一方的游戏，绝对是 NS 的核心优势。
 Xbox Series S 这一代微软发售了 Xbox Series X (XSX) 和 Xbox Series S (XSS)。XSX 是这一代的旗舰机，理论性能此世代最强；XSS 相对轻便，不过性能好像只有 XSX 的1/4，而且只有数字版。 微软在 PC 和 Console 上推出的 Xbox Game Pass (XGP) 订阅制以周期的形式上架/下架一批游戏，凡是订阅的玩家都可以下载游玩。
-由于没钱，我只买了一台国行 XSS，收益于 XGP 也玩了不少游戏。但是游戏库里合我胃口的游戏比较少，“枪车球”的刻板印象仍然存在。</description></item><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。
+由于没钱，我只买了一台国行 XSS，收益于 XGP 也玩了不少游戏。但是游戏库里合我胃口的游戏比较少，“枪车球”的刻板印象仍然存在。
+从硬件角度来看，XSS 较为轻便，可以直接放在包里背走；手柄说得过去，能够换电池是它的优点。
+PlayStation 5 虽然索尼的名声日益变差，但瘦死的骆驼比马大，独占（首发）游戏质量仍然优秀，最近（2022年5月）也要上架 PlayStation Plus 作为 XGP 的竞品，值得期待。</description></item><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。
 应用场景 从标题中可以看出，ZeroTier 是实现内网穿透的一个手段。简单来说就是能够通过它来实现不同局域网之间的互相访问：在公司局域网能连到家里的网络（不要这么做）
 原理 大致简单了解了一下，局域网中各设备通过互联网与 Zeroier 的“行星服务器”建立 P2P VPN 连接，如果两个设备能够通过 VPN 直连那么就直连，否则通过 ZeroTier 中继。
 简单使用 登录并创建一个 Network 之后，使用 ZeroTier 客户端依据 Network ID 连接到该 Network 并认证后。为该网络分配一个网段，给设备分配 IP 并设置路由规则后就可以使用分配的 IP 互相访问了，是不是很简单？
@@ -12,7 +31,9 @@ Xbox Series S 这一代微软发售了 Xbox Series X (XSX) 和 Xbox Series S (XS
 截图举个例子：
 在 IPv4 Auto-Assign 部分，为网络设置 IP 段。 这里我将这个网络设置了 10.242.100.0/24 IP 段。
 设置路由规则 分配 IP 段后要为局域网设置路由规则。
-图中 192.168.6.0/24 是我家里的局域网 IP 段，10.242.100.0/24 是上面 ZeroTier 分配的 IP 段。</description></item><item><title>键盘对比：NIZ Plum, FILCO 圣手2代, HHKB Professional Hybrid</title><link>/article/2022/02/keyboard-review/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/keyboard-review/</guid><description>之前用的一直是大一刚入学200块买的达尔优的机械键盘，作为刚入学的经常在宿舍打游戏的大学生，这是一款很常见的键盘：RGB，茶轴，104键，要素齐全。
+图中 192.168.6.0/24 是我家里的局域网 IP 段，10.242.100.0/24 是上面 ZeroTier 分配的 IP 段。
+设备连入并点击认证后，为其分配 IP 注意每个设备分配的 IP 要在网段内，一般来说都是自动分配好的。
+测试 在配置完成后，可以在一个设备上通过 ZeroTier 分配的 IP 访问另一个设备的服务（需要注意服务绑定的 IP 是不是 ZeroTier 分配的 IP）</description></item><item><title>键盘对比：NIZ Plum, FILCO 圣手2代, HHKB Professional Hybrid</title><link>/article/2022/02/keyboard-review/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/keyboard-review/</guid><description>之前用的一直是大一刚入学200块买的达尔优的机械键盘，作为刚入学的经常在宿舍打游戏的大学生，这是一款很常见的键盘：RGB，茶轴，104键，要素齐全。
 NIZ Plum mini 84 Pro (35g) 2019年2月，我入手了一副 NIZ Plum mini 84 Pro 35g。
 这款键盘当初是打算在 Mac 上用的，经网友推荐我仔细挑选后选中了这款。上手的第一感受就是软，打字手感特别黏稠、松垮的感觉。“也许这就是静电容”，我心想。用过一段时间发现尤其在789附近的数字区，由于35g实在是太轻了，经常出现误触的情况，一按下去一片数字上屏。后来用附送的增重弹簧给核心区域的键增到45g，这时才刚刚好。让人不得不吐槽的是竟然没有送84个弹簧，而且大键装起来很麻烦。这款键盘的布局还是很合理的，有F区，方向键很紧凑，只是右面一列有点多余，导致经常不好定位回车键。
 用了两年多，这款键盘的缺点逐渐暴露出来了：按键经常失灵且打字卡顿，只不过不是必现。考虑到这款键盘当时是发烧友制作，并不是成熟的产品，质量问题还勉强说的过去。只是现在摸起来还是比较粗糙的，不过最近的产品看评价不错，多半是从手感上来打的分。
@@ -20,7 +41,8 @@ FILCO Majestouch Convertible 2 Tenkeyless (Cherry MX Red) 这款键盘是我在�
 这款键盘本不是为 Mac 设计的，这一点从其自带的 Windows 键就能看得出来。不过得益于 Karabiner-Elements, 我们能很方便的在将 Command 和 Option 对掉 (图中 Alt 键和 Windows 键盘对换了)
 我手中的这把是红轴的，理论上是樱桃轴体中比较轻的一款。但是在尝试过静电容之后，红轴对我来说在长时间的编码之后还是相对重了一些。F区以及方向键的隔离能够避免误触的情况，也让它显得大了一些。但是随着我入了一个 Magic Trackpad 之后，我变得越来越懒了。我在工作时两只手腕完全不想动，写代码时能用 Vim 的地方用 Vim，不行就各种快捷键，最坏的情况才把手向下移去用 Magic Trackpad. 而且用 Vim 时左小指频繁地去按 Control 键，时间久了越来越累。这让我转向它处另寻键盘。
 这款键盘本身带了 Caps Lock 和 Control 的替换键帽，并且能够通过背面的 DIP 设置将其两者交换来达到 HHKB 的键位效果。
-2022.2.16 注</description></item><item><title>谈谈我理解的 Raft</title><link>/article/2021/11/raft-talk/</link><pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate><guid>/article/2021/11/raft-talk/</guid><description>自几年前偶然得知 Raft 之后，便粗略了解了 Raft, Paxos, 共识（一致性）这些概念。当时的想法是：这些算法听起来就挺装逼的，赶紧去看看咋回事。等到认真一看 Raft 论文，20页，太多了还是算了吧。 等到过了几天，又发现了 Raft 官网有个动画，还挺易懂的，又简单看了看，明白了，可以出去装逼了。 再过几天一回忆，好像啥也没记住呢？虽然张无忌学太极拳也啥也没记住，但至少人家打出来了，咱也得找机会练练。这会儿又找到了 MIT 6.824, 正好赶上新学期开课了，跟着学吧。 没等学两天，一到 lab 就懒得做，Go 看不懂啊，又学了几天 Go。学完了感觉啥都会了，但是又啥也不会。还是先去找实习吧。
+2022.2.16 注
+HHKB Professional Hybrid (PD-KB800BN) 22年春节后，趁着一大批年会奖品流出，我赶紧入了一款双模 HHKB.</description></item><item><title>谈谈我理解的 Raft</title><link>/article/2021/11/raft-talk/</link><pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate><guid>/article/2021/11/raft-talk/</guid><description>自几年前偶然得知 Raft 之后，便粗略了解了 Raft, Paxos, 共识（一致性）这些概念。当时的想法是：这些算法听起来就挺装逼的，赶紧去看看咋回事。等到认真一看 Raft 论文，20页，太多了还是算了吧。 等到过了几天，又发现了 Raft 官网有个动画，还挺易懂的，又简单看了看，明白了，可以出去装逼了。 再过几天一回忆，好像啥也没记住呢？虽然张无忌学太极拳也啥也没记住，但至少人家打出来了，咱也得找机会练练。这会儿又找到了 MIT 6.824, 正好赶上新学期开课了，跟着学吧。 没等学两天，一到 lab 就懒得做，Go 看不懂啊，又学了几天 Go。学完了感觉啥都会了，但是又啥也不会。还是先去找实习吧。
 前年快写毕业论文的时候，附带个翻译英文文献的任务，又到了装逼的时候了，我就直接在 arXiv 上找了篇 Raft 和 Paxos 对比 的论文翻译了下，由于当时懒得排版，等到去年年底才扔到博客上。
 论文翻译完，又感觉啥也没记住。但是快要去上班了，又没时间研究了，上了一年班之后又找来了 Martin Kleppmann 的公开课来看，没几天就看完了，当时看完觉得啥都懂了，现在回忆起来只记住了拜占庭那些东西，又联想到凯撒、庞贝&amp;hellip;又联想远了&amp;hellip;
 从去年7月入职以来，搞了本影印的 DDIA 来看。看书么，必须得英文原文，不然咋装逼啊是不。按照每天一页的进度终于把这书看完了（其实一周200页，然后歇半年）。看到后面又提到共识机制，觉得有必要再重新捡起来 Raft 论文再读一下了。
