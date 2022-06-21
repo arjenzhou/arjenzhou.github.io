@@ -1,5 +1,5 @@
 ---
-title: Bitcoin, Blockchain
+title: Bitcoin, Blockchain, Ethereum
 date: '2022-06-21'
 categories: 
     - bitcoin
@@ -130,3 +130,141 @@ Hashcash 解决这些问题的手段是让攻击方付出一些计算资源的�
 1. 生成铸币交易，并与其他所有准备打包进区块的交易组成区块，通过 Merkle 树算法生成 Merkle 根哈希；
 2. 把 Merkle 根哈希及其他相关字段组装成区块头，将区块头的80字节数据作为工作量证明的输入；
 3. 不停地变更区块头中的随机数 nonce，并对每次变更后的区块头做双重 SHA256 运算，将结果值与当前网络的目标难度做比对，如果满足难度条件，则解题成功，工作量证明完成。该矿工获得记账权，生成新区块并广播到全网。
+
+# 以太坊
+比特币脚本语言包含许多操作，但都故意限定为一种重要的方式——没有循环或者复杂流控制功能以外的其他条件的流控制。这样就保证了脚本语言的图灵非完备性，这意味着脚本的复杂性有限，交易可执行的次数也可预见。脚本并不是一种通用语言，施加的这些限制确保该语言不被用于创造无限循环或其它类型的逻辑炸弹，这样的炸弹可以植入在一笔交易中，通过引起拒绝服务的方式攻击比特币网络。受限制的语言能防止交易激活机制被人当作薄弱环节而加以利用。
+
+## 智能合约
+智能合约是一个计算机层面的交易协议，用于执行一系列的合约项。合约旨在满足一些常见的合约条件。在以太坊中，**智能合约是一个运行在以太坊链上的一个程序**。 它是位于以太坊区块链上一个特定地址的一系列代码（函数）和数据（状态）。
+{{< figure src="https://s2.loli.net/2022/06/21/hqDX9eRj4IACKHv.png" title="EVM">}}
+
+虽然以太坊有自己的本机加密货币 (ETH)，但与 BTC 遵循几乎完全相同的直观规则，但它也支持更强大的功能：智能合约。 对于此更复杂的功能，需要一个更复杂的类比：以太坊不是分布式账本，而是**分布式状态机**。以太坊的状态是一个大型数据结构，它不仅保存所有帐户和余额，而且还保存一个机器状态，它可以根据预定义的一组规则在不同的区块之间进行更改，并且可以执行任意的机器代码。 在区块中更改状态的具体规则由 EVM 定义。
+
+```solidity
+pragma solidity 0.8.7;
+
+contract VendingMachine {
+
+    // Declare state variables of the contract
+    address public owner;
+    mapping (address => uint) public cupcakeBalances;
+
+    // When 'VendingMachine' contract is deployed:
+    // 1. set the deploying address as the owner of the contract
+    // 2. set the deployed smart contract's cupcake balance to 100
+    constructor() {
+        owner = msg.sender;
+        cupcakeBalances[address(this)] = 100;
+    }
+
+    // Allow the owner to increase the smart contract's cupcake balance
+    function refill(uint amount) public {
+        require(msg.sender == owner, "Only the owner can refill.");
+        cupcakeBalances[address(this)] += amount;
+    }
+
+    // Allow anyone to purchase cupcakes
+    function purchase(uint amount) public payable {
+        require(msg.value >= amount * 1 ether, "You must pay at least 1 ETH per cupcake");
+        require(cupcakeBalances[address(this)] >= amount, "Not enough cupcakes in stock to complete this purchase");
+        cupcakeBalances[address(this)] -= amount;
+        cupcakeBalances[msg.sender] += amount;
+    }
+}
+```
+*自动贩卖机*
+### Decentralized Application
+去中心化应用 (DApp) 是在去中心化网络上构建的应用程序，结合了智能合约和前端用户界面。
+
+DApp是去中心化应用程式，为用户提供功能和可用的前端。当智能合约、加密货币、区块链和应用程序结合在一起时，结果就是一个 DApp。DApp 与我们熟悉的手机应用程序非常相似，但存在一些关键差异。由于 DApp 与以太坊等区块链网络相关联，因此数据存储在区块链网络中的计算机上。这意味没有任何个人或团体控制 DApp。 
+
+## Web3.0
+就以太坊而言，Web3 指的是在区块链上运行的去中心化应用。 任何用户都可以参与以太坊上的这些应用，个人数据却不会被出卖。
+{{< figure src="https://s2.loli.net/2022/06/21/P6DhqW9nNbf8cCJ.png" title="Web3.0">}}
+
+Web 3.0基于区块链技术的发展，作为资产的数字内容发生了全方面的转变：平台不再是由某个中心化的公司管理，它变成了分布式的自组织（DAO），治理依靠社区投票；包括账号、钱包、道具、数字资产的所有权、控制权是用户的；无处不在的激励系统，让人们的网络行为更具经济理性。**数字内容由用户创造、用户所有、用户控制、协议分配。**
+
+### DeFi
+DeFi 是金融产品和服务的统称，任何可以使用以太坊（具有互联网连接）的人都可以访问这些产品和服务。 有了 DeFi，市场始终开放，没有集中管理机构可以阻止付款或拒绝访问任何内容。 以前有可能出现人为错误的缓慢服务，替代为由任何人都可以检查和审查的代码来处理，变得自动和安全。
+
+DeFi 使用加密货币和智能合约提供服务，无需中介。 在现代金融体系下，金融机构充当交易的担保人。 因为您的资产通过这些机构流通，从而为这些机构赋予了巨大的权力。 世界上还有数十亿人甚至无法使用银行账户。
+
+在 DeFi，智能合约取代了交易中的金融机构。 智能合约是一种以太坊帐户，可以持有资金，并可以根据某些条件发送/退还资金。 智能合约上线时，没有人可以改变其有效期，它会始终按程序运行。
+
+#### 借贷
+去中心化借贷无需任何一方表明自己的身份即可进行。 但是，借款人必须提供抵押品，如果他们的贷款没有偿还，贷款人将自动获得抵押品。 有的贷款人甚至接受 NFT 作为抵押品。
+
+#### 融资
+二次方募资确保获得最多资金的项目是那些具有最独特需求的项目。 换句话说，就是那些能够改善大多数人生活的项目。
+{{< figure src="https://s2.loli.net/2022/06/21/HfpYgl5jTaES921.png" title="Clean Air Task Force">}}
+
+其运作方式如下：
+1. 有一个相应的捐助资金库。
+2. 开始一轮公共融资。
+3. 人们可以通过捐资来表明对一个项目的需求。
+4. 一旦这轮结束，匹配池的资金就会分配给项目。那些需求最独特的项目会从匹配池中获得最高金额。
+
+#### 无损彩票
+Pool Together 是这类项目中的首要代表。它成立于2019年9月，基于以太坊搭建，可定义为一种“无损彩票”，即哪怕玩家结局未中奖，也能收到本金返还而不必承受损失。以Pool Together 目前的 DAI 池子为例，一个奖励周期为一周，期间玩家们将资金（DAI）共同存入智能合约奖池，并获得对应数量的彩票（1DAI=1彩票）。在这一周内，PoolTogether 会将资金存放到借贷协议 Compound 上以赚取利息，这些利息将组成周末开奖时某一位随机获胜者的奖金。
+
+{{< figure src="https://s2.loli.net/2022/06/21/tza7bs8ENcxi5kH.png" title="PoolTogether">}}
+
+### NFT
+NFT (Non-fungible tokens) ，即非同质化代币。介绍非同质化代币之前，先了解什么是同质化代币。
+
+#### 同质化代币
+同质化的加密代币遵循相同的同质化协议，这意味着这些同质化的代币可以进行交易置换。
+就像是在一个游乐场，我们都需要把现金换成游戏币才能用这些游戏币去使用各种设施，你我的游戏币可以自由交换，因为我们两个的游戏币本质是相同的，我们交换时只会产生数量的变化，而质没有变。在区块链上，这些可置换的加密货币被称为同质化货币。
+
+这些同质化货币具有一个特性——他们可以与其他基于相同协议的代币交换。比较流行的有以太坊的 ERC-20 协议。ERC-20 是较早的代币规格协议，若有两个代币都在以太坊平台上以 [ERC-20](https://ethereum.org/en/developers/docs/standards/tokens/erc-20/) 协议发行，那这两个代币之间就可以自由置换。
+
+{{< figure src="https://s2.loli.net/2022/06/22/DN3hPlVwHBA2GrM.png" title="苞米币，发行量10,000,000" link="https://ropsten.etherscan.io/token/0xb6eaefeaf86792bb97d1e2b4b27f1ba9e3512151">}}
+
+```solidity
+function name() public view returns (string)
+function symbol() public view returns (string)
+function decimals() public view returns (uint8)
+function totalSupply() public view returns (uint256)
+function balanceOf(address _owner) public view returns (uint256 balance)
+function transfer(address _to, uint256 _value) public returns (bool success)
+function transferFrom(address _from, address _to, uint256 _value) public returns (bool success)
+function approve(address _spender, uint256 _value) public returns (bool success)
+function allowance(address _owner, address _spender) public view returns (uint256 remaining)
+
+event Transfer(address indexed _from, address indexed _to, uint256 _value)
+event Approval(address indexed _owner, address indexed _spender, uint256 _value)
+```
+*ERC-20 规范中需要实现的函数和事件*
+
+同质化代币的另一个特性是它们的可分割性，意思是他们可以被分为最小单位来进行交换。就好比我们国家的法定货币最小单位是“分”，而比特币可以被分到最小单位satoshi(聪）（1聪=0.00000001比特币）。
+
+#### 非同质化代币
+NFT 是我们用以代表独特物品所有权的代币。 NFT 让我们把诸如艺术品、收藏品、甚至房地产等物品代币化。 他们一次只有一个正式主人，并且受到以太坊区块链的保护 - 没有人可以修改所有权记录或者根据现有的 NFT 复制粘贴一份新的。
+{{< figure src="https://s2.loli.net/2022/06/21/DOtbrfpnEkUP2T6.jpg" title="我的第一个新版链上的 NFT">}}
+
+NFT 不同于 DAI 或 LINK 等 ERC-20 代币，因为每个代币都完全独一无二、不可分割。 NFT 支持分配或声明任何独特数字数据的所有权，可通过使用以太坊的区块链作为公共账本进行追踪。 NFT 由代表数字或非数字资产的数字对象铸成。
+
+NFT 一次只能有一个所有者。 通过唯一的 ID 和其他代币无法复制的元数据管理所有权。 NFT 通过智能合约铸造，智能合约分配 NFT 的所有权并管理它们的可转让性。 有人创建或铸造 NFT 时，他们会执行存储在符合不同标准的智能合约中的代码，如 ERC-721。
+
+```solidity
+function balanceOf(address _owner) external view returns (uint256);
+function ownerOf(uint256 _tokenId) external view returns (address);
+function safeTransferFrom(address _from, address _to, uint256 _tokenId, bytes data) external payable;
+function safeTransferFrom(address _from, address _to, uint256 _tokenId) external payable;
+function transferFrom(address _from, address _to, uint256 _tokenId) external payable;
+function approve(address _approved, uint256 _tokenId) external payable;
+function setApprovalForAll(address _operator, bool _approved) external;
+function getApproved(uint256 _tokenId) external view returns (address);
+function isApprovedForAll(address _owner, address _operator) external view returns (bool);
+
+event Transfer(address indexed _from, address indexed _to, uint256 indexed _tokenId);
+event Approval(address indexed _owner, address indexed _approved, uint256 indexed _tokenId);
+event ApprovalForAll(address indexed _owner, address indexed _operator, bool _approved);
+```
+*ERC-721 规范中需要实现的函数和事件*
+
+## 更绿色的以太坊
+
+以太坊目前正在经历一系列升级，它将用[权益质押](https://ethereum.org/zh/staking/)取代 PoW。这将移除作为安全机制的算力，并将以太坊的碳足迹减少约99.95%。在这个世界上，质押者投入资金而不是算力来确保网络安全。以太坊的能源消耗将变为一台家用电脑的运行成本乘以网络中的节点数量。 如果网络中有10,000个节点，家用计算机的运行成本约为每年525千瓦时。 整个网络每年需要5,250,000千瓦时。
+
+100,000 次 Visa 交易使用的能量为149千瓦时。 在 PoS 中，相同数量的交易会消耗17.4千瓦时的能量，约占总能量的11%。
