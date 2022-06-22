@@ -266,10 +266,10 @@ event ApprovalForAll(address indexed _owner, address indexed _operator, bool _ap
 
 对于新手来说，刚了解 NFT 一定会被各种有如黑话般的术语弄得心慌意乱，由于 NFT 风潮最早起自国外，所以这些专有名词大多是英文，有些是沿袭自加密货币领域，或是借代现实世界的名词去表示虚拟的事物。
 
-铸造 —— 通过智能合约发行一个 NFT
-销毁 —— 某些项目方允许持有者销毁手中的 NFT
-Drop —— NFT 开放购买的那一刻
-AirDrop —— 免费发放 NFT 到用户的钱包当作奖励
+铸造 —— 通过智能合约发行一个 NFT  
+销毁 —— 某些项目方允许持有者销毁手中的 NFT  
+Drop —— NFT 开放购买的那一刻  
+AirDrop —— 免费发放 NFT 到用户的钱包当作奖励  
 白名单 —— 拥有优先购买的权利
 
 ## PoS
