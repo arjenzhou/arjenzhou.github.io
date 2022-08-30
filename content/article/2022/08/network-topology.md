@@ -46,6 +46,9 @@ categories:
 过了一段时间我发现了一个更方便的方案，参考《[折腾PS5直接在B站直播](https://www.chiphell.com/thread-2399569-1-1.html)》。搞成了之后，不但能直播还能看弹幕了。
 {{< figure src="https://s2.loli.net/2022/08/30/VOTufek5iItRzxL.png" title="推流成功后会有一条记录的，懒得弄了">}}
 
+## 问题
+这种方式有一个致命的问题：由于 UU 加速器有一层 NAT（无论是插件还是硬件），所以开加速器是无法直播的，也许是我功力不够深，没法解决～
+
 ## 后记
 本来想写一篇比较详细的文章来介绍一下来着，但是由于时间太久了，当初折腾的细节都忘得差不多了。不过参考本文引用到的文章，自己再多折腾一下问题应该也不大。到现在为止最坑爹的问题就是我把 ROS 的登录密码忘掉了……不过善用 PVE 里面的 snapshot 很方便回滚。
 （其实今天我想起来写这篇文章，是因为打算在主机里面再装一个 Windows 玩云顶之弈）[PVE安装Windows 11虚拟机 step by step](https://www.gordon2000.com/2021/10/pvewindows-11-step-by-step.html)
