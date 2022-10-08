@@ -3,3 +3,4 @@ master.pub
 public/
 resources/
 dump.rdb
+.hugo_build.lock

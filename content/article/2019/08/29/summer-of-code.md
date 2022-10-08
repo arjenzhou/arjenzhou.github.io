@@ -2,7 +2,7 @@
 title: Open Source and I - After Alibaba Summer of Code
 date: '2019-08-29'
 categories: 
-    - Summary
+    - feeling
 ---
 > 关于阿里巴巴编程之夏的介绍可以参考 AliOS-things 同学的文章
 [https://zhuanlan.zhihu.com/p/79863308](https://zhuanlan.zhihu.com/p/79863308)
