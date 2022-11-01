@@ -38,6 +38,6 @@ categories:
 从硬件上来说，PS5 的自适应手柄是一绝；从游戏阵容上来讲 PS5 也比 Xbox 更强。但是发售一年多了，除了宇宙机器人，还没看到完全发挥手柄机能的游戏。
 
 ## 总结
-NS 适合外出或者聚会游玩；Xbox 得益于 XGP 能够体验各种游戏；不过作为家用游戏机，我还是推荐女朋友送的 PS5
+NS 适合外出或者聚会游玩；Xbox 得益于 XGP 能够体验各种游戏；不过作为家用游戏机，我还是推荐 PS5。
 
 {{< figure src="https://s2.loli.net/2022/05/16/V9oW2JBKkMCLtAp.jpg" title="consoles">}}
