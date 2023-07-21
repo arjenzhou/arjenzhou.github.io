@@ -181,4 +181,4 @@ jobs:
 ```
 
 
-如此，在每次创建一个 relase 时，该流水线都会自动在 GitHub Packages 和 Maven Central 进行发布。（中央仓库的 release 仍然需要手动 Close and Relase）
+如此，在每次创建一个 release 时，该流水线都会自动在 GitHub Packages 和 Maven Central 进行发布。（中央仓库的 release 仍然需要手动 Close and Relase）
