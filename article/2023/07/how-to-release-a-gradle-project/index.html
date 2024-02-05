@@ -1,4 +1,5 @@
-<!doctype html><html><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><title>将 Gradle 构建的 Java 产物发布到 Maven 中央仓库和 GitHub Packages - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="日常开发中经常会抽象出一些常用的工具代码，这些代码可以作为三方包发布到中央仓库，在开一个新项目的时候直接引进来使用。
+<!doctype html><html><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><title>将 Gradle 构建的 Java 产物发布到 Maven 中央仓库和 GitHub Packages - arjenzhou</title><meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="日常开发中经常会抽象出一些常用的工具代码，这些代码可以作为三方包发布到中央仓库，在开一个新项目的时候直接引进来使用。
 除中央仓库之外，GitHub 也为开源项目提供了免费的 GitHub Packages 作为托管这些产物的平台。
 所以本文会介绍一个将使用 Gradle 构建的 Java 项目产物，托管到 Maven 中央仓库和 GitHub Packages 的方案。
 撰写本文时的环境如下：
@@ -16,9 +17,7 @@
 撰写本文时的环境如下：
 依赖 版本 Gradle 8.2.1 Java java version &ldquo;17.0.7&rdquo; 2023-04-18 LTS commit 35256125ba7f3b0ba131b8721775576c0936c3a0 更严格的 Maven Central 对于 Release 发布来说，Maven 中央仓库对发布产物有着更严苛的要求。
 需要对每个产物进行合法性校验 每个产物需要上传 PGP 加密文件 *.asc GPG 的公钥需要公网可见 POM 中需要包含项目的名称、描述、地址、协议、开发者信息、仓库信息等 Maven Central 区分 snapshot 和 release 的发布地址 Maven Central 需要在 Nexus Repository Manager 上管理 release 产物 这里的 GPG 和 PGP 并不是 typo
-所以，想要将代码发布到中央仓库的前提就清楚了（GitHub Packages 的前提更少）："><link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css><link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)"><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script>
-<script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script>
-<script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script></head><body><div class=content><header><div class=main><a href=/>arjenzhou</a></div><nav><a href=/article>Article</a>
+所以，想要将代码发布到中央仓库的前提就清楚了（GitHub Packages 的前提更少）："><link href=/css/fonts.b685ac6f654695232de7b82a9143a46f9e049c8e3af3a21d9737b01f4be211d1.css rel=stylesheet><link rel=stylesheet type=text/css media=screen href=/css/main.39ebaad9fc9f12a7ee415682ebf69793198eb40de807ad546a08fe9ad5e51438.css><link id=darkModeStyle rel=stylesheet type=text/css href=/css/dark.726cd11ca6eb7c4f7d48eb420354f814e5c1b94281aaf8fd0511c1319f7f78a4.css media="(prefers-color-scheme: dark)"><link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script><script defer src=/katex/contrib/auto-render.js onload=renderMathInElement(document.body)></script><script src=https://unpkg.com/mermaid@8.8.1/dist/mermaid.min.js></script></head><body><div class=content><header><div class=main><a href=/>arjenzhou</a></div><nav><a href=/article>Article</a>
 <a href=/translation>Translation</a>
 <a href=/reproduction>Reproduction</a>
 <a href=/categories>Category</a>
@@ -104,4 +103,4 @@ GPG 文件无法以文本的形式添加进去，所以通过 encode 再 decode 
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>run</span>: <span style=color:#ae81ff>base64 -d ~/.gradle/secring.gpg.base64 &gt; ~/.gradle/secring.gpg</span>
 </span></span><span style=display:flex><span>      - <span style=color:#f92672>run</span>: <span style=color:#ae81ff>gradle publish -Psigning.keyId=${{secrets.GPG_KEYID}} -Psigning.password=${{secrets.GPG_PASSWORD}} -Psigning.secretKeyRingFile=$(echo ~/.gradle/secring.gpg)</span>
 </span></span></code></pre></div><p>如此，在每次创建一个 release 时，该流水线都会自动在 GitHub Packages 和 Maven Central 进行发布。（中央仓库的 release 仍然需要手动 Close and Relase）</p></section><div class=post-tags></div></article><h1>Comments:</h1><div id=cusdis_thread data-host=https://cusdis.com data-app-id=71c1c07d-0104-4d23-9cbc-827c46070d54 data-page-id=03fb692a7de6ab2d26ae9faacafc214b data-page-url=/article/2023/07/how-to-release-a-gradle-project/ data-page-title="将 Gradle 构建的 Java 产物发布到 Maven 中央仓库和 GitHub Packages"></div><script async defer src=https://cusdis.com/js/cusdis.es.js></script></main><footer><hr>⚡️
-2023 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></footer></div></body></html>
+2024 <a href=https://github.com/athul/archie>Archie Theme</a> | Built with <a href=https://gohugo.io>Hugo</a></footer></div></body></html>

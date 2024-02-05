@@ -3,7 +3,7 @@
 听相声熬死同行那一段，似乎在行业内资历/年龄大便是绝对正确。同时联想起在一个表演节目上陈道明与同为评委的青年人对集体主义和个人主义的的不同观点，支持集体主义的陈道明获得了许多人支持，另一个青年人“无力反驳”。当然，抛开立场和观点来说，任何人在行业巨擎之前，哪怕是有独立的相反观点，谁又能与其客观争论下去呢？这样的辩论仿佛变得毫无意义。
 到微博上看，支持LGBT的人仿佛正义的使者，对所有持相反观点的人恶语相向。“把无知当个性，把嘴臭当幽默。”凡事在政治正确的面前，一切理性和道德早已抛开。就事论事变成了满地打滚，自知理亏便撒娇打泼。“后浪们”在互联网上的素质展现的淋漓尽致，纵观整个中文互联网环境，凡是符合其利益，哪怕是违法行为也要被其包装称“英雄”。这一件事在之前在v2ex上就百度网盘事件上的讨论便能够看出。没等说两句话，小粉红、走资派、美分、公知的帽子便扣得飞起。
 如果非要给我贴标签的话，大概会给我贴一个歪屁股的奋斗逼。但谁又能想到我有多讨厌华为就有多喜欢战狼呢？</description></item><item><title>Week 16, 2020</title><link>/weekly/2020/04/19/week-16-2020/</link><pubDate>Sun, 19 Apr 2020 00:00:00 +0000</pubDate><guid>/weekly/2020/04/19/week-16-2020/</guid><description>中文在计算机上的缺陷太大了，但是又不能完全舍弃中文输入法，所以我一直在寻找合适的输入法方式。非拉丁语系中，韩语的写法、读法及其相似：
-곤란 골란 kollan 困難 而且重码率低。
+곤란	골란	kollan	困難 而且重码率低。
 日韩两国在输入汉语时会使用郑码，因此也作为国际通用码。台湾使用注音输入法，是因为在台湾注音符号得到很大推广，就像在大陆的拼音一样。此外还有仓颉、双拼的输入形式。
 而常用的全拼输入法，重码率最高，输入字母数最多。但因为拼音在大陆的推广程度最高，使用人数最多（我爷爷还是后来自学的）。程序员群体有一部分选择了双拼的输入形式，但重码率达不到最低。我想要的是重码率最低，不需要选词，接近于英文输入的输入形式。但是郑码在平台兼容性上不如五笔，所以暂时选择五笔输入。多数字词不用选择直接上屏，爽！</description></item><item><title>Week 10, 2020</title><link>/weekly/2020/03/08/week-10-2020/</link><pubDate>Sun, 08 Mar 2020 00:00:00 +0000</pubDate><guid>/weekly/2020/03/08/week-10-2020/</guid><description>I am in a dilemma at learning rust or golang, which I know a litte for the sake of labs. Matering in a specific language or, broading my skill stack is an equivalent puzzle. I have too little vigor to dig into much knowledge, like what Chuang Tzu said,
 &amp;ldquo;吾生也有涯，而知也无涯。以有涯隨无涯，殆已；已而為知者，殆而已矣。為善无近名，為惡無近刑。緣督以為經，可以保身，可以全生，可以養親，可以盡年^[/reproduction/2020/03/the-fundamentals-for-the-cultivation-of-life/]。&amp;rdquo;
