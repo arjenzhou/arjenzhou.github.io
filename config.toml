@@ -19,17 +19,21 @@ footnotereturnlinkcontents = "↩"
     url = "/article"
     weight = 2
 [[menu.main]]
+    name = "Notion"
+    url = "https://arjenzhouhz.notion.site"
+    weight = 3
+[[menu.main]]
     name = "Translation"
     url = "/translation"
-    weight = 3
+    weight = 4
 [[menu.main]]
     name = "Reproduction"
     url = "/reproduction"
-    weight = 4
+    weight = 5
 [[menu.main]]
     name = "Category"
     url = "/categories"
-    weight = 5
+    weight = 6
 [[menu.main]]
     name = "Subscribe"
     url = "/feed.xml"
