@@ -19,8 +19,8 @@ footnotereturnlinkcontents = "↩"
     url = "/article"
     weight = 2
 [[menu.main]]
-    name = "Notion"
-    url = "https://arjenzhouhz.notion.site"
+    name = "Lifestyle"
+    url = "https://arjenzhouhz.notion.site/Lifestyle-8fb50bd672af4d7fa64a406e586a8c4b?pvs=74"
     weight = 3
 [[menu.main]]
     name = "Translation"
