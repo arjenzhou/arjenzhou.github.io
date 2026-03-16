@@ -51,6 +51,11 @@ footnotereturnlinkcontents = "↩"
   pygmentsCodeFences       = true
   pygmentsStyle            = "autumn"
 
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
 [outputs]
 home = [ "RSS", "HTML"]
 
