@@ -19,16 +19,20 @@ hr {
   border-top: 3px dotted blue;
 }
 code {
-  background-color: lightblue;
-  color: black;
-  text-decoration: bold;
-  padding: 0.1em 0.2em;
+  background-color: rgba(80, 250, 123, 0.12);
+  border: 1px solid rgba(80, 250, 123, 0.28);
+  border-radius: 0.35rem;
+  color: #9ef7b8;
+  padding: 0.12em 0.35em;
 }
 pre {
-  background-color: #272822;
+  background-color: #16181d;
+  border: 1px solid #2b313c;
+  border-radius: 0.85rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
   line-height: 1.4;
   overflow-x: auto;
-  padding: 1em;
+  padding: 1.1rem 1.15rem;
 }
 blockquote {
   border-color: blue;
@@ -102,7 +106,35 @@ a:hover {
 }
 
 .highlight {
-  background-color: #333;
+  background-color: transparent;
+  border-radius: 0.85rem;
+  margin: 1.25rem 0;
+  overflow: hidden;
+}
+
+.highlight pre {
+  background-color: #16181d !important;
+  border: 1px solid #2b313c;
+  margin: 0;
+  padding: 2.2rem 1.15rem 1.15rem;
+}
+
+.highlight pre code {
+  background: transparent;
+  border: 0;
+  color: #e7edf6;
+}
+
+.highlight code > span {
+  line-height: 1.6;
+}
+
+.highlight code > span > span {
+  display: block;
+}
+
+.highlight code > span > span:empty {
+  min-height: 1.2em;
 }
 .soc:hover {
   color: black;

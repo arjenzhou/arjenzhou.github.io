@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI on arjenzhou</title><link>/categories/ai/</link><description>Recent content in AI on arjenzhou</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="/categories/ai/feed.xml" rel="self" type="application/rss+xml"/><item><title>科学养虾的第一步：把它关到笼子里</title><link>/article/2026/scientific-shrimp-keeping-macos-user-isolation/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>/article/2026/scientific-shrimp-keeping-macos-user-isolation/</guid><description>&lt;p&gt;&lt;img src="https://i.imgur.com/OA7hbkY.png" alt="赛博机械虾"&gt;&lt;/p&gt;
+&lt;h1 id="01-引言mac-mini-成了大虾缸"&gt;01. 引言：Mac mini 成了“大虾缸”&lt;/h1&gt;
+&lt;p&gt;最近 OpenClaw 的火爆程度堪比当年的酱香拿铁，圈内玩家人手一台 Mac mini，主打一个 24 小时在线“养虾”。&lt;/p&gt;
+&lt;p&gt;但随着热度上升，安全风险也浮出水面。很多玩家为了图省事，直接在自己的主账户下顺手一敲 sudo 运行。你要知道，OpenClaw 作为一个高度联网、且支持第三方插件的程序，直接给它主账号权限，等同于把家里的保险箱钥匙挂在路边电线杆上。万一代码里有个“回声”，你的私有照片、工作文档、浏览器缓存可就全成了“虾粮”。&lt;/p&gt;
+&lt;p&gt;科学养虾的第一法则：权限隔离。 既然要养，就得给它焊个结实的笼子。&lt;/p&gt;
+&lt;h1 id="02-笼子的构造创建隔离用户"&gt;02. 笼子的构造：创建隔离用户&lt;/h1&gt;
+&lt;p&gt;在 macOS 上，最简单有效的“笼子”就是创建一个独立的系统用户。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建隔离组 (Group)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;打开 “系统设置” -&amp;gt; “用户与群组”。&lt;/p&gt;
+&lt;p&gt;点击下方的 “添加群组&amp;hellip;” (Add Group)。&lt;/p&gt;
+&lt;p&gt;将组名设置为 agents。这个组将作为你所有隔离程序的统一“安保边界”。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;创建隔离用户 (User)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在同一页面，点击 “添加用户&amp;hellip;” (Add User)。&lt;/p&gt;
+&lt;p&gt;关键： 在“新用户”类型下拉框中选择 “标准”，千万不要选“管理员”。&lt;/p&gt;
+&lt;p&gt;帐户名填 openclaw。&lt;/p&gt;
+&lt;p&gt;创建完成后，你会发现系统已自动为它准备了一个干净的家目录 /Users/openclaw。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;将用户归类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在列表里找到刚才创建的 agents 组，点击“i”图标（详情）。&lt;/p&gt;
+&lt;p&gt;在成员列表中，勾选上 openclaw。&lt;/p&gt;
+&lt;p&gt;物理隔离：这个用户拥有独立的家目录 /Users/openclaw。你的主目录（如 /Users/&amp;lt;YourUsername&amp;gt;/）对它来说默认是禁区。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/EdYrzcI.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;在终端里，我们不需要切换 GUI 界面，直接通过 su 优雅地“跳”进笼子：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 使用管理员身份切换到 openclaw 环境&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo su - openclaw
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="03-喂虾流程部署中的深水区"&gt;03. 喂虾流程：部署中的“深水区”&lt;/h1&gt;
+&lt;p&gt;在隔离环境里，我们依然追求极致的系统洁癖。&lt;/p&gt;</description></item></channel></rss>

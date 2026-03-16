@@ -1,110 +1,372 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Articles on arjenzhou</title><link>/article/</link><description>Recent content in Articles on arjenzhou</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 20 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="/article/feed.xml" rel="self" type="application/rss+xml"/><item><title>将 Gradle 构建的 Java 产物发布到 Maven 中央仓库和 GitHub Packages</title><link>/article/2023/07/how-to-release-a-gradle-project/</link><pubDate>Thu, 20 Jul 2023 00:00:00 +0000</pubDate><guid>/article/2023/07/how-to-release-a-gradle-project/</guid><description>日常开发中经常会抽象出一些常用的工具代码，这些代码可以作为三方包发布到中央仓库，在开一个新项目的时候直接引进来使用。
-除中央仓库之外，GitHub 也为开源项目提供了免费的 GitHub Packages 作为托管这些产物的平台。
-所以本文会介绍一个将使用 Gradle 构建的 Java 项目产物，托管到 Maven 中央仓库和 GitHub Packages 的方案。
-撰写本文时的环境如下：
-依赖 版本 Gradle 8.2.1 Java java version &amp;ldquo;17.0.7&amp;rdquo; 2023-04-18 LTS commit 35256125ba7f3b0ba131b8721775576c0936c3a0 更严格的 Maven Central 对于 Release 发布来说，Maven 中央仓库对发布产物有着更严苛的要求。
-需要对每个产物进行合法性校验 每个产物需要上传 PGP 加密文件 *.asc GPG 的公钥需要公网可见 POM 中需要包含项目的名称、描述、地址、协议、开发者信息、仓库信息等 Maven Central 区分 snapshot 和 release 的发布地址 Maven Central 需要在 Nexus Repository Manager 上管理 release 产物 这里的 GPG 和 PGP 并不是 typo
-所以，想要将代码发布到中央仓库的前提就清楚了（GitHub Packages 的前提更少）：</description></item><item><title>国庆节</title><link>/article/2022/10/after-national-day/</link><pubDate>Sat, 08 Oct 2022 00:00:00 +0000</pubDate><guid>/article/2022/10/after-national-day/</guid><description>于 2022.10.6
-明天一早就要回杭州，深夜胡言乱语。
-终于迎来了同龄人的第一批婚礼邀请：一个是高中的好兄弟订婚，新娘也是我的高中同学；另一个是大学亦师亦友的学长。我真心地为他们感到高兴。 自从2020年毕业工作以来，一直没机会回东北。和久违的亲人朋友再次团聚让我暂时释去了工作和生活的压力，只是长辈一句很正确的话让我略感压抑：“该是什么时候，就干什么事”。像其他同龄人一样，只是我面对的催婚方式不那么直接罢了。
-回首人生经历过的短短二十四年，似乎每一步都是按照正确的路线成长着：考上重点高中、到一个还算说得过去的大学里读书、毕业后找到一份体面的工作。按照这样的规划，下一步也许就像我的同学和学长一样，和一个合适的人结婚，这是可以预见的。
-我没有埋怨任何人的意思。即使这样的生活是为了自己，但也真切地背叛了自己。按照这样的规划来看：未来明确，质量也说得过去，循规蹈矩下去应该能够安稳度过一生。但每到静下来时总会审视自己的内心：这真的是想要的生活吗？
-我深知不是的。我也想每天呆在家里，和亲人在一起聚会聊天；我也想拿赚来的第一桶金买一辆自己喜欢的车，和好朋友跑到全世界玩；我也想将无聊的业务需求置之不顾，只钻研自己感兴趣的那一亩三分地；我也想把一切抛开，只顾自己的感受……但囿于对“生活”的责任，只能亲手把沉重的枷锁穿戴在自己身上，像一头勤恳的黄牛。
-我不知道其他同龄人是否也有这种压力，但我知道这决不是普世价值。世界上有那么多的人在追求自己的追求，也有那么多人在享受自己的享受。而父辈为下一代的责任在我这一代又陷入了轮回，只能用屈指可数的业务爱好来尝试消解这种无力的感受。
-也许每个小孩都不想要这样的生活吧，当大人真累。</description></item><item><title>我的网络环境</title><link>/article/2022/08/network-topology/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>/article/2022/08/network-topology/</guid><description>背景 故事发生在今年的2月。PS5到手没两天诞生了搞直播的想法，在摸索的过程中发现了《搭建 PS4 本地直播服务器》这篇帖子，于是就冒出了折腾的心思。毕竟花钱买采集卡有点冤大头的感觉。
-之前家里的网络环境比较简单，只需要在 Openwrt 上装一些插件，所以一台在上学时候收的一个矿渣 K2P 就够了。
-矿渣 K2P 后来因为 UU 的插件不够稳定，又搞了一个 UU 加速盒。 垃圾 UU 加速盒 但是如果想搞直播，就得每天在工作电脑上跑一个 docker，太麻烦了。
-于是，我便斥巨资购入了一款 J4125 J4125 遗憾的是，尽管这款主机内置了 MSATA 和 SATA3.0 两款接口，但是没有能力容纳下一个 SATA3.0 的硬盘，所以在我手里变成了这样： 外挂式硬盘，蚌埠住了 软路由 过了半年回过头来看，其实根本没必要来搞一个性能远远溢出的 J4125，因为实际上只会跑几个性能开销很小的虚拟机。
-搞这台小主机的目的是为了装一个 debian 来跑 nginx 拦截 PS5 的流量，而裸装 debian 有点不够划算，于是干脆个装 PVE 来个 all in one。 All in PVE 第一步，先把 ROS 和作为 AC 的 Openwrt 搞好，参考《基于PVE+ROS+LEDE的软路由配置流程》，其中需要注意的是，Openwrt 的安装比较麻烦，需要后挂载。在设备联入网络时，根据网关设置为 ROS 或者 Openwrt，可以区分不同的网络环境实现按需科学上网。
-AP 按照上面引用的文章操作完成后，网络设备可以通过插网线的模式来上网了。但是现在都什么年代了还在用传统上网？所以把 K2P 设置成 AP，参考《OpenWRT 设置桥接交换机模式（AP模式）》，注意设置为交换机模式后就可以当 AP 使用，如果想通过无线连接到 AP 上需要设置客户端。</description></item><item><title>Bitcoin, Blockchain, Ethereum</title><link>/article/2022/06/bitcoin-blockchain-ethereum/</link><pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate><guid>/article/2022/06/bitcoin-blockchain-ethereum/</guid><description>中本聪的愿望 “传统货币最根本的问题在于信任。中央银行必须让人信任它不会让货币贬值，但历史上这种可信度从来都不存在。银行必须让人信任它能管理好钱财，并让这些财富以电子货币形式流通，但银行却用货币来制造信贷泡沫，使得私人财富缩水。”
-1933年4月5日，为了使政府能够再印制更多现金注入市场，罗斯福总统签署了6102号行政命令，要求美国公民以每金衡盎司20.67美元的价格上交黄金，否则可处以10,000美元的罚款，甚至还可判处入狱服刑5至10年，同时也禁止黄金出口海外，以确保美国拥有的黄金不会外流。 Executive Order 6102 罗斯福没收充公美国人的黄金，并以美元交换，然后让美元贬值了40%，强制推高黄金价，目的是让美国的债务贬值，从而对抗大萧条，造成的后果是美国人的财富被洗劫了40%。
-1974 年，福特总统签署了 Public Law 93-373 即“黄金合法化法案”，1975年美国人可以再一次合法拥有黄金。 Satoshi Nakamoto&amp;#39;s Profile P2PFoundation 是中本聪发布比特币白皮书的网站，在这注册必须提供出生日期，中本聪填写的是1975年4月5日。
-电子支付的问题 互联网上的贸易，几乎都需要借助金融机构作为可资信赖的第三方来处理电子支付信息。是这类系统仍然内生性地受制于“基于信用的模式”的弱点：
-无法实现完全不可逆的交易，因为金融机构总是不可避免地会出面协调争端。 金融中介的存在增加交易的成本，并且限制了实际可行的最小交易规模，也限制了日常的小额支付交易。 这些问题在物理现金交易中是不存在的。
-所以需要这样一种电子支付系统，它基于密码学原理而不基于信用，使得任何达成一致的双方，能够直接进行支付，从而不需要第三方中介的参与。
-雅浦岛的故事 雅浦岛是一个金属资源比较匮乏的岛，就算是石灰岩也要去400英里以外的帕劳岛开采。雅浦岛部落里的探险家们开采这些石灰岩，打制成内部中空呈环形的石轮，然后用木筏运回雅浦岛作为货币使用。这些石轮小的直径30多厘米，大的直径有3米多。为了便于运输，有时会往中间插一根粗壮的木柱。开采难度越高，越漂亮，越大的石币价值越高。 雅浦岛的石币 雅浦石币有个很有趣的特点。交易双方在决定了使用多大的石币付费后，如果那个石头太大了，不方便运输，那么卖家只要在买家的石头上做个标记就可以了，这样就付费了。那个标记就说明这个石头已经属于卖家了，而石头仍然躺在买家屋里。 雅浦岛的石币 岛上有一户首富，但没有人见过他家里的石币。他们家拥有的财产是一个巨大的石币，大小只有上上辈人才知道，因为这个石币一直沉睡在海底。这户人家的祖辈和其他人外出开采石灰岩并制成石币，在用木筏拉回家的归途中遭遇了强烈的暴风雨，为了逃命，探险队只好砍掉拉筏的绳子，于是那块巨大的石币沉入了大海。回村后探险队的成员都替他作证，虽然已掉落大海，但大伙都见证了这块石头的去处，所以不会影响它的价值，它的主人仍然可以用它去买东西，就跟把石币运回家存放起来的效果一样。
-比特币和石币 如果雅浦岛首富想要私下使用这笔巨款，比如偷偷跟自己的情人说：我那块大石头送给你了。这次交易是无效的，因为交易没有广播，并没有其他岛民在旁边作证。但如果首富临死前，当着全岛人民的面说，这块大石头就作为遗产给我的大儿子了。那么这笔交易就是有效的，因为其他岛民都做了见证，并集体更新了头脑里的“账簿”。
-假如雅浦岛上的交易越来越多，大家根本记不住这么多交易，所以打算使用比特币：
-石币：大家都知道这个石币的所有人是村民1，那么他可以将其转账给村民2
-比特币：大家都知道这个比特币的所有人是村民1，那么他可以将其转账给村民2
-在传统的交易中，采取的是账户/余额模型。比如银行账户、微信账户，都是基于账户/余额模型。 账户内的余额是作为一个整体存在的。
-而比特币采用的是 UTXO (Unspent Transaction Output) 模型 BTC Transaction 在比特币中，一笔交易的每一条输入和输出实际上都是 UTXO，输入 UTXO 就是以前交易剩下的， 更准确的说是以前交易的输出 UTXO。除了 coinbase 交易（挖矿奖励）没有输入 UTXO 之外，其它交易都有输入和输出，都可以为多个。在比特币中没有余额概念，只有分散到区块链里的 UTXO。
-谁拥有 UTXO 在雅浦岛上，村民之间可以确定这个石币的所有者是谁。而比特币转账实际上是从一个地址被移动到另一个地址，当村民1想花费0.15个比特币时，如何证明自己拥有这个 UTXO，并且其他人无法假冒村民1来花费这个 UTXO 呢？
-比特币的交易创建的输出其实并非一个简单的公钥地址，而是一个脚本。每一个比特币节点会通过同时执行这解锁和锁定脚本（不是当前的锁定脚本，是指上一个交易的锁定脚本）来验证一笔交易，脚本组合结果为真，则为有效交易。 BTC 交易脚本 这个脚本表达的意思是：谁的签名能匹配这个输出地址，钱就支付给谁。
-所有人都可以验证村民1创建的这个新交易是否有效。如果有效，该交易就会被矿工打包进新的区块，从而成为区块链上不可更改的一部分。
-什么是数字签名
-A 给 B 发送消息前，先对消息生成摘要 (digest)，然后 A 使用私钥对摘要进行加密得到签名 (signature)。之后 A 将签名和消息一同发送给 B</description></item><item><title>游戏主机对比： Nintendo Switch, Xbox Series S, PlayStation 5</title><link>/article/2022/05/console-review/</link><pubDate>Mon, 16 May 2022 00:00:00 +0000</pubDate><guid>/article/2022/05/console-review/</guid><description>其实这篇文章在22年2月的时候就应该写了，由于各种原因一直拖到现在，所以本文叙述的时间点为2月。
-我的 Windows 游戏时代 大概在07年小学三、四年级的时候，我到小学同学家第一次玩到了 GTA: VC，这是我第一次正始接触单机游戏（打字游戏除外）。后来又在他家接触了流星蝴蝶剑，和跑跑卡丁车、天龙八部这些网游。同年，也在堂哥那里玩到了 PSP 版的真三国无双。过了一年家里买了电脑之后，便开始了我自己的游戏之路。各种主流游戏都浅尝辄止，但电脑没少折腾：试过各种游戏外挂，也自己做过游戏补丁；那时我的输入和检索能力、“修电脑的能力”就已经呈现了出来，我一直认为这是我走上程序员之路的契机。直到有一天我发现部分境外网站无法登录之前，那是中文互联网的黄金年代，我很怀念它。
-我不是一个资深的主机玩家，工作前我一直用我的“黑金刚”玩游戏，所以我没有资格来评价各个主机，只能凭借自己的体验简单介绍下我的主观感受。初中时，家里的电脑玩英雄联盟最高只能到30帧，注册了一个 Steam 账号却连 DotA2 都进不去，回想当初肯定是被电脑城的人宰了。大学时游戏没少玩，但只是随便玩玩而已。
-我的黑金刚 MSI GE62。GTX965M 的显卡，配上2GB 的显存属实有点拉胯 Nintendo Switch 等到工作第一年，我入手了 NS。到现在也才只有塞尔达传说：旷野之息算是完全通关了。
-我认为 NS 是一个优秀的游戏机，便携性是它最突出的优势，独占/聚会/家庭游戏是它的特长，主机模式下性能略显尴尬。我没有买过 Switch Pro Controller，其自带的 Joy Controller 仅仅能用而已。任天堂第一方的游戏，绝对是 NS 的核心优势。
-Xbox Series S 这一代微软发售了 Xbox Series X (XSX) 和 Xbox Series S (XSS)。XSX 是这一代的旗舰机，理论性能此世代最强；XSS 相对轻便，不过性能好像只有 XSX 的1/4，而且只有数字版。 微软在 PC 和 Console 上推出的 Xbox Game Pass (XGP) 订阅制以周期的形式上架/下架一批游戏，凡是订阅的玩家都可以下载游玩。
-由于没钱，我只买了一台国行 XSS，收益于 XGP 也玩了不少游戏。但是游戏库里合我胃口的游戏比较少，“枪车球”的刻板印象仍然存在。
-从硬件角度来看，XSS 较为轻便，可以直接放在包里背走；手柄说得过去，能够换电池是它的优点。
-PlayStation 5 虽然索尼的名声日益变差，但瘦死的骆驼比马大，独占（首发）游戏质量仍然优秀，最近（2022年5月）也要上架 PlayStation Plus 作为 XGP 的竞品，值得期待。</description></item><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。
-应用场景 从标题中可以看出，ZeroTier 是实现内网穿透的一个手段。简单来说就是能够通过它来实现不同局域网之间的互相访问：在公司局域网能连到家里的网络（不要这么做）
-原理 大致简单了解了一下，局域网中各设备通过互联网与 Zeroier 的“行星服务器”建立 P2P VPN 连接，如果两个设备能够通过 VPN 直连那么就直连，否则通过 ZeroTier 中继。
-简单使用 登录并创建一个 Network 之后，使用 ZeroTier 客户端依据 Network ID 连接到该 Network 并认证后。为该网络分配一个网段，给设备分配 IP 并设置路由规则后就可以使用分配的 IP 互相访问了，是不是很简单？
-注意，将路由器加入 ZeroTier 需要配置防火墙。
-截图举个例子：
-在 IPv4 Auto-Assign 部分，为网络设置 IP 段。 这里我将这个网络设置了 10.242.100.0/24 IP 段。
-设置路由规则 分配 IP 段后要为局域网设置路由规则。
-图中 192.168.6.0/24 是我家里的局域网 IP 段，10.242.100.0/24 是上面 ZeroTier 分配的 IP 段。
-设备连入并点击认证后，为其分配 IP 注意每个设备分配的 IP 要在网段内，一般来说都是自动分配好的。
-测试 在配置完成后，可以在一个设备上通过 ZeroTier 分配的 IP 访问另一个设备的服务（需要注意服务绑定的 IP 是不是 ZeroTier 分配的 IP）</description></item><item><title>键盘对比：NIZ Plum, FILCO 圣手2代, HHKB Professional Hybrid</title><link>/article/2022/02/keyboard-review/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/keyboard-review/</guid><description>之前用的一直是大一刚入学200块买的达尔优的机械键盘，作为刚入学的经常在宿舍打游戏的大学生，这是一款很常见的键盘：RGB，茶轴，104键，要素齐全。
-NIZ Plum mini 84 Pro (35g) 2019年2月，我入手了一副 NIZ Plum mini 84 Pro 35g。
-这款键盘当初是打算在 Mac 上用的，经网友推荐我仔细挑选后选中了这款。上手的第一感受就是软，打字手感特别黏稠、松垮的感觉。“也许这就是静电容”，我心想。用过一段时间发现尤其在789附近的数字区，由于35g实在是太轻了，经常出现误触的情况，一按下去一片数字上屏。后来用附送的增重弹簧给核心区域的键增到45g，这时才刚刚好。让人不得不吐槽的是竟然没有送84个弹簧，而且大键装起来很麻烦。这款键盘的布局还是很合理的，有F区，方向键很紧凑，只是右面一列有点多余，导致经常不好定位回车键。
-用了两年多，这款键盘的缺点逐渐暴露出来了：按键经常失灵且打字卡顿，只不过不是必现。考虑到这款键盘当时是发烧友制作，并不是成熟的产品，质量问题还勉强说的过去。只是现在摸起来还是比较粗糙的，不过最近的产品看评价不错，多半是从手感上来打的分。
-FILCO Majestouch Convertible 2 Tenkeyless (Cherry MX Red) 这款键盘是我在工作之后买的，对它的第一印象就是：好看。奶绿色给人一种草原、牧场、奶牛的感觉。
-这款键盘本不是为 Mac 设计的，这一点从其自带的 Windows 键就能看得出来。不过得益于 Karabiner-Elements, 我们能很方便的在将 Command 和 Option 对掉 (图中 Alt 键和 Windows 键盘对换了)
-我手中的这把是红轴的，理论上是樱桃轴体中比较轻的一款。但是在尝试过静电容之后，红轴对我来说在长时间的编码之后还是相对重了一些。F区以及方向键的隔离能够避免误触的情况，也让它显得大了一些。但是随着我入了一个 Magic Trackpad 之后，我变得越来越懒了。我在工作时两只手腕完全不想动，写代码时能用 Vim 的地方用 Vim，不行就各种快捷键，最坏的情况才把手向下移去用 Magic Trackpad. 而且用 Vim 时左小指频繁地去按 Control 键，时间久了越来越累。这让我转向它处另寻键盘。
-这款键盘本身带了 Caps Lock 和 Control 的替换键帽，并且能够通过背面的 DIP 设置将其两者交换来达到 HHKB 的键位效果。
-2022.2.16 注
-HHKB Professional Hybrid (PD-KB800BN) 22年春节后，趁着一大批年会奖品流出，我赶紧入了一款双模 HHKB.</description></item><item><title>谈谈我理解的 Raft</title><link>/article/2021/11/raft-talk/</link><pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate><guid>/article/2021/11/raft-talk/</guid><description>自几年前偶然得知 Raft 之后，便粗略了解了 Raft, Paxos, 共识（一致性）这些概念。当时的想法是：这些算法听起来就挺装逼的，赶紧去看看咋回事。等到认真一看 Raft 论文，20页，太多了还是算了吧。 等到过了几天，又发现了 Raft 官网有个动画，还挺易懂的，又简单看了看，明白了，可以出去装逼了。 再过几天一回忆，好像啥也没记住呢？虽然张无忌学太极拳也啥也没记住，但至少人家打出来了，咱也得找机会练练。这会儿又找到了 MIT 6.824, 正好赶上新学期开课了，跟着学吧。 没等学两天，一到 lab 就懒得做，Go 看不懂啊，又学了几天 Go。学完了感觉啥都会了，但是又啥也不会。还是先去找实习吧。
-前年快写毕业论文的时候，附带个翻译英文文献的任务，又到了装逼的时候了，我就直接在 arXiv 上找了篇 Raft 和 Paxos 对比 的论文翻译了下，由于当时懒得排版，等到去年年底才扔到博客上。
-论文翻译完，又感觉啥也没记住。但是快要去上班了，又没时间研究了，上了一年班之后又找来了 Martin Kleppmann 的公开课来看，没几天就看完了，当时看完觉得啥都懂了，现在回忆起来只记住了拜占庭那些东西，又联想到凯撒、庞贝&amp;hellip;又联想远了&amp;hellip;
-从去年7月入职以来，搞了本影印的 DDIA 来看。看书么，必须得英文原文，不然咋装逼啊是不。按照每天一页的进度终于把这书看完了（其实一周200页，然后歇半年）。看到后面又提到共识机制，觉得有必要再重新捡起来 Raft 论文再读一下了。
-手中的 Raft 这篇论文实际上时几个月之前在公司的打印机上打印的，并且当时详细地做了注解，但随后没有好好整理。这次又根据上次遗留的问题来作笔记，最后写下了这篇文章表达一下自己的见解。
-前提 Raft 据说是性能相当于 Paxos, 效果相当于 Multi-Paxos 的一个一致性算法，但它更容易理解。
-一致性算法（共识算法）的作用是什么呢？是为了维护一个集群中的节点的数据一致性，但这个数据一致性不要求每个时刻所有节点上的数据都是一样的，而是整个集群对外看起来像是一样的。这就又让人迷惑了，既然你每个节点的数据都有可能不一样，那怎么能看起来是一样的呢？Raft 就采用了一个特别民主的方式，让大家去投票，只要超过半数的节点的数据/状态是一样的，那么这个集群的状态就是这样的。这种 Majority 的思想在很多算法/系统中都被采用。
-既然要超过半数的节点达成一致，那么也就是说至少它们之间要互相交流，不然怎么能达成一致呢？设计过稍微复杂点的系统的人都知道，这个命题一听就很难，n 个节点每两个交流就得 n 的阶乘次了，这题还是让别人做吧。开玩笑，咱是那怂人吗？说上咱就上 (指 Raft)。Raft 简化了达成共识的条件，它描述了一个单 leader 的集群，leader 来决定是否更新到某个状态。这可比多 leader 或者无 leader 的容易理解多了，谁是领导听谁的呗，Majority + leader，在我们这叫民主集中制。
-在 Raft 论文中描述，它将问题简化成了 leader election 和 log replication.</description></item><item><title>Spark Papers</title><link>/article/2020/11/spark-papers/</link><pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate><guid>/article/2020/11/spark-papers/</guid><description>Spark: Cluster Computing with Working Sets MapReduce （下称 MR）任务包含主要五两个步骤：Map、Sort、Combine、Shuffle、 Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。
-由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：
-迭代任务（迭代机器学习算法） 交互式数据分析工具 Spark 提出了 RDD (Resilient Distributed Dataset) 模型来处理此类问题。RDD 是一个被分布在一组机器上的只读的对象集，当一个分区丢失时 RDD 能够很快通过重新计算的方式来重建。RDD 能够被保存在内存中，并以类似 MR 的 并行操作方式 得到重用。RDD 通过一种叫做 血统（lineage） 的概念实现容错：如果 RDD 的一部分丢失了，那么 RDD 有足够的信息（该 RDD 是怎么从其他 RDD 计算出来的）来重建该部分。
-在 Spark 中，RDD 以 Scala 对象的形式存在。并且 RDD 能够通过以下几种形式构造出来：
-来自共享文件系统（如 HDFS）中的一个文件 并行化（parallelizing） 一个 Scala 集合 转化（transforming）于一个已经存在的 RDD 改变一个已存在 RDD 的持久性（persistence） cache：将 RDD 暂存于内存以便稍后重用 save：将 RDD 存于类似 HDFS 的分布式文件系统 对于 cache 这种情况来说，如果集群中没有足够的内存来缓存一个数据集（dataset）的所有部分，那么 Spark 会在使用它们时重新计算。</description></item><item><title>Google File System</title><link>/article/2020/03/google-file-system/</link><pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate><guid>/article/2020/03/google-file-system/</guid><description>GFS 是谷歌开发的分布式文件系统，也是上一篇 MapReduce 最终输出文件的存放位置。
-设计概述 以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。
-假设 该系统在以下前提设计实现：
-该系统由许多机器组成，这些机器经常会出错。所以系统必须持续检测以便能够检查、容忍错误，并且能够恢复回来。 该系统支持小型文件，但是不会对其作出优化。 关注性能的应用经常对一批读操作进行排序，以便提高性能。 在文件写入之后，很少会再次修改。 系统必须高效地处理好并发问题。 高且平稳的带宽比低延迟重要。 接口 GFS 提供了和文件系统类似的接口。文件以文件路径名严格组织。除了传统的 CRUD 之外，GFS 还提供了快照和 record append。快照能高效地复制一个文件或目录，record append 用来解决多个客户端的并发问题。
-架构 一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。 文件通常被分为固定大小的 chunk 。在 chunk 被创建时，master 分配给它一个64位全局常量 chunk handle 。 chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。
-master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。 client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。 client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。</description></item><item><title>Google MapReduce</title><link>/article/2020/03/google-map-reduce/</link><pubDate>Fri, 20 Mar 2020 00:00:00 +0000</pubDate><guid>/article/2020/03/google-map-reduce/</guid><description>无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。
-概念 Google 提出了一种 Map-Reduce 的模型。map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。
-编程模型 就如前面提到的，用户编写的 Map 将所有的输入处理成中间状态的键值对，MapReduce 根据中间状态的 Key 将其整理到一起（因为数据在不同的机器上），并将其交给 Reduce。
-之后，同样是用户编写的 Reduce 将 Key 相同的中间键值对合并到一起。合并的数据集可能只是一小部分。
-下面是一个单词计数的例子：
-map (String key, String value) // key document name // value document content for each word w int value: EmitIntermediate (w, &amp;#34;1&amp;#34;); reduce (String key, Iterator value) // key a word // values a list of counts int result = 0; for each v in values: result += ParseInt (v); Emit(AsString (result)); map 函数将出现过的单词与其出现过的次数相关联，这里是1。 reduce 函数将相同单词出现的次数求和。</description></item><item><title>Solution for switching between lowercase and Chinese pinyin with Caps Lock in Jetbrains IDEs</title><link>/article/2020/02/solution-for-switching-pinyin-ime-state-in-jbs/</link><pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate><guid>/article/2020/02/solution-for-switching-pinyin-ime-state-in-jbs/</guid><description>TL;DR:
-Add TICapsLockLanguageSwitchCapable - true to your input method&amp;rsquo;s Info.plist[1]
-Background Last month I encountered a problem with Chinese input method (Rime, Baidu, Sogou, etc), the symptoms is that I couldn&amp;rsquo;t switch between pinyin and lowercase letters with the Caps Lock which can pressed by my little finger in Jetbrains IDEs, which has been my habit since I used macOS.
-Before using third-party input methods, it works well with apple pinyin method.</description></item><item><title>A note of android reverse engineering</title><link>/article/2020/02/reverse-engineering/</link><pubDate>Sat, 01 Feb 2020 00:00:00 +0000</pubDate><guid>/article/2020/02/reverse-engineering/</guid><description>起因 凌晨在 QQ 空间看到一个同校同学发布了一款 App，正在邀请别人参加内测。正巧最近我也在帮朋友写一个小应用，便下载来研究一下。应用的主题很常见，主打校内论坛、交友功能，大概猜到是怎么回事，还是先抓包看看吧。
-抓包 Charles 这个工具就不用说了，基本抓过包的朋友都用过。不过想要抓手机应用，前提要求手机和电脑在一个局域网络中。设置代理和安装证书这两个步骤很容易找到教程，这里不再赘述。需要注意的是 Android 7 以后按谷歌要求需要额外修改 APP 的网络安全性配置，我这里参考这篇文章 [1] 得以解决。
-抓到包之后看了一眼 Request 和 Response 格式，看上去不太规范。而且虽然加入了 token，但是很多接口没有鉴权，拿到接口直接请求就能修改所有用户的资料。由于是内测，我将开发者的昵称修改以提示其漏洞，同时也在内测群里反馈了，截止目前接口还没有修改。除此之外，修改密码等接口中的密码竟然是明文传输的，这让我不能不担心是否在数据库中也是明文存储密码？于是诞生了 hack 进数据库的想法。
-调研 在处理数据库相关问题之前，先判断出其应用的技术栈。后端是拿 php 写的，而据我所知 php 框架经常爆出漏洞，在此基础之上发现是 thinkphp v5.0.24，而此版本已将漏洞修复了。此外又发现服务器上安装了宝塔面板，开发者开启了安全登录入口，默认的后台地址被修改了，这条路径也只能放弃了。
-撞库 我之前没有接触过安全方面的技术，但是最简单的撞库的思想还是有的。在网上找了一些密码字典，一共包括5000多个常用的密码，用 hydra[2] 暴力撞库，但是失败了。
-SQL 注入 撞库失败后联想到 SQL 注入的方式，找到了 sqlmap[3] 这个工具。拿几个接口都测了一下，没有发现注入点这条路也只能放弃。
-逆向工程 既然服务端没有收获，那么就尝试从客户端入手。拿来 apk 解压得到 dex 文件，果然没有加壳。用 dex2jar[4]将其转成 jar。这里遇到一个问题[5]，在 GitHub 上最新的 release(2.1 or later) 已经解决。之后用 Java Decompiler[6] 打开 jar 查看源码。仔细查找后，奇怪地发现所有包都是导入的依赖，没有域名对应的包，也没有开发者编写的代码。这明显不合理。后来想到用 adb 来找当前栈顶 Activity 的方法。
-adb shell dumpsys activity activities | sed -En -e &amp;#39;/Running activities/,/Run #0/p&amp;#39; 结果竟然是 uni.</description></item><item><title>Open Source and I - After Alibaba Summer of Code</title><link>/article/2019/08/29/summer-of-code/</link><pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate><guid>/article/2019/08/29/summer-of-code/</guid><description>关于阿里巴巴编程之夏的介绍可以参考 AliOS-things 同学的文章 https://zhuanlan.zhihu.com/p/79863308
-借秋招的一个间歇期，记录一下我的开源历程。算是对自己的人生阶段的一个记录。
-从小学时使用开源软件成为受益者，到第一次到开源社区中成为贡献者，我用了十年。不求回报地默默贡献，得到他人的肯定便觉得欢欣雀跃，也许这就是开源的魅力所在。
-图1，赵老师在 Jenkins 中文社区的发言
-我第一次正式参与到开源项目中，是在去年的九月。
-去年四月的时候，在上海有幸认识了家辉，我们当时便成为了朋友。也是通过他，我了解到了 GSoC。半年之后，觉得是开始套瓷的时间了，便想挑选几个社区来有针对性的交流。第一个关注的是 Apache 的 Kylin 社区，虽然主要开发者是中国人，但是方向和我期望的不太一样，所以后来没有选择它。后来在 GSoC-CN 中根据往年的申请情况，选择了 Jenkins 社区，巧合的是 Jenkins 中文社区刚刚成立，而 Jenkins 社区中活跃的参与者赵老师 @Rick 又是中国人，所以从九月到第二年的三月我便一直在 Jenkins 社区中做贡献，期间成为了 Jenkins-infra member。
-图2，赵老师由 KK 宣布为最有价值参与者
-转折发生在二月和三月。在年前我和赵老师提到过想申请他的 multibranch plugin，他也提醒过我多次要提早准备。但是我期间一直没有在其 gitter channel 中发言，二月的时候有一个印度的同学也参与到其中。同时在三月时春招受挫，和在蚂蚁的家纯学长聊了聊，决定放弃 GSoC，参与到 Kafka 中去。
-图3，和学长的交流
-四月的一个偶然机会，了解到 ASoC 的举办，而其中恰好有我想要深入学习的 Dubbo 社区，于是便在 issue 中留言。我没有马上得到回复，而我又不想错过这次机会，于是在 Jira 中留言、给社区发邮件、给导师发邮件、给 aliopensource 发邮件。久久没有得到回复的我有点绝望，当时又去接触了 Spring Cloud Alibaba 社区。后来乎兴老师在 Jira 中回复了我，@cvictory 也在 issue 中回复了我，aliopensource 和社区也都回复了我邮件，让我先写 proposal。有 GSoC 的经历，其实我的提案早就写完了，但是 ASoC 的提案描述相对来说不够具体，很难有针对性的给出解决方案，就这样踏上了漫长的交流之路&amp;hellip;</description></item><item><title>The analysis and modification of rules of ESLint</title><link>/article/2019/07/the-analysis-and-modification-of-eslint-rules/</link><pubDate>Wed, 03 Jul 2019 00:00:00 +0000</pubDate><guid>/article/2019/07/the-analysis-and-modification-of-eslint-rules/</guid><description>每个互联网大厂都有自己的编码规范，而对规范审查需要有代码扫描平台来对工程师的能力进行评估。在实习的两个月中，我负责的工作的一部分包括代码规范扫描方向，其中对 ESLint 以及 fecs 规则的修改及调整也包括在内。ESLint 在内部保留了一个仓库用于 JS 的规范检查，由于内部代码规范的问题，不可能直接将外部的拿来直接使用。对很少接触 JS 的我来说，npm 的包管理方式冗杂而烦乱，同时该模块是被集成在整个扫描平台中的，所以很少有有效的文档用来参考，通过不断地测试最后终于解决了该部分问题。
-规则 no-new 要求 使用 new 关键字必须将其赋值给一个变量，如:
-var Vue = new Vue({}) 而内部规范在 Vue 中可以不赋值
-new Vue({}) 所以考虑对 ESLint 进行一些定制化配置。
-查看官方文档无果之后，考虑找到开发人员，以下为交流过程：
-arjenzhou: Hi, because I customized the rules, so I want to build and run eslint locally, what should I do?
-platinumazure: @arjenzhou You should be able to install ESLint locally with npm install &amp;ndash;save-dev eslint, and then run with .</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Articles on arjenzhou</title><link>/article/</link><description>Recent content in Articles on arjenzhou</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 16 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="/article/feed.xml" rel="self" type="application/rss+xml"/><item><title>科学养虾的第一步：把它关到笼子里</title><link>/article/2026/scientific-shrimp-keeping-macos-user-isolation/</link><pubDate>Mon, 16 Mar 2026 00:00:00 +0000</pubDate><guid>/article/2026/scientific-shrimp-keeping-macos-user-isolation/</guid><description>&lt;p&gt;&lt;img src="https://i.imgur.com/OA7hbkY.png" alt="赛博机械虾"&gt;&lt;/p&gt;
+&lt;h1 id="01-引言mac-mini-成了大虾缸"&gt;01. 引言：Mac mini 成了“大虾缸”&lt;/h1&gt;
+&lt;p&gt;最近 OpenClaw 的火爆程度堪比当年的酱香拿铁，圈内玩家人手一台 Mac mini，主打一个 24 小时在线“养虾”。&lt;/p&gt;
+&lt;p&gt;但随着热度上升，安全风险也浮出水面。很多玩家为了图省事，直接在自己的主账户下顺手一敲 sudo 运行。你要知道，OpenClaw 作为一个高度联网、且支持第三方插件的程序，直接给它主账号权限，等同于把家里的保险箱钥匙挂在路边电线杆上。万一代码里有个“回声”，你的私有照片、工作文档、浏览器缓存可就全成了“虾粮”。&lt;/p&gt;
+&lt;p&gt;科学养虾的第一法则：权限隔离。 既然要养，就得给它焊个结实的笼子。&lt;/p&gt;
+&lt;h1 id="02-笼子的构造创建隔离用户"&gt;02. 笼子的构造：创建隔离用户&lt;/h1&gt;
+&lt;p&gt;在 macOS 上，最简单有效的“笼子”就是创建一个独立的系统用户。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建隔离组 (Group)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;打开 “系统设置” -&amp;gt; “用户与群组”。&lt;/p&gt;
+&lt;p&gt;点击下方的 “添加群组&amp;hellip;” (Add Group)。&lt;/p&gt;
+&lt;p&gt;将组名设置为 agents。这个组将作为你所有隔离程序的统一“安保边界”。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start="2"&gt;
+&lt;li&gt;创建隔离用户 (User)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在同一页面，点击 “添加用户&amp;hellip;” (Add User)。&lt;/p&gt;
+&lt;p&gt;关键： 在“新用户”类型下拉框中选择 “标准”，千万不要选“管理员”。&lt;/p&gt;
+&lt;p&gt;帐户名填 openclaw。&lt;/p&gt;
+&lt;p&gt;创建完成后，你会发现系统已自动为它准备了一个干净的家目录 /Users/openclaw。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start="3"&gt;
+&lt;li&gt;将用户归类&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在列表里找到刚才创建的 agents 组，点击“i”图标（详情）。&lt;/p&gt;
+&lt;p&gt;在成员列表中，勾选上 openclaw。&lt;/p&gt;
+&lt;p&gt;物理隔离：这个用户拥有独立的家目录 /Users/openclaw。你的主目录（如 /Users/&amp;lt;YourUsername&amp;gt;/）对它来说默认是禁区。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src="https://i.imgur.com/EdYrzcI.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;在终端里，我们不需要切换 GUI 界面，直接通过 su 优雅地“跳”进笼子：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 使用管理员身份切换到 openclaw 环境&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sudo su - openclaw
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id="03-喂虾流程部署中的深水区"&gt;03. 喂虾流程：部署中的“深水区”&lt;/h1&gt;
+&lt;p&gt;在隔离环境里，我们依然追求极致的系统洁癖。&lt;/p&gt;</description></item><item><title>将 Gradle 构建的 Java 产物发布到 Maven 中央仓库和 GitHub Packages</title><link>/article/2023/07/how-to-release-a-gradle-project/</link><pubDate>Thu, 20 Jul 2023 00:00:00 +0000</pubDate><guid>/article/2023/07/how-to-release-a-gradle-project/</guid><description>&lt;p&gt;日常开发中经常会抽象出一些常用的工具代码，这些代码可以作为三方包发布到中央仓库，在开一个新项目的时候直接引进来使用。&lt;br&gt;
+除中央仓库之外，GitHub 也为开源项目提供了免费的 GitHub Packages 作为托管这些产物的平台。&lt;/p&gt;
+&lt;p&gt;所以本文会介绍一个将使用 Gradle 构建的 Java 项目产物，托管到 Maven 中央仓库和 GitHub Packages 的方案。&lt;/p&gt;
+&lt;p&gt;撰写本文时的环境如下：&lt;/p&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;依赖&lt;/th&gt;
+ &lt;th&gt;版本&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Gradle&lt;/td&gt;
+ &lt;td&gt;8.2.1&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Java&lt;/td&gt;
+ &lt;td&gt;java version &amp;ldquo;17.0.7&amp;rdquo; 2023-04-18 LTS&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;commit&lt;/td&gt;
+ &lt;td&gt;&lt;a href="https://github.com/arjenzhou/bm-kit/tree/35256125ba7f3b0ba131b8721775576c0936c3a0"&gt;35256125ba7f3b0ba131b8721775576c0936c3a0&lt;/a&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id="更严格的-maven-central"&gt;更严格的 Maven Central&lt;/h1&gt;
+&lt;p&gt;对于 Release 发布来说，Maven 中央仓库对发布产物有着更严苛的要求。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;需要对每个产物进行合法性校验
+&lt;ul&gt;
+&lt;li&gt;每个产物需要上传 PGP 加密文件 *.asc&lt;/li&gt;
+&lt;li&gt;GPG 的公钥需要公网可见&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;POM 中需要包含项目的名称、描述、地址、协议、开发者信息、仓库信息等&lt;/li&gt;
+&lt;li&gt;Maven Central 区分 snapshot 和 release 的发布地址&lt;/li&gt;
+&lt;li&gt;Maven Central 需要在 Nexus Repository Manager 上管理 release 产物&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里的 GPG 和 PGP 并不是 typo&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;所以，想要将代码发布到中央仓库的前提就清楚了（GitHub Packages 的前提更少）：&lt;/p&gt;</description></item><item><title>国庆节</title><link>/article/2022/10/after-national-day/</link><pubDate>Sat, 08 Oct 2022 00:00:00 +0000</pubDate><guid>/article/2022/10/after-national-day/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;于 2022.10.6&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;明天一早就要回杭州，深夜胡言乱语。&lt;/p&gt;
+&lt;p&gt;终于迎来了同龄人的第一批婚礼邀请：一个是高中的好兄弟订婚，新娘也是我的高中同学；另一个是大学亦师亦友的学长。我真心地为他们感到高兴。
+自从2020年毕业工作以来，一直没机会回东北。和久违的亲人朋友再次团聚让我暂时释去了工作和生活的压力，只是长辈一句很正确的话让我略感压抑：“该是什么时候，就干什么事”。像其他同龄人一样，只是我面对的催婚方式不那么直接罢了。&lt;/p&gt;
+&lt;p&gt;回首人生经历过的短短二十四年，似乎每一步都是按照正确的路线成长着：考上重点高中、到一个还算说得过去的大学里读书、毕业后找到一份体面的工作。按照这样的规划，下一步也许就像我的同学和学长一样，和一个合适的人结婚，这是可以预见的。&lt;/p&gt;
+&lt;p&gt;我没有埋怨任何人的意思。即使这样的生活是为了自己，但也真切地背叛了自己。按照这样的规划来看：未来明确，质量也说得过去，循规蹈矩下去应该能够安稳度过一生。但每到静下来时总会审视自己的内心：这真的是想要的生活吗？&lt;/p&gt;
+&lt;p&gt;我深知不是的。我也想每天呆在家里，和亲人在一起聚会聊天；我也想拿赚来的第一桶金买一辆自己喜欢的车，和好朋友跑到全世界玩；我也想将无聊的业务需求置之不顾，只钻研自己感兴趣的那一亩三分地；我也想把一切抛开，只顾自己的感受……但囿于对“生活”的责任，只能亲手把沉重的枷锁穿戴在自己身上，像一头勤恳的黄牛。&lt;/p&gt;
+&lt;p&gt;我不知道其他同龄人是否也有这种压力，但我知道这决不是普世价值。世界上有那么多的人在追求自己的追求，也有那么多人在享受自己的享受。而父辈为下一代的责任在我这一代又陷入了轮回，只能用屈指可数的业务爱好来尝试消解这种无力的感受。&lt;/p&gt;
+&lt;p&gt;也许每个小孩都不想要这样的生活吧，当大人真累。&lt;/p&gt;</description></item><item><title>我的网络环境</title><link>/article/2022/08/network-topology/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>/article/2022/08/network-topology/</guid><description>&lt;h1 id="背景"&gt;背景&lt;/h1&gt;
+&lt;p&gt;故事发生在今年的2月。PS5到手没两天诞生了搞直播的想法，在摸索的过程中发现了《&lt;a href="https://homulilly.com/post/play-ps4-live-stream-at-local.html"&gt;搭建 PS4 本地直播服务器&lt;/a&gt;》这篇帖子，于是就冒出了折腾的心思。毕竟花钱买采集卡有点冤大头的感觉。&lt;/p&gt;
+&lt;p&gt;之前家里的网络环境比较简单，只需要在 Openwrt 上装一些插件，所以一台在上学时候收的一个矿渣 K2P 就够了。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/7dJkU4iIrhueqpW.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;矿渣 K2P&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;后来因为 UU 的插件不够稳定，又搞了一个 UU 加速盒。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/XnFu6aRpCyS5Uvk.jpg"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;垃圾 UU 加速盒&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;但是如果想搞直播，就得每天在工作电脑上跑一个 docker，太麻烦了。&lt;/p&gt;
+&lt;p&gt;于是，我便斥巨资购入了一款 J4125
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/u3Ca5fFdVrGUO78.jpg"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;J4125&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;遗憾的是，尽管这款主机内置了 MSATA 和 SATA3.0 两款接口，但是没有能力容纳下一个 SATA3.0 的硬盘，所以在我手里变成了这样：
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/ekSHDZqGURTJFwY.jpg"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;外挂式硬盘，蚌埠住了&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h1 id="软路由"&gt;软路由&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;过了半年回过头来看，其实根本没必要来搞一个性能远远溢出的 J4125，因为实际上只会跑几个性能开销很小的虚拟机。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;搞这台小主机的目的是为了装一个 debian 来跑 nginx 拦截 PS5 的流量，而裸装 debian 有点不够划算，于是干脆个装 PVE 来个 all in one。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/8IH6F3QqbtMxs49.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;All in PVE&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;第一步，先把 ROS 和作为 AC 的 Openwrt 搞好，参考《&lt;a href="https://www.cnblogs.com/Pyrokine/p/14526662.html"&gt;基于PVE+ROS+LEDE的软路由配置流程&lt;/a&gt;》，其中需要注意的是，Openwrt 的安装比较麻烦，需要后挂载。在设备联入网络时，根据网关设置为 ROS 或者 Openwrt，可以区分不同的网络环境实现按需科学上网。&lt;/p&gt;
+&lt;h1 id="ap"&gt;AP&lt;/h1&gt;
+&lt;p&gt;按照上面引用的文章操作完成后，网络设备可以通过插网线的模式来上网了。但是现在都什么年代了还在用传统上网？所以把 K2P 设置成 AP，参考《&lt;a href="https://www.wyr.me/post/676"&gt;OpenWRT 设置桥接交换机模式（AP模式）&lt;/a&gt;》，注意设置为交换机模式后就可以当 AP 使用，如果想通过无线连接到 AP 上需要设置客户端。&lt;/p&gt;</description></item><item><title>Bitcoin, Blockchain, Ethereum</title><link>/article/2022/06/bitcoin-blockchain-ethereum/</link><pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate><guid>/article/2022/06/bitcoin-blockchain-ethereum/</guid><description>&lt;h1 id="中本聪的愿望"&gt;中本聪的愿望&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“传统货币最根本的问题在于信任。中央银行必须让人信任它不会让货币贬值，但历史上这种可信度从来都不存在。银行必须让人信任它能管理好钱财，并让这些财富以电子货币形式流通，但银行却用货币来制造信贷泡沫，使得私人财富缩水。”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;1933年4月5日，为了使政府能够再印制更多现金注入市场，罗斯福总统签署了6102号行政命令，要求美国公民以每金衡盎司20.67美元的价格上交黄金，否则可处以10,000美元的罚款，甚至还可判处入狱服刑5至10年，同时也禁止黄金出口海外，以确保美国拥有的黄金不会外流。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/06/21/jV6NfbAmLZOs2RB.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;Executive Order 6102&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;罗斯福没收充公美国人的黄金，并以美元交换，然后让美元贬值了40%，强制推高黄金价，目的是让美国的债务贬值，从而对抗大萧条，造成的后果是美国人的财富被洗劫了40%。&lt;/p&gt;
+&lt;p&gt;1974 年，福特总统签署了 Public Law 93-373 即“黄金合法化法案”，1975年美国人可以再一次合法拥有黄金。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/06/21/on7U1KjtDR8kgxc.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;Satoshi Nakamoto&amp;#39;s Profile&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;P2PFoundation 是中本聪发布比特币白皮书的网站，在这注册必须提供出生日期，中本聪填写的是1975年4月5日。&lt;/p&gt;
+&lt;h1 id="电子支付的问题"&gt;电子支付的问题&lt;/h1&gt;
+&lt;p&gt;互联网上的贸易，几乎都需要借助金融机构作为可资信赖的第三方来处理电子支付信息。是这类系统仍然内生性地受制于“基于信用的模式”的弱点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;无法实现完全不可逆的交易，因为金融机构总是不可避免地会出面协调争端。&lt;/li&gt;
+&lt;li&gt;金融中介的存在增加交易的成本，并且限制了实际可行的最小交易规模，也限制了日常的小额支付交易。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;这些问题在物理现金交易中是不存在的。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所以需要这样一种电子支付系统，它基于密码学原理而不基于信用，使得任何达成一致的双方，能够直接进行支付，从而不需要第三方中介的参与。&lt;/p&gt;
+&lt;h2 id="雅浦岛的故事"&gt;雅浦岛的故事&lt;/h2&gt;
+&lt;p&gt;雅浦岛是一个金属资源比较匮乏的岛，就算是石灰岩也要去400英里以外的帕劳岛开采。雅浦岛部落里的探险家们开采这些石灰岩，打制成内部中空呈环形的石轮，然后用木筏运回雅浦岛作为货币使用。这些石轮小的直径30多厘米，大的直径有3米多。为了便于运输，有时会往中间插一根粗壮的木柱。开采难度越高，越漂亮，越大的石币价值越高。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/06/21/zFaCbefmlY1Hod9.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;雅浦岛的石币&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;雅浦石币有个很有趣的特点。交易双方在决定了使用多大的石币付费后，如果那个石头太大了，不方便运输，那么卖家只要在买家的石头上做个标记就可以了，这样就付费了。那个标记就说明这个石头已经属于卖家了，而石头仍然躺在买家屋里。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/06/21/KuiDO8UY426qXyH.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;雅浦岛的石币&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;岛上有一户首富，但没有人见过他家里的石币。他们家拥有的财产是一个巨大的石币，大小只有上上辈人才知道，因为这个石币一直沉睡在海底。这户人家的祖辈和其他人外出开采石灰岩并制成石币，在用木筏拉回家的归途中遭遇了强烈的暴风雨，为了逃命，探险队只好砍掉拉筏的绳子，于是那块巨大的石币沉入了大海。回村后探险队的成员都替他作证，虽然已掉落大海，但大伙都见证了这块石头的去处，所以不会影响它的价值，它的主人仍然可以用它去买东西，就跟把石币运回家存放起来的效果一样。&lt;/p&gt;
+&lt;h2 id="比特币和石币"&gt;比特币和石币&lt;/h2&gt;
+&lt;p&gt;如果雅浦岛首富想要私下使用这笔巨款，比如偷偷跟自己的情人说：我那块大石头送给你了。这次交易是无效的，因为交易没有广播，并没有其他岛民在旁边作证。但如果首富临死前，当着全岛人民的面说，这块大石头就作为遗产给我的大儿子了。那么这笔交易就是有效的，因为其他岛民都做了见证，并集体更新了头脑里的“账簿”。&lt;/p&gt;
+&lt;p&gt;假如雅浦岛上的交易越来越多，大家根本记不住这么多交易，所以打算使用比特币：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;石币：大家都知道这个石币的所有人是村民1，那么他可以将其转账给村民2&lt;br&gt;
+比特币：大家都知道这个比特币的所有人是村民1，那么他可以将其转账给村民2&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在传统的交易中，采取的是&lt;strong&gt;账户/余额模型&lt;/strong&gt;。比如银行账户、微信账户，都是基于账户/余额模型。
+&lt;strong&gt;账户内的余额是作为一个整体存在的。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;而比特币采用的是 &lt;strong&gt;UTXO (Unspent Transaction Output) 模型&lt;/strong&gt;
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/06/21/qAb2Dczn8wNpI1f.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;BTC Transaction&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;在比特币中，一笔交易的每一条输入和输出实际上都是 UTXO，输入 UTXO 就是以前交易剩下的， 更准确的说是以前交易的输出 UTXO。除了 coinbase 交易（挖矿奖励）没有输入 UTXO 之外，其它交易都有输入和输出，都可以为多个。在比特币中没有余额概念，只有分散到区块链里的 UTXO。&lt;/p&gt;
+&lt;h3 id="谁拥有-utxo"&gt;谁拥有 UTXO&lt;/h3&gt;
+&lt;p&gt;在雅浦岛上，村民之间可以确定这个石币的所有者是谁。而比特币转账实际上是从一个地址被移动到另一个地址，当村民1想花费0.15个比特币时，如何证明自己拥有这个 UTXO，并且其他人无法假冒村民1来花费这个 UTXO 呢？&lt;/p&gt;
+&lt;p&gt;比特币的交易创建的输出其实并非一个简单的公钥地址，而是一个脚本。每一个比特币节点会通过同时执行这解锁和锁定脚本（&lt;strong&gt;不是当前的锁定脚本，是指上一个交易的锁定脚本&lt;/strong&gt;）来验证一笔交易，脚本组合结果为真，则为有效交易。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/06/21/6crY1BlWwi4zD7q.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;BTC 交易脚本&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;</description></item><item><title>游戏主机对比： Nintendo Switch, Xbox Series S, PlayStation 5</title><link>/article/2022/05/console-review/</link><pubDate>Mon, 16 May 2022 00:00:00 +0000</pubDate><guid>/article/2022/05/console-review/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;其实这篇文章在22年2月的时候就应该写了，由于各种原因一直拖到现在，所以本文叙述的时间点为2月。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="我的-windows-游戏时代"&gt;我的 Windows 游戏时代&lt;/h2&gt;
+&lt;p&gt;大概在07年小学三、四年级的时候，我到小学同学家第一次玩到了 GTA: VC，这是我第一次正始接触单机游戏（打字游戏除外）。后来又在他家接触了流星蝴蝶剑，和跑跑卡丁车、天龙八部这些网游。同年，也在堂哥那里玩到了 PSP 版的真三国无双。过了一年家里买了电脑之后，便开始了我自己的游戏之路。各种主流游戏都浅尝辄止，但电脑没少折腾：试过各种游戏外挂，也自己做过游戏补丁；那时我的输入和检索能力、“修电脑的能力”就已经呈现了出来，我一直认为这是我走上程序员之路的契机。直到有一天我发现部分境外网站无法登录之前，那是中文互联网的黄金年代，我很怀念它。&lt;/p&gt;
+&lt;p&gt;我不是一个资深的主机玩家，工作前我一直用我的“黑金刚”玩游戏，所以我没有资格来评价各个主机，只能凭借自己的体验简单介绍下我的主观感受。初中时，家里的电脑玩英雄联盟最高只能到30帧，注册了一个 Steam 账号却连 DotA2 都进不去，回想当初肯定是被电脑城的人宰了。大学时游戏没少玩，但只是随便玩玩而已。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/05/16/3fIpK7yxYbTcsla.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;我的黑金刚 MSI GE62。GTX965M 的显卡，配上2GB 的显存属实有点拉胯&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;h2 id="nintendo-switch"&gt;Nintendo Switch&lt;/h2&gt;
+&lt;p&gt;等到工作第一年，我入手了 NS。到现在也才只有塞尔达传说：旷野之息算是完全通关了。&lt;/p&gt;
+&lt;p&gt;我认为 NS 是一个优秀的游戏机，便携性是它最突出的优势，独占/聚会/家庭游戏是它的特长，主机模式下性能略显尴尬。我没有买过 Switch Pro Controller，其自带的 Joy Controller 仅仅能用而已。任天堂第一方的游戏，绝对是 NS 的核心优势。&lt;/p&gt;
+&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"&gt;
+ &lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/PAh90-Ggr14?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="打倒盖侬多夫"&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+&lt;h2 id="xbox-series-s"&gt;Xbox Series S&lt;/h2&gt;
+&lt;p&gt;这一代微软发售了 Xbox Series X (XSX) 和 Xbox Series S (XSS)。XSX 是这一代的旗舰机，理论性能此世代最强；XSS 相对轻便，不过性能好像只有 XSX 的1/4，而且只有数字版。
+微软在 PC 和 Console 上推出的 Xbox Game Pass (XGP) 订阅制以周期的形式上架/下架一批游戏，凡是订阅的玩家都可以下载游玩。&lt;/p&gt;</description></item><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>&lt;p&gt;上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。&lt;/p&gt;
+&lt;h2 id="应用场景"&gt;应用场景&lt;/h2&gt;
+&lt;p&gt;从标题中可以看出，ZeroTier 是实现内网穿透的一个手段。简单来说就是能够通过它来实现不同局域网之间的互相访问：在公司局域网能连到家里的网络（不要这么做）&lt;/p&gt;
+&lt;h2 id="原理"&gt;原理&lt;/h2&gt;
+&lt;p&gt;大致简单了解了一下，局域网中各设备通过互联网与 Zeroier 的“行星服务器”建立 P2P VPN 连接，如果两个设备能够通过 VPN 直连那么就直连，否则通过 ZeroTier 中继。&lt;/p&gt;
+&lt;h2 id="简单使用"&gt;简单使用&lt;/h2&gt;
+&lt;p&gt;登录并创建一个 Network 之后，使用 ZeroTier 客户端依据 Network ID 连接到该 Network 并认证后。为该网络分配一个网段，给设备分配 IP 并设置路由规则后就可以使用分配的 IP 互相访问了，是不是很简单？&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意，将路由器加入 ZeroTier 需要配置防火墙。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;截图举个例子：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 IPv4 Auto-Assign 部分，为网络设置 IP 段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/16/Se2K4MIFPdnLjJy.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;这里我将这个网络设置了 &lt;code&gt;10.242.100.0/24&lt;/code&gt; IP 段。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设置路由规则&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分配 IP 段后要为局域网设置路由规则。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/16/wGz2SEV4iDQcTLa.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;图中 &lt;code&gt;192.168.6.0/24&lt;/code&gt; 是我家里的局域网 IP 段，&lt;code&gt;10.242.100.0/24&lt;/code&gt; 是上面 ZeroTier 分配的 IP 段。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设备连入并点击认证后，为其分配 IP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/16/Ls6mo3xUg5KWYSp.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;注意每个设备分配的 IP 要在网段内，一般来说都是自动分配好的。&lt;/p&gt;</description></item><item><title>键盘对比：NIZ Plum, FILCO 圣手2代, HHKB Professional Hybrid</title><link>/article/2022/02/keyboard-review/</link><pubDate>Thu, 10 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/keyboard-review/</guid><description>&lt;p&gt;之前用的一直是大一刚入学200块买的达尔优的机械键盘，作为刚入学的经常在宿舍打游戏的大学生，这是一款很常见的键盘：RGB，茶轴，104键，要素齐全。&lt;/p&gt;
+&lt;h2 id="niz-plum-mini-84-pro-35g"&gt;NIZ Plum mini 84 Pro (35g)&lt;/h2&gt;
+&lt;p&gt;2019年2月，我入手了一副 NIZ Plum mini 84 Pro 35g。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/10/4FtuDqZI1VxjyHn.jpg" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;这款键盘当初是打算在 Mac 上用的，经网友推荐我仔细挑选后选中了这款。上手的第一感受就是&lt;code&gt;软&lt;/code&gt;，打字手感特别黏稠、松垮的感觉。“也许这就是静电容”，我心想。用过一段时间发现尤其在789附近的数字区，由于35g实在是太轻了，经常出现&lt;code&gt;误触&lt;/code&gt;的情况，一按下去一片数字上屏。后来用附送的增重弹簧给核心区域的键增到45g，这时才刚刚好。让人不得不吐槽的是竟然没有送84个弹簧，而且大键装起来很麻烦。这款键盘的布局还是很合理的，有F区，方向键很紧凑，只是右面一列有点多余，导致经常不好定位回车键。&lt;/p&gt;
+&lt;p&gt;用了两年多，这款键盘的缺点逐渐暴露出来了：按键经常&lt;code&gt;失灵&lt;/code&gt;且打字&lt;code&gt;卡顿&lt;/code&gt;，只不过不是必现。考虑到这款键盘当时是发烧友制作，并不是成熟的产品，质量问题还勉强说的过去。只是现在摸起来还是比较粗糙的，不过最近的产品看评价不错，多半是从手感上来打的分。&lt;/p&gt;
+&lt;h2 id="filco-majestouch-convertible-2-tenkeyless-cherry-mx-red"&gt;FILCO Majestouch Convertible 2 Tenkeyless (Cherry MX Red)&lt;/h2&gt;
+&lt;p&gt;这款键盘是我在工作之后买的，对它的第一印象就是：&lt;code&gt;好看&lt;/code&gt;。奶绿色给人一种草原、牧场、奶牛的感觉。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/10/wcXYTaNUCyHMfqr.jpg" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;这款键盘本不是为 Mac 设计的，这一点从其自带的 Windows 键就能看得出来。不过得益于 Karabiner-Elements, 我们能很方便的在将 Command 和 Option 对掉 (图中 Alt 键和 Windows 键盘对换了)&lt;/p&gt;
+&lt;p&gt;我手中的这把是红轴的，理论上是樱桃轴体中比较轻的一款。但是在尝试过静电容之后，红轴对我来说在长时间的编码之后还是相对&lt;code&gt;重&lt;/code&gt;了一些。F区以及方向键的隔离能够避免误触的情况，也让它显得&lt;code&gt;大&lt;/code&gt;了一些。但是随着我入了一个 Magic Trackpad 之后，我变得越来越懒了。我在工作时两只手腕完全不想动，写代码时能用 Vim 的地方用 Vim，不行就各种快捷键，最坏的情况才把手向下移去用 Magic Trackpad. 而且用 Vim 时左小指频繁地去按 Control 键，时间久了越来越累。这让我转向它处另寻键盘。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这款键盘本身带了 Caps Lock 和 Control 的替换键帽，并且能够通过背面的 DIP 设置将其两者交换来达到 HHKB 的键位效果。&lt;br&gt;
+2022.2.16 注&lt;/p&gt;</description></item><item><title>谈谈我理解的 Raft</title><link>/article/2021/11/raft-talk/</link><pubDate>Mon, 08 Nov 2021 00:00:00 +0000</pubDate><guid>/article/2021/11/raft-talk/</guid><description>&lt;p&gt;自几年前偶然得知 Raft 之后，便粗略了解了 Raft, Paxos, 共识（一致性）这些概念。当时的想法是：这些算法听起来就挺装逼的，赶紧去看看咋回事。等到认真一看 Raft 论文，20页，太多了还是算了吧。
+等到过了几天，又发现了 Raft 官网有个动画，还挺易懂的，又简单看了看，明白了，可以出去装逼了。
+再过几天一回忆，好像啥也没记住呢？虽然张无忌学太极拳也啥也没记住，但至少人家打出来了，咱也得找机会练练。这会儿又找到了 MIT 6.824, 正好赶上新学期开课了，跟着学吧。
+没等学两天，一到 lab 就懒得做，Go 看不懂啊，又学了几天 Go。学完了感觉啥都会了，但是又啥也不会。还是先去找实习吧。&lt;/p&gt;
+&lt;p&gt;前年快写毕业论文的时候，附带个翻译英文文献的任务，又到了装逼的时候了，我就直接在 arXiv 上找了篇 &lt;a href="../../../../translation/2020/11/21/paxos-vs-raft-have-we-reached-consensus-on-distributed-consensus/"&gt;Raft 和 Paxos 对比&lt;/a&gt; 的论文翻译了下，由于当时懒得排版，等到去年年底才扔到博客上。&lt;/p&gt;
+&lt;p&gt;论文翻译完，又感觉啥也没记住。但是快要去上班了，又没时间研究了，上了一年班之后又找来了 Martin Kleppmann 的&lt;a href="https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB"&gt;公开课&lt;/a&gt;来看，没几天就看完了，当时看完觉得啥都懂了，现在回忆起来只记住了拜占庭那些东西，又联想到凯撒、庞贝&amp;hellip;又联想远了&amp;hellip;&lt;/p&gt;
+&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"&gt;
+ &lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/UEAMfLPZZhE?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+&lt;p&gt;从去年7月入职以来，搞了本影印的 DDIA 来看。看书么，必须得英文原文，不然咋装逼啊是不。按照每天一页的进度终于把这书看完了（其实一周200页，然后歇半年）。看到后面又提到共识机制，觉得有必要再重新捡起来 Raft 论文再读一下了。&lt;/p&gt;
+&lt;p&gt;手中的 Raft 这篇&lt;a href="https://raft.github.io/raft.pdf"&gt;论文&lt;/a&gt;实际上时几个月之前在公司的打印机上打印的，并且当时详细地做了注解，但随后没有好好整理。这次又根据上次遗留的问题来作笔记，最后写下了这篇文章表达一下自己的见解。&lt;/p&gt;
+&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;Raft 据说是性能相当于 Paxos, 效果相当于 Multi-Paxos 的一个一致性算法，但它更容易理解。&lt;/p&gt;</description></item><item><title>Spark Papers</title><link>/article/2020/11/spark-papers/</link><pubDate>Fri, 13 Nov 2020 00:00:00 +0000</pubDate><guid>/article/2020/11/spark-papers/</guid><description>&lt;h2 id="spark-cluster-computing-with-working-sets"&gt;Spark: Cluster Computing with Working Sets&lt;/h2&gt;
+&lt;p&gt;MapReduce （下称 MR）任务包含主要&lt;del&gt;五&lt;/del&gt;两个步骤：Map、&lt;del&gt;Sort、Combine、Shuffle、&lt;/del&gt; Reduce，每个 MR 任务在 Map 将数据阶段将数据转换成 K-V 的形式；Reduce 在不同的机器上作聚合运算。Shuffle 更是涉及到巨大的 I/O 操作（主要是网络 I/O）。每个 MR 任务最终会将计算结果写回存储系统。&lt;/p&gt;
+&lt;p&gt;由于 MR 任务的最终结果会写回存储，那么有两种经典场景对于它来说是低效的：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;迭代任务（迭代机器学习算法）&lt;/li&gt;
+&lt;li&gt;交互式数据分析工具&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Spark 提出了 RDD (Resilient Distributed Dataset) 模型来处理此类问题。RDD 是一个被分布在一组机器上的只读的对象集，当一个分区丢失时 RDD 能够很快通过重新计算的方式来重建。RDD 能够被保存在内存中，并以类似 MR 的 &lt;em&gt;并行&lt;/em&gt;操作方式 得到重用。RDD 通过一种叫做 &lt;em&gt;血统（lineage）&lt;/em&gt; 的概念实现容错：如果 RDD 的一部分丢失了，那么 RDD 有足够的信息（该 RDD 是怎么从其他 RDD 计算出来的）来重建该部分。&lt;/p&gt;
+&lt;p&gt;在 Spark 中，RDD 以 Scala 对象的形式存在。并且 RDD 能够通过以下几种形式构造出来：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;来自共享文件系统（如 HDFS）中的一个&lt;em&gt;文件&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;并行化（parallelizing）&lt;/em&gt; 一个 Scala 集合&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;转化（transforming&lt;/em&gt;）于一个已经存在的 RDD&lt;/li&gt;
+&lt;li&gt;改变一个已存在 RDD 的&lt;em&gt;持久性（persistence）&lt;/em&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;cache&lt;/em&gt;：将 RDD 暂存于内存以便稍后重用&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;save&lt;/em&gt;：将 RDD 存于类似 HDFS 的分布式文件系统&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;对于 &lt;em&gt;cache&lt;/em&gt; 这种情况来说，如果集群中没有足够的内存来缓存一个数据集（dataset）的所有部分，那么 Spark 会在使用它们时重新计算。&lt;/p&gt;</description></item><item><title>Google File System</title><link>/article/2020/03/google-file-system/</link><pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate><guid>/article/2020/03/google-file-system/</guid><description>&lt;p&gt;GFS 是谷歌开发的分布式文件系统，也是上一篇 &lt;a href="../google-map-reduce/"&gt;MapReduce&lt;/a&gt; 最终输出文件的存放位置。&lt;/p&gt;
+&lt;h2 id="设计概述"&gt;设计概述&lt;/h2&gt;
+&lt;p&gt;以下内容简述了 GFS 的设计架构。包括系统的的细节，以及如此设计的原因。&lt;/p&gt;
+&lt;h3 id="假设"&gt;假设&lt;/h3&gt;
+&lt;p&gt;该系统在以下前提设计实现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;该系统由许多机器组成，这些机器经常会出错。所以系统必须持续检测以便能够检查、容忍错误，并且能够恢复回来。&lt;/li&gt;
+&lt;li&gt;该系统支持小型文件，但是不会对其作出优化。&lt;/li&gt;
+&lt;li&gt;关注性能的应用经常对一批读操作进行排序，以便提高性能。&lt;/li&gt;
+&lt;li&gt;在文件写入之后，很少会再次修改。&lt;/li&gt;
+&lt;li&gt;系统必须高效地处理好并发问题。&lt;/li&gt;
+&lt;li&gt;高且平稳的带宽比低延迟重要。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="接口"&gt;接口&lt;/h3&gt;
+&lt;p&gt;GFS 提供了和文件系统类似的接口。文件以文件路径名严格组织。除了传统的 CRUD 之外，GFS 还提供了快照和 record append。快照能高效地复制一个文件或目录，record append 用来解决多个客户端的并发问题。&lt;/p&gt;
+&lt;h3 id="架构"&gt;架构&lt;/h3&gt;
+&lt;p&gt;一个 GFS 集群包括一个 master 和多个 chunkserver，同时 master 可以被多个 client 访问到。如图一。
+文件通常被分为固定大小的 &lt;em&gt;chunk&lt;/em&gt; 。在 chunk 被创建时，master 分配给它一个64位全局常量 &lt;em&gt;chunk handle&lt;/em&gt; 。
+chunkserver 将 chunk 作为 linux 文件存储在本地磁盘，并且根据 chunk handle 和字节区间进行读写。每个 chunk 在多个 chunkserver 上都有冗余。&lt;/p&gt;
+&lt;p&gt;&lt;img src="/pic/post/2020/03/google-file-system-1.png" alt="architecture"&gt;&lt;/p&gt;
+&lt;p&gt;master 上保存了所有文件系统的元数据。包括命名空间，访问控制信息，文件到 chunk 的映射和 chunk 的位置。也控制像 chunk 租约，孤儿 chunk 的 GC，chunkserver 之间的 chunk 迁移等系统活动。master 还定期向 chunkserver 发送心跳包收集其状态。
+client 与 master 交互来操作元数据，而对数据的操作直接与 chunkserver 通信。
+client 和 chunkserver 都不缓存文件数据。一般对客户端来说，文件都太大了。而得益于 linux buffer cache，chunkserver 也不用再做缓存了（linux 会将访问的磁盘文件缓存在内存里）。&lt;/p&gt;</description></item><item><title>Google MapReduce</title><link>/article/2020/03/google-map-reduce/</link><pubDate>Fri, 20 Mar 2020 00:00:00 +0000</pubDate><guid>/article/2020/03/google-map-reduce/</guid><description>&lt;p&gt;无论是出于对分布式系统的兴趣，还是对一个未来的 Hadooper 来说，这篇论文都值得一读。号称为 Google “三驾马车”之一，同时也作为6.824 LEC 1的 preparation, 其重要性也随之体现。趁着时间充裕，抓紧读了读并尝试着手进行后面的 lab。&lt;/p&gt;
+&lt;h2 id="概念"&gt;概念&lt;/h2&gt;
+&lt;p&gt;Google 提出了一种 Map-Reduce 的模型。&lt;strong&gt;map 将一对键值对处理成另外一组中间键值对， reduce 将这些中间键值对中 key 相同的合并起来。&lt;/strong&gt; 系统关注的除了处理数据本身之外，还有调度机器之间程序的运行、处理机器故障以及管理机器之间的通信。&lt;/p&gt;
+&lt;h2 id="编程模型"&gt;编程模型&lt;/h2&gt;
+&lt;p&gt;就如前面提到的，用户编写的 Map 将所有的输入处理成中间状态的键值对，MapReduce 根据中间状态的 Key 将其整理到一起（因为数据在不同的机器上），并将其交给 Reduce。&lt;/p&gt;
+&lt;p&gt;之后，同样是用户编写的 Reduce 将 Key 相同的中间键值对合并到一起。合并的数据集可能只是一小部分。&lt;/p&gt;
+&lt;p&gt;下面是一个单词计数的例子：&lt;/p&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;map (String key, String value)
+ // key document name
+ // value document content
+ for each word w int value:
+ EmitIntermediate (w, &amp;#34;1&amp;#34;);
+
+reduce (String key, Iterator value)
+ // key a word
+ // values a list of counts
+ int result = 0;
+ for each v in values:
+ result += ParseInt (v);
+ Emit(AsString (result));
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;map 函数将出现过的单词与其出现过的次数相关联，这里是1。 reduce 函数将相同单词出现的次数求和。&lt;/p&gt;</description></item><item><title>Solution for switching between lowercase and Chinese pinyin with Caps Lock in Jetbrains IDEs</title><link>/article/2020/02/solution-for-switching-pinyin-ime-state-in-jbs/</link><pubDate>Wed, 12 Feb 2020 00:00:00 +0000</pubDate><guid>/article/2020/02/solution-for-switching-pinyin-ime-state-in-jbs/</guid><description>&lt;p&gt;TL;DR:&lt;/p&gt;
+&lt;p&gt;Add &lt;code&gt;TICapsLockLanguageSwitchCapable - true&lt;/code&gt; to your input method&amp;rsquo;s Info.plist[1]&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;p&gt;Last month I encountered a problem with Chinese input method (Rime, Baidu, Sogou, etc), the symptoms is that I couldn&amp;rsquo;t switch between pinyin and lowercase letters with the Caps Lock which can pressed by my little finger in Jetbrains IDEs, which has been my habit since I used macOS.&lt;/p&gt;
+&lt;p&gt;Before using third-party input methods, it works well with apple pinyin method. But the restriction of it drives me to seek any other IMEs. Rime is a good choice which fits the need of programmers but something of cloud is one of the shortcomings. But none of these is a obstacle except the defect that switching between English and Chinese. My Rime&amp;rsquo;s configuration is something like:&lt;/p&gt;</description></item><item><title>A note of android reverse engineering</title><link>/article/2020/02/reverse-engineering/</link><pubDate>Sat, 01 Feb 2020 00:00:00 +0000</pubDate><guid>/article/2020/02/reverse-engineering/</guid><description>&lt;h2 id="起因"&gt;起因&lt;/h2&gt;
+&lt;p&gt;凌晨在 QQ 空间看到一个同校同学发布了一款 App，正在邀请别人参加内测。正巧最近我也在帮朋友写一个小应用，便下载来研究一下。应用的主题很常见，主打校内论坛、交友功能，大概猜到是怎么回事，还是先抓包看看吧。&lt;/p&gt;
+&lt;h2 id="抓包"&gt;抓包&lt;/h2&gt;
+&lt;p&gt;Charles 这个工具就不用说了，基本抓过包的朋友都用过。不过想要抓手机应用，前提要求手机和电脑在一个局域网络中。设置代理和安装证书这两个步骤很容易找到教程，这里不再赘述。需要注意的是 Android 7 以后按谷歌要求需要额外修改 APP 的网络安全性配置，我这里参考这篇文章 [1] 得以解决。&lt;/p&gt;
+&lt;p&gt;抓到包之后看了一眼 Request 和 Response 格式，看上去不太规范。而且虽然加入了 token，但是很多接口没有鉴权，拿到接口直接请求就能修改所有用户的资料。由于是内测，我将开发者的昵称修改以提示其漏洞，同时也在内测群里反馈了，截止目前接口还没有修改。除此之外，修改密码等接口中的密码竟然是明文传输的，这让我不能不担心是否在数据库中也是明文存储密码？于是诞生了 hack 进数据库的想法。&lt;/p&gt;
+&lt;h2 id="调研"&gt;调研&lt;/h2&gt;
+&lt;p&gt;在处理数据库相关问题之前，先判断出其应用的技术栈。后端是拿 php 写的，而据我所知 php 框架经常爆出漏洞，在此基础之上发现是 thinkphp v5.0.24，而此版本已将漏洞修复了。此外又发现服务器上安装了宝塔面板，开发者开启了安全登录入口，默认的后台地址被修改了，这条路径也只能放弃了。&lt;/p&gt;
+&lt;h2 id="撞库"&gt;撞库&lt;/h2&gt;
+&lt;p&gt;我之前没有接触过安全方面的技术，但是最简单的撞库的思想还是有的。在网上找了一些密码字典，一共包括5000多个常用的密码，用 hydra[2] 暴力撞库，但是失败了。&lt;/p&gt;
+&lt;h2 id="sql-注入"&gt;SQL 注入&lt;/h2&gt;
+&lt;p&gt;撞库失败后联想到 SQL 注入的方式，找到了 sqlmap[3] 这个工具。拿几个接口都测了一下，没有发现注入点这条路也只能放弃。&lt;/p&gt;
+&lt;h2 id="逆向工程"&gt;逆向工程&lt;/h2&gt;
+&lt;p&gt;既然服务端没有收获，那么就尝试从客户端入手。拿来 apk 解压得到 dex 文件，果然没有加壳。用 dex2jar[4]将其转成 jar。这里遇到一个问题[5]，在 GitHub 上最新的 release(2.1 or later) 已经解决。之后用 Java Decompiler[6] 打开 jar 查看源码。仔细查找后，奇怪地发现所有包都是导入的依赖，没有域名对应的包，也没有开发者编写的代码。这明显不合理。后来想到用 adb 来找当前栈顶 Activity 的方法。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;adb shell dumpsys activity activities | sed -En -e &lt;span style="color:#e6db74"&gt;&amp;#39;/Running activities/,/Run #0/p&amp;#39;&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;结果竟然是 &lt;code&gt;uni.UNIC0381B1.io.dcloud.PandoraEntryActivity&lt;/code&gt;。前面的 uni 是 apk 的签名，这在我安装时还在猜测他的具体含义。后面的 dcloud 我在抓包时候看到过，是用来统计数据的。但是用来统计数据怎么会单独开一个 Activity?&lt;/p&gt;</description></item><item><title>Open Source and I - After Alibaba Summer of Code</title><link>/article/2019/08/29/summer-of-code/</link><pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate><guid>/article/2019/08/29/summer-of-code/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;关于阿里巴巴编程之夏的介绍可以参考 AliOS-things 同学的文章
+&lt;a href="https://zhuanlan.zhihu.com/p/79863308"&gt;https://zhuanlan.zhihu.com/p/79863308&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;借秋招的一个间歇期，记录一下我的开源历程。算是对自己的人生阶段的一个记录。&lt;/p&gt;
+&lt;p&gt;从小学时使用开源软件成为受益者，到第一次到开源社区中成为贡献者，我用了十年。不求回报地默默贡献，得到他人的肯定便觉得欢欣雀跃，也许这就是开源的魅力所在。&lt;/p&gt;
+&lt;p&gt;&lt;img src="/pic/post/2019/08/2019-08-29-SOC/481648656.jpeg" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;图1，赵老师在 Jenkins 中文社区的发言&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;我第一次正式参与到开源项目中，是在去年的九月。&lt;/p&gt;
+&lt;p&gt;去年四月的时候，在上海有幸认识了家辉，我们当时便成为了朋友。也是通过他，我了解到了 GSoC。半年之后，觉得是开始套瓷的时间了，便想挑选几个社区来有针对性的交流。第一个关注的是 Apache 的 Kylin 社区，虽然主要开发者是中国人，但是方向和我期望的不太一样，所以后来没有选择它。后来在 GSoC-CN 中根据往年的申请情况，选择了 Jenkins 社区，巧合的是 Jenkins 中文社区刚刚成立，而 Jenkins 社区中活跃的参与者赵老师 @Rick 又是中国人，所以从九月到第二年的三月我便一直在 Jenkins 社区中做贡献，期间成为了 Jenkins-infra member。&lt;/p&gt;
+&lt;p&gt;&lt;img src="/pic/post/2019/08/2019-08-29-SOC/374153865.jpeg" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;图2，赵老师由 KK 宣布为最有价值参与者&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;转折发生在二月和三月。在年前我和赵老师提到过想申请他的 multibranch plugin，他也提醒过我多次要提早准备。但是我期间一直没有在其 gitter channel 中发言，二月的时候有一个印度的同学也参与到其中。同时在三月时春招受挫，和在蚂蚁的家纯学长聊了聊，决定放弃 GSoC，参与到 Kafka 中去。&lt;/p&gt;
+&lt;p&gt;&lt;img src="/pic/post/2019/08/2019-08-29-SOC/399295576.jpeg" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;图3，和学长的交流&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;四月的一个偶然机会，了解到 ASoC 的举办，而其中恰好有我想要深入学习的 Dubbo 社区，于是便在 issue 中留言。我没有马上得到回复，而我又不想错过这次机会，于是在 Jira 中留言、给社区发邮件、给导师发邮件、给 aliopensource 发邮件。久久没有得到回复的我有点绝望，当时又去接触了 Spring Cloud Alibaba 社区。后来乎兴老师在 Jira 中回复了我，@cvictory 也在 issue 中回复了我，aliopensource 和社区也都回复了我邮件，让我先写 proposal。有 GSoC 的经历，其实我的提案早就写完了，但是 ASoC 的提案描述相对来说不够具体，很难有针对性的给出解决方案，就这样踏上了漫长的交流之路&amp;hellip;&lt;/p&gt;</description></item><item><title>The analysis and modification of rules of ESLint</title><link>/article/2019/07/the-analysis-and-modification-of-eslint-rules/</link><pubDate>Wed, 03 Jul 2019 00:00:00 +0000</pubDate><guid>/article/2019/07/the-analysis-and-modification-of-eslint-rules/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;每个互联网大厂都有自己的编码规范，而对规范审查需要有代码扫描平台来对工程师的能力进行评估。在实习的两个月中，我负责的工作的一部分包括代码规范扫描方向，其中对 ESLint 以及 fecs 规则的修改及调整也包括在内。ESLint 在内部保留了一个仓库用于 JS 的规范检查，由于内部代码规范的问题，不可能直接将外部的拿来直接使用。对很少接触 JS 的我来说，npm 的包管理方式冗杂而烦乱，同时该模块是被集成在整个扫描平台中的，所以很少有有效的文档用来参考，通过不断地测试最后终于解决了该部分问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;规则 &lt;strong&gt;no-new&lt;/strong&gt; 要求 使用 &lt;strong&gt;new&lt;/strong&gt; 关键字必须将其赋值给一个变量，如:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-JS" data-lang="JS"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Vue&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Vue&lt;/span&gt;({})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而内部规范在 &lt;strong&gt;Vue&lt;/strong&gt; 中可以不赋值&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-JS" data-lang="JS"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Vue&lt;/span&gt;({})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;所以考虑对 &lt;strong&gt;ESLint&lt;/strong&gt; 进行一些定制化配置。&lt;/p&gt;
+&lt;p&gt;查看官方文档无果之后，考虑找到开发人员，以下为交流过程：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;arjenzhou:
+Hi, because I customized the rules, so I want to build and run eslint locally, what should I do?&lt;/p&gt;
+&lt;p&gt;platinumazure:
+@arjenzhou You should be able to install ESLint locally with npm install &amp;ndash;save-dev eslint, and then run with ./node_modules/.bin/eslint. Am I missing something?&lt;/p&gt;</description></item></channel></rss>

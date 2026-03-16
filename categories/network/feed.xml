@@ -1,16 +1,66 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>network on arjenzhou</title><link>/categories/network/</link><description>Recent content in network on arjenzhou</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 30 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>我的网络环境</title><link>/article/2022/08/network-topology/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>/article/2022/08/network-topology/</guid><description>背景 故事发生在今年的2月。PS5到手没两天诞生了搞直播的想法，在摸索的过程中发现了《搭建 PS4 本地直播服务器》这篇帖子，于是就冒出了折腾的心思。毕竟花钱买采集卡有点冤大头的感觉。
-之前家里的网络环境比较简单，只需要在 Openwrt 上装一些插件，所以一台在上学时候收的一个矿渣 K2P 就够了。
-矿渣 K2P 后来因为 UU 的插件不够稳定，又搞了一个 UU 加速盒。 垃圾 UU 加速盒 但是如果想搞直播，就得每天在工作电脑上跑一个 docker，太麻烦了。
-于是，我便斥巨资购入了一款 J4125 J4125 遗憾的是，尽管这款主机内置了 MSATA 和 SATA3.0 两款接口，但是没有能力容纳下一个 SATA3.0 的硬盘，所以在我手里变成了这样： 外挂式硬盘，蚌埠住了 软路由 过了半年回过头来看，其实根本没必要来搞一个性能远远溢出的 J4125，因为实际上只会跑几个性能开销很小的虚拟机。
-搞这台小主机的目的是为了装一个 debian 来跑 nginx 拦截 PS5 的流量，而裸装 debian 有点不够划算，于是干脆个装 PVE 来个 all in one。 All in PVE 第一步，先把 ROS 和作为 AC 的 Openwrt 搞好，参考《基于PVE+ROS+LEDE的软路由配置流程》，其中需要注意的是，Openwrt 的安装比较麻烦，需要后挂载。在设备联入网络时，根据网关设置为 ROS 或者 Openwrt，可以区分不同的网络环境实现按需科学上网。
-AP 按照上面引用的文章操作完成后，网络设备可以通过插网线的模式来上网了。但是现在都什么年代了还在用传统上网？所以把 K2P 设置成 AP，参考《OpenWRT 设置桥接交换机模式（AP模式）》，注意设置为交换机模式后就可以当 AP 使用，如果想通过无线连接到 AP 上需要设置客户端。</description></item><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。
-应用场景 从标题中可以看出，ZeroTier 是实现内网穿透的一个手段。简单来说就是能够通过它来实现不同局域网之间的互相访问：在公司局域网能连到家里的网络（不要这么做）
-原理 大致简单了解了一下，局域网中各设备通过互联网与 Zeroier 的“行星服务器”建立 P2P VPN 连接，如果两个设备能够通过 VPN 直连那么就直连，否则通过 ZeroTier 中继。
-简单使用 登录并创建一个 Network 之后，使用 ZeroTier 客户端依据 Network ID 连接到该 Network 并认证后。为该网络分配一个网段，给设备分配 IP 并设置路由规则后就可以使用分配的 IP 互相访问了，是不是很简单？
-注意，将路由器加入 ZeroTier 需要配置防火墙。
-截图举个例子：
-在 IPv4 Auto-Assign 部分，为网络设置 IP 段。 这里我将这个网络设置了 10.242.100.0/24 IP 段。
-设置路由规则 分配 IP 段后要为局域网设置路由规则。
-图中 192.168.6.0/24 是我家里的局域网 IP 段，10.242.100.0/24 是上面 ZeroTier 分配的 IP 段。
-设备连入并点击认证后，为其分配 IP 注意每个设备分配的 IP 要在网段内，一般来说都是自动分配好的。
-测试 在配置完成后，可以在一个设备上通过 ZeroTier 分配的 IP 访问另一个设备的服务（需要注意服务绑定的 IP 是不是 ZeroTier 分配的 IP）</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on arjenzhou</title><link>/categories/network/</link><description>Recent content in Network on arjenzhou</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Tue, 30 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="/categories/network/feed.xml" rel="self" type="application/rss+xml"/><item><title>我的网络环境</title><link>/article/2022/08/network-topology/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>/article/2022/08/network-topology/</guid><description>&lt;h1 id="背景"&gt;背景&lt;/h1&gt;
+&lt;p&gt;故事发生在今年的2月。PS5到手没两天诞生了搞直播的想法，在摸索的过程中发现了《&lt;a href="https://homulilly.com/post/play-ps4-live-stream-at-local.html"&gt;搭建 PS4 本地直播服务器&lt;/a&gt;》这篇帖子，于是就冒出了折腾的心思。毕竟花钱买采集卡有点冤大头的感觉。&lt;/p&gt;
+&lt;p&gt;之前家里的网络环境比较简单，只需要在 Openwrt 上装一些插件，所以一台在上学时候收的一个矿渣 K2P 就够了。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/7dJkU4iIrhueqpW.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;矿渣 K2P&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;后来因为 UU 的插件不够稳定，又搞了一个 UU 加速盒。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/XnFu6aRpCyS5Uvk.jpg"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;垃圾 UU 加速盒&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;但是如果想搞直播，就得每天在工作电脑上跑一个 docker，太麻烦了。&lt;/p&gt;
+&lt;p&gt;于是，我便斥巨资购入了一款 J4125
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/u3Ca5fFdVrGUO78.jpg"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;J4125&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;遗憾的是，尽管这款主机内置了 MSATA 和 SATA3.0 两款接口，但是没有能力容纳下一个 SATA3.0 的硬盘，所以在我手里变成了这样：
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/ekSHDZqGURTJFwY.jpg"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;外挂式硬盘，蚌埠住了&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h1 id="软路由"&gt;软路由&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;过了半年回过头来看，其实根本没必要来搞一个性能远远溢出的 J4125，因为实际上只会跑几个性能开销很小的虚拟机。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;搞这台小主机的目的是为了装一个 debian 来跑 nginx 拦截 PS5 的流量，而裸装 debian 有点不够划算，于是干脆个装 PVE 来个 all in one。
+&lt;figure&gt;&lt;img src="https://s2.loli.net/2022/08/30/8IH6F3QqbtMxs49.png"&gt;&lt;figcaption&gt;
+ &lt;h4&gt;All in PVE&lt;/h4&gt;
+ &lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;第一步，先把 ROS 和作为 AC 的 Openwrt 搞好，参考《&lt;a href="https://www.cnblogs.com/Pyrokine/p/14526662.html"&gt;基于PVE+ROS+LEDE的软路由配置流程&lt;/a&gt;》，其中需要注意的是，Openwrt 的安装比较麻烦，需要后挂载。在设备联入网络时，根据网关设置为 ROS 或者 Openwrt，可以区分不同的网络环境实现按需科学上网。&lt;/p&gt;
+&lt;h1 id="ap"&gt;AP&lt;/h1&gt;
+&lt;p&gt;按照上面引用的文章操作完成后，网络设备可以通过插网线的模式来上网了。但是现在都什么年代了还在用传统上网？所以把 K2P 设置成 AP，参考《&lt;a href="https://www.wyr.me/post/676"&gt;OpenWRT 设置桥接交换机模式（AP模式）&lt;/a&gt;》，注意设置为交换机模式后就可以当 AP 使用，如果想通过无线连接到 AP 上需要设置客户端。&lt;/p&gt;</description></item><item><title>ZeroTier 实现内网穿透——入门篇</title><link>/article/2022/02/zerotier/</link><pubDate>Wed, 16 Feb 2022 00:00:00 +0000</pubDate><guid>/article/2022/02/zerotier/</guid><description>&lt;p&gt;上周末逛 v2 看到评论区提到了 ZeroTier, 想起来家里路由器上 Openwrt 带了这个插件，虽然目前没有内网穿透的需求，但是趁着周末还是稍微研究了下。&lt;/p&gt;
+&lt;h2 id="应用场景"&gt;应用场景&lt;/h2&gt;
+&lt;p&gt;从标题中可以看出，ZeroTier 是实现内网穿透的一个手段。简单来说就是能够通过它来实现不同局域网之间的互相访问：在公司局域网能连到家里的网络（不要这么做）&lt;/p&gt;
+&lt;h2 id="原理"&gt;原理&lt;/h2&gt;
+&lt;p&gt;大致简单了解了一下，局域网中各设备通过互联网与 Zeroier 的“行星服务器”建立 P2P VPN 连接，如果两个设备能够通过 VPN 直连那么就直连，否则通过 ZeroTier 中继。&lt;/p&gt;
+&lt;h2 id="简单使用"&gt;简单使用&lt;/h2&gt;
+&lt;p&gt;登录并创建一个 Network 之后，使用 ZeroTier 客户端依据 Network ID 连接到该 Network 并认证后。为该网络分配一个网段，给设备分配 IP 并设置路由规则后就可以使用分配的 IP 互相访问了，是不是很简单？&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意，将路由器加入 ZeroTier 需要配置防火墙。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;截图举个例子：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 IPv4 Auto-Assign 部分，为网络设置 IP 段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/16/Se2K4MIFPdnLjJy.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;这里我将这个网络设置了 &lt;code&gt;10.242.100.0/24&lt;/code&gt; IP 段。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设置路由规则&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分配 IP 段后要为局域网设置路由规则。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/16/wGz2SEV4iDQcTLa.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;图中 &lt;code&gt;192.168.6.0/24&lt;/code&gt; 是我家里的局域网 IP 段，&lt;code&gt;10.242.100.0/24&lt;/code&gt; 是上面 ZeroTier 分配的 IP 段。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;设备连入并点击认证后，为其分配 IP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src="https://s2.loli.net/2022/02/16/Ls6mo3xUg5KWYSp.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;注意每个设备分配的 IP 要在网段内，一般来说都是自动分配好的。&lt;/p&gt;</description></item></channel></rss>

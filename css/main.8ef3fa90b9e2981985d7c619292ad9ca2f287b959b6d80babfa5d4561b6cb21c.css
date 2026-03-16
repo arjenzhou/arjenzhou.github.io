@@ -99,15 +99,22 @@ figure h4::before {
 
 /* Code blocks */
 code {
-  background-color: #f1f1f1;
-  padding: .1em .2em;
+  background-color: #f4f0ff;
+  border: 1px solid #e1d8ff;
+  border-radius: 0.35rem;
+  color: #5b21b6;
+  font-size: 0.92em;
+  padding: 0.12em 0.35em;
 }
 
 pre {
-  background-color: #ececec;
+  background-color: #fbf7ff;
+  border: 1px solid #e1d8ff;
+  border-radius: 0.85rem;
+  box-shadow: 0 10px 30px rgba(91, 33, 182, 0.08);
   line-height: 1.4;
   overflow-x: auto;
-  padding: 1em;
+  padding: 1.1rem 1.15rem;
 }
 
 .highlight pre ::selection {
@@ -117,6 +124,7 @@ pre {
 
 pre code {
   background-color: transparent;
+  border: 0;
   color: inherit;
   font-size: 100%;
   padding: 0;
@@ -230,24 +238,52 @@ justify-content: space-between;
     background-color: #f9f2f4;
 }
 .highlight {
+  border-radius: 0.85rem;
+  margin: 1.25rem 0;
+  overflow: hidden;
   position: relative;
   -webkit-overflow-scrolling: touch;
 }
+
+.highlight pre {
+  background-color: #fbf7ff !important;
+  border: 1px solid #e1d8ff;
+  margin: 0;
+  padding: 2.2rem 1.15rem 1.15rem;
+}
+
+.highlight pre code {
+  color: #2a2140;
+}
+
+.highlight code > span {
+  line-height: 1.6;
+}
+
+.highlight code > span > span {
+  display: block;
+}
+
+.highlight code > span > span:empty {
+  min-height: 1.2em;
+}
+
 .highlight pre code[class*="language-"] {
   -webkit-overflow-scrolling: touch;
 }
 .highlight pre code[class*="language-"]::before {
-  background: black;
-  border-radius: 0 0 0.25rem 0.25rem;
+  background: #2a2140;
+  border-radius: 999px;
   color: white;
-  font-size: 12px;
-  letter-spacing: 0.025rem;
-  padding: 0.1rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.22rem 0.6rem;
   position: absolute;
-  right: 1rem;
+  right: 0.85rem;
   text-align: right;
   text-transform: uppercase;
-  top: 0;
+  top: 0.7rem;
 }
 
 .highlight pre code[class=language-javaScript]::before,
