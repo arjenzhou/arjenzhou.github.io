@@ -140,8 +140,8 @@ button[class*="Delete"]:hover {
   margin: 0 auto !important;
 }
 
-/* Elevate controls containers into elegant cards */
-[class*="ControlContainer"] {
+/* Elevate controls containers into elegant cards (direct children only to prevent nesting) */
+[class*="ControlPaneContainer"] > [class*="ControlContainer"] {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 12px !important;
@@ -149,20 +149,17 @@ button[class*="Delete"]:hover {
   margin: 0 0 16px !important;
   padding: 16px 20px !important;
   transition: all 0.2s ease !important;
+  min-width: 0 !important;
 }
 
-[class*="ControlContainer"]:hover {
+[class*="ControlPaneContainer"] > [class*="ControlContainer"]:hover {
   border-color: #cbd5e1 !important;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
 }
 
-[class*="ControlContainer"]:focus-within {
+[class*="ControlPaneContainer"] > [class*="ControlContainer"]:focus-within {
   border-color: #3b82f6 !important;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
-}
-
-[class*="ControlPaneContainer"] > [class*="ControlContainer"] {
-  min-width: 0 !important;
 }
 
 /* Force first widget (Title) and Markdown editor (Body) to span full grid width */
@@ -175,7 +172,7 @@ button[class*="Delete"]:hover {
   margin-top: 4px !important;
 }
 
-[class*="ControlContainer"]:first-of-type {
+[class*="ControlPaneContainer"] > [class*="ControlContainer"]:first-of-type {
   margin-top: 0 !important;
 }
 
@@ -257,9 +254,11 @@ button[class*="Delete"]:hover {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
 }
 
-[class*="DateTimeControl"] input {
+/* Specificity override to prevent date inputs from getting general text input styling */
+[class*="ControlPaneContainer"] [class*="DateTimeControl"] input:not([type="checkbox"]):not([type="radio"]) {
   border: 0 !important;
   background: transparent !important;
+  box-shadow: none !important;
   min-height: 0 !important;
   padding: 0 !important;
   font-size: 15px !important;
