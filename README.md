@@ -1,36 +1,57 @@
 # arjenzhou.github.io
 
-Hugo source lives on the `master` branch. Netlify builds the site from source and
-publishes the generated `public/` directory.
+Hugo source lives on the `master` branch. Cloudflare Pages builds the site from
+source and publishes the generated `public/` directory.
 
-## Netlify setup
+## Cloudflare Pages
 
-This repository is connected to the Netlify project
-[`arjenzhou-blog`](https://app.netlify.com/projects/arjenzhou-blog).
-
-Netlify reads the build settings from `netlify.toml`:
+Cloudflare Pages reads the Pages output directory from `wrangler.jsonc`:
 
 - Build command: `hugo --gc --minify`
 - Publish directory: `public`
 - Production branch: `master`
 
-The custom domain `arjenzhou.com` is attached to the Netlify project. If DNS is
-managed outside Netlify, point the apex domain to Netlify:
+Create the Pages project from the Cloudflare dashboard by connecting this GitHub
+repository, or create it from Wrangler and deploy `public/` directly:
 
-- Preferred: ALIAS/ANAME/flattened CNAME for `@` to
-  `apex-loadbalancer.netlify.com`
-- Fallback: A record for `@` to `75.2.60.5`
-- Optional `www`: CNAME to `arjenzhou-blog.netlify.app`
+```sh
+hugo --gc --minify
+npx wrangler pages deploy public --project-name arjenzhou-blog --branch master
+```
+
+## Cloudflare Worker OAuth Proxy
+
+Decap CMS uses a standalone Worker for GitHub OAuth:
+
+- Worker source: `workers/decap-oauth/`
+- Worker name: `arjenzhou-decap-oauth`
+- Recommended custom domain: `decap-oauth.arjenzhou.com`
+- Health check: `https://decap-oauth.arjenzhou.com/health`
+
+Create a GitHub OAuth app:
+
+```txt
+Homepage URL: https://arjenzhou.com
+Authorization callback URL: https://decap-oauth.arjenzhou.com/callback
+```
+
+Set the Worker secrets and deploy:
+
+```sh
+echo "<github-client-id>" | npx wrangler secret put GITHUB_CLIENT_ID --config workers/decap-oauth/wrangler.jsonc
+echo "<github-client-secret>" | npx wrangler secret put GITHUB_CLIENT_SECRET --config workers/decap-oauth/wrangler.jsonc
+npx wrangler deploy --config workers/decap-oauth/wrangler.jsonc
+```
+
+After the Worker is deployed, add the custom domain
+`decap-oauth.arjenzhou.com` to the Worker in Cloudflare.
 
 ## Decap CMS
 
 The CMS is available at `/admin/` and writes content back to the `master` branch
 through the Decap GitHub backend.
 
-To finish CMS login, configure a GitHub OAuth provider in Netlify at
-Project configuration > Access & security > OAuth. Use
-`https://api.netlify.com/auth/done` as the GitHub OAuth app callback URL. CMS
-users must sign in with a GitHub account that has write access to this
+CMS users must sign in with a GitHub account that has write access to this
 repository.
 
 Images uploaded from Decap CMS are committed under `content/pic/uploads/` and

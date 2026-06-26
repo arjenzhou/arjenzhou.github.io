@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "arjenzhou-decap-oauth",
+  "main": "src/index.js",
+  "compatibility_date": "2026-06-26",
+  "workers_dev": true,
+  "vars": {
+    "GITHUB_OAUTH_SCOPE": "public_repo"
+  }
+}

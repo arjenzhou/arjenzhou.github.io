@@ -5,3 +5,5 @@ resources/
 dump.rdb
 .hugo_build.lock
 .netlify/
+.wrangler/
+.dev.vars
