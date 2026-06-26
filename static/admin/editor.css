@@ -114,9 +114,7 @@ a {
 
 [class*="ControlPaneContainer"] input:not([type="checkbox"]):not([type="radio"]),
 [class*="ControlPaneContainer"] textarea,
-[class*="ControlPaneContainer"] select,
-[class*="ControlPaneContainer"] [contenteditable="true"],
-[class*="ControlPaneContainer"] [role="textbox"] {
+[class*="ControlPaneContainer"] select {
   background: #fff !important;
   border: 1px solid var(--admin-border-strong) !important;
   border-radius: 6px !important;
@@ -133,33 +131,16 @@ a {
 }
 
 [class*="ControlPaneContainer"] textarea,
-[class*="ControlPaneContainer"] [contenteditable="true"],
-[class*="ControlPaneContainer"] [role="textbox"] {
+[class*="ControlPaneContainer"] .cms-editor-raw textarea {
   min-height: 320px !important;
 }
 
 [class*="ControlPaneContainer"] input:focus,
 [class*="ControlPaneContainer"] textarea:focus,
-[class*="ControlPaneContainer"] select:focus,
-[class*="ControlPaneContainer"] [contenteditable="true"]:focus,
-[class*="ControlPaneContainer"] [role="textbox"]:focus {
+[class*="ControlPaneContainer"] select:focus {
   border-color: var(--admin-accent) !important;
   box-shadow: 0 0 0 3px var(--admin-focus) !important;
   outline: none !important;
-}
-
-[class*="EditorControlBar"] {
-  background: var(--admin-panel) !important;
-  border: 1px solid var(--admin-border) !important;
-  border-radius: var(--admin-radius) !important;
-  box-shadow: 0 10px 24px rgba(35, 35, 51, 0.05) !important;
-  margin-bottom: 18px !important;
-  padding: 8px !important;
-  top: 10px !important;
-}
-
-[class*="EditorControlBar"] button {
-  border-radius: 5px !important;
 }
 
 [class*="SidebarContainer"] {
