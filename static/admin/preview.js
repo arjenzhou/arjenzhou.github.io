@@ -100,6 +100,133 @@
     },
   });
 
+  function closestControlContainer(element) {
+    var node = element;
+
+    while (node && node !== document.body) {
+      if (String(node.className || "").indexOf("ControlContainer") !== -1) {
+        return node;
+      }
+
+      node = node.parentElement;
+    }
+
+    return null;
+  }
+
+  function fieldLabelText(input) {
+    var container = closestControlContainer(input);
+    var label = container && container.querySelector("[class*='FieldLabel'], label");
+
+    return label ? String(label.textContent || "").trim().toLowerCase() : "";
+  }
+
+  function imageComponentInputs(shortcode) {
+    var inputs = Array.prototype.slice.call(shortcode.querySelectorAll("input"));
+    var imageInput = null;
+    var altInput = null;
+
+    inputs.forEach(function (input, index) {
+      var label = fieldLabelText(input);
+
+      if (!imageInput && (label === "image url" || label === "image")) {
+        imageInput = input;
+        return;
+      }
+
+      if (!altInput && label.indexOf("alt text") === 0) {
+        altInput = input;
+        return;
+      }
+
+      if (!imageInput && index === 0) {
+        imageInput = input;
+      } else if (!altInput && index === 1) {
+        altInput = input;
+      }
+    });
+
+    return {
+      image: imageInput,
+      alt: altInput,
+    };
+  }
+
+  function updateImageComponentPreview(shortcode) {
+    var fields = imageComponentInputs(shortcode);
+    var src = fields.image ? String(fields.image.value || "").trim() : "";
+    var alt = fields.alt ? String(fields.alt.value || "").trim() : "";
+    var existing = shortcode.querySelector(".decap-inline-image-preview");
+
+    if (!src) {
+      if (existing) {
+        existing.parentElement.removeChild(existing);
+      }
+
+      shortcode.removeAttribute("data-inline-image-preview");
+      return;
+    }
+
+    var wrapper = existing || document.createElement("figure");
+    var image = wrapper.querySelector("img");
+
+    if (!existing) {
+      wrapper.className = "decap-inline-image-preview";
+      image = document.createElement("img");
+      wrapper.appendChild(image);
+    }
+
+    image.src = src;
+    image.alt = alt;
+
+    if (!existing) {
+      var panel = shortcode.querySelector("[class*='ControlContainer-ShortcodeElement']") || shortcode;
+      panel.insertBefore(wrapper, panel.firstChild);
+    }
+
+    shortcode.setAttribute("data-inline-image-preview", "true");
+  }
+
+  function updateImageComponentPreviews(root) {
+    var scope = root || document;
+    var shortcodes = [];
+
+    if (scope.matches && scope.matches(".slate-shortcode")) {
+      shortcodes.push(scope);
+    }
+
+    shortcodes = shortcodes.concat(Array.prototype.slice.call(scope.querySelectorAll(".slate-shortcode")));
+
+    shortcodes.forEach(function (shortcode) {
+      updateImageComponentPreview(shortcode);
+    });
+  }
+
+  function scheduleImageComponentPreviews(root) {
+    if (scheduleImageComponentPreviews.frame) {
+      window.cancelAnimationFrame(scheduleImageComponentPreviews.frame);
+    }
+
+    scheduleImageComponentPreviews.frame = window.requestAnimationFrame(function () {
+      updateImageComponentPreviews(root || document);
+    });
+  }
+
+  document.addEventListener("input", function (event) {
+    var shortcode = event.target && event.target.closest && event.target.closest(".slate-shortcode");
+
+    if (shortcode) {
+      scheduleImageComponentPreviews(shortcode);
+    }
+  }, true);
+
+  new MutationObserver(function () {
+    scheduleImageComponentPreviews(document);
+  }).observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+
   window.CMS.registerPreviewStyle("/admin/preview.css");
 
   var h = window.h;

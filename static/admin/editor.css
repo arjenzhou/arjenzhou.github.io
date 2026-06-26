@@ -592,12 +592,12 @@ button[class*="Delete"]:hover {
 
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) {
   align-items: start !important;
-  column-gap: 12px !important;
+  column-gap: 14px !important;
   grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
   margin: 0 auto !important;
   max-width: 720px !important;
   padding: 24px 28px 40px !important;
-  row-gap: 14px !important;
+  row-gap: 16px !important;
 }
 
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"] {
@@ -623,7 +623,11 @@ button[class*="Delete"]:hover {
 }
 
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="DateTimeControl"]) {
-  grid-column: span 5 !important;
+  grid-column: span 6 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has(input[aria-label^="Categories"]) {
+  grid-column: span 4 !important;
 }
 
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) {
@@ -663,7 +667,10 @@ button[class*="Delete"]:hover {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  flex-wrap: wrap !important;
+  display: grid !important;
+  grid-template-columns: minmax(124px, 1fr) auto auto auto !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
   gap: 6px !important;
   min-height: 36px !important;
   padding: 0 !important;
@@ -673,9 +680,11 @@ button[class*="Delete"]:hover {
   background: #ffffff !important;
   border: 1px solid #d6dde8 !important;
   border-radius: 6px !important;
-  flex: 0 1 150px !important;
+  flex: none !important;
   min-height: 36px !important;
+  min-width: 0 !important;
   padding: 7px 10px !important;
+  width: 100% !important;
 }
 
 [class*="DateTimeControl"] button {
@@ -685,16 +694,32 @@ button[class*="Delete"]:hover {
   color: #4b5563 !important;
   font-size: 12px !important;
   min-height: 32px !important;
+  min-width: 42px !important;
   padding: 0 9px !important;
 }
 
+[class*="DateTimeControl"] span,
+[class*="DateTimeControl"] > * {
+  align-items: center !important;
+  display: inline-flex !important;
+  height: 36px !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
 [class*="BooleanBackground"] {
-  margin: 7px 0 0 !important;
+  margin: 4px 0 0 !important;
 }
 
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) [class*="ControlPane"],
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) > div:not([class*="ControlTopbar"]) {
+  align-items: center !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
   min-height: 36px !important;
+  padding: 0 !important;
 }
 
 [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
@@ -765,6 +790,41 @@ button[class*="Delete"]:hover {
 
 .slate-shortcode {
   margin: 14px 0 !important;
+}
+
+.slate-shortcode[data-inline-image-preview="true"] {
+  margin: 18px 0 !important;
+}
+
+.decap-inline-image-preview {
+  background: transparent !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.decap-inline-image-preview img {
+  background: #f8fafc !important;
+  border: 1px solid #d6dde8 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  display: block !important;
+  height: auto !important;
+  max-height: 420px !important;
+  object-fit: contain !important;
+  width: 100% !important;
+}
+
+.slate-shortcode[data-inline-image-preview="true"] [class*="ControlContainer-ShortcodeElement"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.slate-shortcode[data-inline-image-preview="true"] [class*="ControlContainer"]:not([class*="ShortcodeElement"]),
+.slate-shortcode[data-inline-image-preview="true"] [class*="ShortcodeElement"] > div:not([class*="ControlTopbar"]):not(.decap-inline-image-preview) {
+  display: none !important;
 }
 
 .slate-shortcode [class*="ControlContainer-ShortcodeElement"] {
