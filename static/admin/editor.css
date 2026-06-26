@@ -1,27 +1,66 @@
-/* Compact only the outer Decap form chrome. Keep editor toolbars and editable content untouched. */
+/* Compact only Decap's outer form chrome. Rich text toolbar/content stay native. */
+[class*="ControlPaneContainer"] {
+  padding-top: 12px !important;
+}
+
 [class*="ControlContainer"] {
-  margin-top: 10px !important;
-  padding: 10px 12px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid #e7e8ec !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 0 8px !important;
+  padding: 0 0 10px !important;
 }
 
 [class*="ControlContainer"]:first-of-type {
-  margin-top: 12px !important;
+  margin-top: 0 !important;
 }
 
 [class*="ControlTopbar"] {
-  margin-bottom: 4px !important;
+  margin: 0 0 5px !important;
+  min-height: 0 !important;
 }
 
 [class*="FieldLabel"] {
+  background: transparent !important;
+  color: #5d6370 !important;
   font-size: 12px !important;
+  font-weight: 700 !important;
   letter-spacing: 0 !important;
-  padding: 3px 8px !important;
+  padding: 0 !important;
+  text-transform: uppercase !important;
+}
+
+[class*="FieldLabel"]::before,
+[class*="FieldLabel"]::after {
+  content: none !important;
+}
+
+[class*="ControlHint"] {
+  color: #7a808c !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
 }
 
 [class*="ControlPaneContainer"] input:not([type="checkbox"]):not([type="radio"]),
 [class*="ControlPaneContainer"] select {
+  background: #fff !important;
+  border: 1px solid #d7d9df !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  color: #303441 !important;
   font-size: 16px !important;
   line-height: 1.35 !important;
-  min-height: 36px !important;
-  padding: 6px 10px !important;
+  min-height: 34px !important;
+  padding: 4px 9px !important;
+}
+
+[class*="ControlPaneContainer"] input:not([type="checkbox"]):not([type="radio"]):focus,
+[class*="ControlPaneContainer"] select:focus {
+  border-color: #6b7280 !important;
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.16) !important;
+  outline: none !important;
 }
