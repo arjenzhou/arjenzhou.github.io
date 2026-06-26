@@ -49,6 +49,56 @@
     return;
   }
 
+  function escapeHtml(value) {
+    return String(value || "").replace(/[&<>"']/g, function (char) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[char];
+    });
+  }
+
+  function markdownAlt(value) {
+    return String(value || "").replace(/\\/g, "\\\\").replace(/\]/g, "\\]");
+  }
+
+  window.CMS.registerEditorComponent({
+    id: "simple-image",
+    label: "Image",
+    fields: [
+      { label: "Image URL", name: "src", widget: "string" },
+      { label: "Alt text", name: "alt", widget: "string", required: false },
+    ],
+    pattern: /^!\[(.*?)\]\(([^)\s]+)(?:\s+"[^"]*")?\)$/m,
+    fromBlock: function (match) {
+      return {
+        alt: match[1] || "",
+        src: match[2] || "",
+      };
+    },
+    toBlock: function (data) {
+      var src = String(data.src || "").trim();
+
+      if (!src) {
+        return "";
+      }
+
+      return "![" + markdownAlt(data.alt) + "](" + src + ")";
+    },
+    toPreview: function (data) {
+      var src = String(data.src || "").trim();
+
+      if (!src) {
+        return "";
+      }
+
+      return '<img src="' + escapeHtml(src) + '" alt="' + escapeHtml(data.alt) + '">';
+    },
+  });
+
   window.CMS.registerPreviewStyle("/admin/preview.css");
 
   var h = window.h;

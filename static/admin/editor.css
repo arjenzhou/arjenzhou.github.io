@@ -64,3 +64,23 @@
   box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.16) !important;
   outline: none !important;
 }
+
+[class*="ObjectWidgetTopBar"] {
+  background: #f4f5f7 !important;
+  border-radius: 4px 4px 0 0 !important;
+  min-height: 32px !important;
+  padding: 4px 10px !important;
+}
+
+[class*="ObjectControl"] [class*="ControlContainer"] {
+  margin-bottom: 6px !important;
+  padding-bottom: 8px !important;
+}
+
+[class*="listControlItem"] {
+  margin-top: 8px !important;
+}
+
+[class*="listControlItem"]:first-of-type {
+  margin-top: 8px !important;
+}
