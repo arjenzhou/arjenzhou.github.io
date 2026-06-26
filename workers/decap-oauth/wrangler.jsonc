@@ -11,6 +11,7 @@
     }
   ],
   "vars": {
+    "CMS_ORIGIN": "https://arjenzhou.com",
     "GITHUB_OAUTH_SCOPE": "public_repo"
   }
 }

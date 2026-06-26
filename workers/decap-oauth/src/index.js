@@ -1,5 +1,14 @@
 const PROVIDER = "github";
 const STATE_COOKIE = "decap_oauth_state";
+const ORIGIN_COOKIE = "decap_oauth_origin";
+
+function cookieHeader(name, value, maxAge) {
+  return `${name}=${encodeURIComponent(value)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
+}
+
+function clearCookieHeader(name) {
+  return cookieHeader(name, "", 0);
+}
 
 function randomState() {
   const bytes = new Uint8Array(24);
@@ -18,8 +27,28 @@ function jsonMessage(type, body) {
   return `authorization:${PROVIDER}:${type}:${JSON.stringify(body)}`;
 }
 
-function authHtml(message, status = 200) {
+function normalizeOrigin(value) {
+  if (!value) {
+    return "";
+  }
+
+  const trimmed = value.trim();
+  const candidate = /^https?:\/\//.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+  try {
+    return new URL(candidate).origin;
+  } catch {
+    return "";
+  }
+}
+
+function authHtml(message, openerOrigin, status = 200) {
   const payload = JSON.stringify(message);
+  const expectedOrigin = JSON.stringify(openerOrigin);
+  const headers = new Headers({ "Content-Type": "text/html; charset=utf-8" });
+
+  headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE));
+  headers.append("Set-Cookie", clearCookieHeader(ORIGIN_COOKIE));
 
   return new Response(`<!doctype html>
 <html>
@@ -31,24 +60,30 @@ function authHtml(message, status = 200) {
     <script>
       (function() {
         var provider = ${JSON.stringify(PROVIDER)};
-        var origin = window.location.origin;
+        var openerOrigin = ${expectedOrigin};
         var message = ${payload};
 
-        function sendResult() {
+        function sendResult(targetOrigin) {
           if (window.opener) {
-            window.opener.postMessage(message, origin);
+            window.opener.postMessage(message, targetOrigin);
           }
           window.close();
         }
 
         if (window.opener) {
           window.addEventListener("message", function(event) {
-            if (event.origin === origin && event.data === "authorizing:" + provider) {
-              sendResult();
+            if (event.source === window.opener &&
+                event.data === "authorizing:" + provider &&
+                (!openerOrigin || event.origin === openerOrigin)) {
+              sendResult(event.origin);
             }
           });
-          window.opener.postMessage("authorizing:" + provider, origin);
-          window.setTimeout(sendResult, 1000);
+          window.opener.postMessage("authorizing:" + provider, openerOrigin || "*");
+          if (openerOrigin) {
+            window.setTimeout(function() {
+              sendResult(openerOrigin);
+            }, 1000);
+          }
         }
       })();
     </script>
@@ -56,15 +91,12 @@ function authHtml(message, status = 200) {
   </body>
 </html>`, {
     status,
-    headers: {
-      "Content-Type": "text/html; charset=utf-8",
-      "Set-Cookie": `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`,
-    },
+    headers,
   });
 }
 
-function oauthError(message, status = 400) {
-  return authHtml(jsonMessage("error", { message }), status);
+function oauthError(message, openerOrigin = "", status = 400) {
+  return authHtml(jsonMessage("error", { message }), openerOrigin, status);
 }
 
 function statusPage(request) {
@@ -98,30 +130,38 @@ function redirectToGithub(request, env) {
   const requestUrl = new URL(request.url);
   const callbackUrl = new URL("/callback", requestUrl.origin);
   const state = randomState();
+  const openerOrigin = normalizeOrigin(requestUrl.searchParams.get("site_id") || env.CMS_ORIGIN);
   const scope = requestUrl.searchParams.get("scope") || env.GITHUB_OAUTH_SCOPE || "public_repo";
   const authUrl = new URL("https://github.com/login/oauth/authorize");
+  const headers = new Headers();
 
   authUrl.searchParams.set("client_id", env.GITHUB_CLIENT_ID);
   authUrl.searchParams.set("redirect_uri", callbackUrl.toString());
   authUrl.searchParams.set("scope", scope);
   authUrl.searchParams.set("state", state);
 
+  headers.set("Location", authUrl.toString());
+  headers.append("Set-Cookie", cookieHeader(STATE_COOKIE, state, 600));
+
+  if (openerOrigin) {
+    headers.append("Set-Cookie", cookieHeader(ORIGIN_COOKIE, openerOrigin, 600));
+  }
+
   return new Response(null, {
     status: 302,
-    headers: {
-      Location: authUrl.toString(),
-      "Set-Cookie": `${STATE_COOKIE}=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
-    },
+    headers,
   });
 }
 
 async function handleCallback(request, env) {
+  const openerOrigin = getCookie(request, ORIGIN_COOKIE) || normalizeOrigin(env.CMS_ORIGIN);
+
   if (!requireGithubClientId(env)) {
-    return oauthError("Missing GITHUB_CLIENT_ID", 500);
+    return oauthError("Missing GITHUB_CLIENT_ID", openerOrigin, 500);
   }
 
   if (!env.GITHUB_CLIENT_SECRET) {
-    return oauthError("Missing GITHUB_CLIENT_SECRET", 500);
+    return oauthError("Missing GITHUB_CLIENT_SECRET", openerOrigin, 500);
   }
 
   const url = new URL(request.url);
@@ -130,11 +170,11 @@ async function handleCallback(request, env) {
   const savedState = getCookie(request, STATE_COOKIE);
 
   if (!code) {
-    return oauthError("Missing code");
+    return oauthError("Missing code", openerOrigin);
   }
 
   if (!state || !savedState || state !== savedState) {
-    return oauthError("Invalid state");
+    return oauthError("Invalid state", openerOrigin);
   }
 
   const callbackUrl = new URL("/callback", url.origin);
@@ -158,13 +198,13 @@ async function handleCallback(request, env) {
 
   if (!tokenResponse.ok || token.error || !token.access_token) {
     const detail = token.error_description || token.error || "GitHub token exchange failed";
-    return oauthError(detail, 502);
+    return oauthError(detail, openerOrigin, 502);
   }
 
   return authHtml(jsonMessage("success", {
     token: token.access_token,
     ...token,
-  }));
+  }), openerOrigin);
 }
 
 export default {
