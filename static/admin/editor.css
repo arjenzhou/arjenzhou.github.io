@@ -1,6 +1,10 @@
 /* Compact only Decap's outer form chrome. Rich text toolbar/content stay native. */
 [class*="ControlPaneContainer"] {
+  column-gap: 12px !important;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 1fr) minmax(160px, 1fr) minmax(104px, 0.45fr) !important;
   padding-top: 12px !important;
+  row-gap: 8px !important;
 }
 
 [class*="ControlContainer"] {
@@ -11,6 +15,19 @@
   box-shadow: none !important;
   margin: 0 0 8px !important;
   padding: 0 0 10px !important;
+}
+
+[class*="ControlPaneContainer"] > [class*="ControlContainer"] {
+  min-width: 0 !important;
+}
+
+[class*="ControlPaneContainer"] > [class*="ControlContainer"]:first-of-type,
+[class*="ControlPaneContainer"] > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
+  grid-column: 1 / -1 !important;
+}
+
+[class*="ControlPaneContainer"] > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
+  margin-top: 2px !important;
 }
 
 [class*="ControlContainer"]:first-of-type {
@@ -63,6 +80,43 @@
   border-color: #6b7280 !important;
   box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.16) !important;
   outline: none !important;
+}
+
+[class*="DateTimeControl"] {
+  align-items: center !important;
+  border: 1px solid #d7d9df !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  gap: 10px !important;
+  min-height: 34px !important;
+  padding: 4px 9px !important;
+}
+
+[class*="DateTimeControl"] input {
+  border: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+}
+
+[class*="DateTimeControl"] button {
+  border-radius: 4px !important;
+  min-height: 26px !important;
+  padding: 2px 8px !important;
+}
+
+[class*="DateTimeControl"] > * {
+  margin: 0 !important;
+}
+
+[class*="BooleanBackground"] {
+  margin: 4px 0 0 !important;
+}
+
+@media (max-width: 900px) {
+  [class*="ControlPaneContainer"] {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 [class*="ObjectWidgetTopBar"] {
