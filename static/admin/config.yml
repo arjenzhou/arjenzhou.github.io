@@ -38,7 +38,12 @@ collections:
     meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Date
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
       - label: Categories
         name: categories
         widget: list
@@ -64,7 +69,12 @@ collections:
     meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Date
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
       - { label: Draft, name: draft, widget: boolean, required: false, default: false }
       - { label: Body, name: body, widget: markdown }
 
@@ -85,7 +95,12 @@ collections:
     meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Date
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
       - label: Categories
         name: categories
         widget: list
@@ -113,7 +128,12 @@ collections:
     meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Date
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
       - label: Categories
         name: categories
         widget: list
