@@ -578,3 +578,285 @@ button[class*="Delete"]:hover {
 [class*="Table"] tr:hover td {
   background: #f8fafc !important;
 }
+
+/* ==========================================
+   Compact edit form overrides
+   ========================================== */
+
+[class*="PreviewPaneContainer-ControlPaneContainer"] {
+  display: block !important;
+  margin: 0 !important;
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) {
+  align-items: start !important;
+  column-gap: 12px !important;
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  margin: 0 auto !important;
+  max-width: 720px !important;
+  padding: 24px 28px 40px !important;
+  row-gap: 14px !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  grid-column: span 5 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:hover,
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:focus-within {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:first-of-type,
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
+  grid-column: 1 / -1 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="DateTimeControl"]) {
+  grid-column: span 5 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) {
+  grid-column: span 2 !important;
+}
+
+[class*="ControlTopbar"] {
+  margin: 0 0 5px !important;
+}
+
+[class*="FieldLabel"] {
+  color: #556070 !important;
+  font-size: 10px !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) input:not([type="checkbox"]):not([type="radio"]),
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) select {
+  background: #ffffff !important;
+  border-color: #d6dde8 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  min-height: 36px !important;
+  padding: 7px 10px !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) input:not([type="checkbox"]):not([type="radio"]):focus,
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) select:focus {
+  border-color: #8aa4c7 !important;
+  box-shadow: 0 0 0 2px rgba(78, 111, 160, 0.14) !important;
+}
+
+[class*="DateTimeControl"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) [class*="DateTimeControl"] input:not([type="checkbox"]):not([type="radio"]) {
+  background: #ffffff !important;
+  border: 1px solid #d6dde8 !important;
+  border-radius: 6px !important;
+  flex: 0 1 150px !important;
+  min-height: 36px !important;
+  padding: 7px 10px !important;
+}
+
+[class*="DateTimeControl"] button {
+  background: #eef2f7 !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  color: #4b5563 !important;
+  font-size: 12px !important;
+  min-height: 32px !important;
+  padding: 0 9px !important;
+}
+
+[class*="BooleanBackground"] {
+  margin: 7px 0 0 !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) [class*="ControlPane"],
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) > div:not([class*="ControlTopbar"]) {
+  min-height: 36px !important;
+}
+
+[class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
+  margin-top: 8px !important;
+}
+
+[class*="EditorControlBar"] {
+  background: #ffffff !important;
+  border: 1px solid #d6dde8 !important;
+  border-bottom: 0 !important;
+  border-radius: 8px 8px 0 0 !important;
+  gap: 3px !important;
+  min-height: 0 !important;
+  padding: 8px 10px !important;
+}
+
+[class*="EditorControlBar"] > * {
+  margin: 0 !important;
+  min-height: 0 !important;
+}
+
+[class*="EditorControlBar"] [class*="ToolbarContainer"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 3px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+[class*="EditorControlBar"] button,
+[class*="EditorControlBar"] [class*="ToolbarButton"] {
+  border-radius: 5px !important;
+  height: 28px !important;
+  width: 28px !important;
+}
+
+[class*="EditorToggle"] {
+  margin-left: auto !important;
+}
+
+[class*="VisualEditor"],
+[class*="EditorContainer"] [class*="VisualEditorContent"] {
+  border: 1px solid #d6dde8 !important;
+  border-radius: 0 0 8px 8px !important;
+  min-height: 340px !important;
+  padding: 18px !important;
+}
+
+.slate-editor,
+[class*="editorStyles"] {
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+.slate-shortcode,
+.slate-shortcode [class*="StyledDiv"],
+.slate-shortcode [class*="ShortcodeElement"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.slate-shortcode {
+  margin: 14px 0 !important;
+}
+
+.slate-shortcode [class*="ControlContainer-ShortcodeElement"] {
+  background: #ffffff !important;
+  border: 1px solid #d6dde8 !important;
+  border-radius: 8px !important;
+  padding: 10px 12px !important;
+}
+
+.slate-shortcode [class*="ControlContainer-ShortcodeElement"] > [class*="ControlTopbar"] {
+  display: none !important;
+}
+
+.slate-shortcode [class*="TopBarContainer"],
+.slate-shortcode [class*="ExpandButtonContainer"],
+.slate-shortcode [class*="ExpandButton"] {
+  display: none !important;
+}
+
+.slate-shortcode [class*="ShortcodeElement"] > div:not([class*="ControlTopbar"]),
+.slate-shortcode [class*="ControlContainer"]:not([class*="ShortcodeElement"]) {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+
+.slate-shortcode [class*="ControlContainer"]:last-child {
+  margin-bottom: 0 !important;
+}
+
+.slate-shortcode [class*="ControlTopbar"] {
+  margin: 0 0 5px !important;
+}
+
+.slate-shortcode input:not([type="checkbox"]):not([type="radio"]) {
+  min-height: 34px !important;
+  padding: 6px 9px !important;
+}
+
+[class*="ObjectControl"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 16px 0 !important;
+  padding: 0 !important;
+}
+
+[class*="ObjectControl"] [class*="ObjectControl"],
+[class*="ObjectControl"] [class*="ControlContainer"],
+[class*="ObjectControl"] [class*="listControlItem"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+
+[class*="ObjectControl"] [class*="FieldLabel"] {
+  color: #556070 !important;
+  font-size: 10px !important;
+  margin-bottom: 5px !important;
+}
+
+[class*="ObjectWidgetTopBar"],
+[class*="ObjectControl"] [class*="ObjectWidgetTopBar"],
+[class*="ObjectControl"] [class*="ListWidgetTopBar"],
+[class*="ObjectControl"] [class*="WidgetTopBar"] {
+  display: none !important;
+}
+
+[class*="ObjectControl"] input {
+  background: #ffffff !important;
+  border: 1px solid #d6dde8 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 900px) {
+  [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) {
+    grid-template-columns: 1fr !important;
+    max-width: none !important;
+    padding: 18px 14px 32px !important;
+  }
+
+  [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"],
+  [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="DateTimeControl"]),
+  [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) {
+    grid-column: 1 / -1 !important;
+  }
+}
