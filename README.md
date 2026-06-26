@@ -1,19 +1,28 @@
 # arjenzhou.github.io
 
-Hugo source lives on the `main` branch. Cloudflare Pages builds the site from
-source and publishes the generated `public/` directory.
+Hugo source lives on the `main` branch. GitHub Actions builds the site and
+uploads the generated `public/` directory to Cloudflare Pages.
 
 ## Cloudflare Pages
 
-Cloudflare Pages reads the Pages output directory from `wrangler.jsonc`:
+Deployments are handled by `.github/workflows/deploy.yml`:
 
+- Trigger: push to `main`, or manual `workflow_dispatch`
 - Build command: `hugo --gc --minify`
 - Publish directory: `public`
+- Cloudflare Pages project: `arjenzhou`
 - Production branch: `main`
-- Environment variable: `HUGO_VERSION=0.157.0`
 
-Create the Pages project from the Cloudflare dashboard by connecting this GitHub
-repository, or create it from Wrangler and deploy `public/` directly:
+GitHub Actions needs these repository secrets:
+
+- `CLOUDFLARE_ACCOUNT_ID`
+- `CLOUDFLARE_API_TOKEN` with Cloudflare Pages edit/deploy access
+
+The Cloudflare API token should allow Cloudflare Pages deployments for this
+account. The Pages project should not also be connected to Cloudflare's Git
+builds; leave GitHub Actions as the deploy source to avoid duplicate builds.
+
+For a manual deploy from the local checkout:
 
 ```sh
 hugo --gc --minify
