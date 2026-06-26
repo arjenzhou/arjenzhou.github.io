@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: arjenzhou/arjenzhou.github.io
-  branch: master
+  branch: main
   base_url: https://decap-oauth.arjenzhou.com
   auth_endpoint: auth
   auth_scope: public_repo

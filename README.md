@@ -1,6 +1,6 @@
 # arjenzhou.github.io
 
-Hugo source lives on the `master` branch. Cloudflare Pages builds the site from
+Hugo source lives on the `main` branch. Cloudflare Pages builds the site from
 source and publishes the generated `public/` directory.
 
 ## Cloudflare Pages
@@ -9,7 +9,7 @@ Cloudflare Pages reads the Pages output directory from `wrangler.jsonc`:
 
 - Build command: `hugo --gc --minify`
 - Publish directory: `public`
-- Production branch: `master`
+- Production branch: `main`
 - Environment variable: `HUGO_VERSION=0.157.0`
 
 Create the Pages project from the Cloudflare dashboard by connecting this GitHub
@@ -17,7 +17,7 @@ repository, or create it from Wrangler and deploy `public/` directly:
 
 ```sh
 hugo --gc --minify
-npx wrangler pages deploy public --project-name arjenzhou --branch master
+npx wrangler pages deploy public --project-name arjenzhou --branch main
 ```
 
 ## Cloudflare Worker OAuth Proxy
@@ -49,7 +49,7 @@ deployment.
 
 ## Decap CMS
 
-The CMS is available at `/admin/` and writes content back to the `master` branch
+The CMS is available at `/admin/` and writes content back to the `main` branch
 through the Decap GitHub backend.
 
 CMS users must sign in with a GitHub account that has write access to this
