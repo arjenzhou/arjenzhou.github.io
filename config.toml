@@ -1,4 +1,4 @@
-baseurl = "/"
+baseURL = "/"
 languageCode = "en-us"
 title = "arjenzhou"
 theme = "archie"

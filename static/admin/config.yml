@@ -1,0 +1,164 @@
+backend:
+  name: github
+  repo: arjenzhou/arjenzhou.github.io
+  branch: master
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+local_backend: true
+
+site_url: https://arjenzhou.com
+display_url: https://arjenzhou.com
+locale: zh_Hans
+
+media_folder: content/pic/uploads
+public_folder: /pic/uploads
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: article
+    label: Articles
+    label_singular: Article
+    folder: content/article
+    path: "{{year}}/{{month}}/{{slug}}"
+    media_folder: "{{media_folder}}"
+    public_folder: "{{public_folder}}"
+    create: true
+    extension: md
+    format: frontmatter
+    nested:
+      depth: 10
+      summary: "{{title}}"
+      subfolders: false
+    meta: { path: { widget: string, label: Path, index_file: "_index" } }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Categories
+        name: categories
+        widget: list
+        required: false
+        field: { label: Category, name: category, widget: string }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: weekly
+    label: Weeklies
+    label_singular: Weekly
+    folder: content/weekly
+    path: "{{year}}/{{month}}/{{year}}-{{month}}-{{day}}"
+    media_folder: "{{media_folder}}"
+    public_folder: "{{public_folder}}"
+    create: true
+    extension: md
+    format: frontmatter
+    nested:
+      depth: 10
+      summary: "{{title}}"
+      subfolders: false
+    meta: { path: { widget: string, label: Path, index_file: "_index" } }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: translation
+    label: Translations
+    label_singular: Translation
+    folder: content/translation
+    path: "{{year}}/{{month}}/{{slug}}"
+    media_folder: "{{media_folder}}"
+    public_folder: "{{public_folder}}"
+    create: true
+    extension: md
+    format: frontmatter
+    nested:
+      depth: 10
+      summary: "{{title}}"
+      subfolders: false
+    meta: { path: { widget: string, label: Path, index_file: "_index" } }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Categories
+        name: categories
+        widget: list
+        required: false
+        field: { label: Category, name: category, widget: string }
+      - { label: Source Link, name: link, widget: string, required: false }
+      - { label: Original Author, name: author, widget: string, required: false }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: reproduction
+    label: Reproductions
+    label_singular: Reproduction
+    folder: content/reproduction
+    path: "{{year}}/{{month}}/{{slug}}"
+    media_folder: "{{media_folder}}"
+    public_folder: "{{public_folder}}"
+    create: true
+    extension: md
+    format: frontmatter
+    nested:
+      depth: 10
+      summary: "{{title}}"
+      subfolders: false
+    meta: { path: { widget: string, label: Path, index_file: "_index" } }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Date, name: date, widget: date, format: "YYYY-MM-DD" }
+      - label: Categories
+        name: categories
+        widget: list
+        required: false
+        field: { label: Category, name: category, widget: string }
+      - { label: Source Link, name: link, widget: string, required: false }
+      - { label: Draft, name: draft, widget: boolean, required: false, default: false }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: pages
+    label: Pages
+    format: frontmatter
+    files:
+      - label: Home
+        name: home
+        file: content/_index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown }
+      - label: Articles Index
+        name: articles_index
+        file: content/article/_index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Weeklies Index
+        name: weeklies_index
+        file: content/weekly/_index.markdown
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Translations Index
+        name: translations_index
+        file: content/translation/_index.markdown
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Reproductions Index
+        name: reproductions_index
+        file: content/reproduction/_index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown, required: false }
+      - label: Resume
+        name: resume
+        file: content/resume/_index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Body, name: body, widget: markdown, required: false }
