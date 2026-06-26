@@ -66,21 +66,22 @@
   }
 
   window.CMS.registerEditorComponent({
-    id: "simple-image",
+    id: "image",
     label: "Image",
+    collapsed: false,
     fields: [
-      { label: "Image URL", name: "src", widget: "string" },
+      { label: "Image URL", name: "image", widget: "string" },
       { label: "Alt text", name: "alt", widget: "string", required: false },
     ],
     pattern: /^!\[(.*?)\]\(([^)\s]+)(?:\s+"[^"]*")?\)$/m,
     fromBlock: function (match) {
       return {
         alt: match[1] || "",
-        src: match[2] || "",
+        image: match[2] || "",
       };
     },
     toBlock: function (data) {
-      var src = String(data.src || "").trim();
+      var src = String(data.image || data.src || "").trim();
 
       if (!src) {
         return "";
@@ -89,7 +90,7 @@
       return "![" + markdownAlt(data.alt) + "](" + src + ")";
     },
     toPreview: function (data) {
-      var src = String(data.src || "").trim();
+      var src = String(data.image || data.src || "").trim();
 
       if (!src) {
         return "";

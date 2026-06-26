@@ -66,21 +66,22 @@
 }
 
 [class*="ObjectWidgetTopBar"] {
-  background: #f4f5f7 !important;
-  border-radius: 4px 4px 0 0 !important;
-  min-height: 32px !important;
-  padding: 4px 10px !important;
+  display: none !important;
 }
 
 [class*="ObjectControl"] [class*="ControlContainer"] {
-  margin-bottom: 6px !important;
-  padding-bottom: 8px !important;
+  margin-bottom: 4px !important;
+  padding-bottom: 6px !important;
 }
 
 [class*="listControlItem"] {
-  margin-top: 8px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  margin-top: 6px !important;
+  padding: 0 !important;
 }
 
 [class*="listControlItem"]:first-of-type {
-  margin-top: 8px !important;
+  margin-top: 6px !important;
 }
