@@ -1,33 +1,178 @@
-/* Compact only Decap's outer form chrome. Rich text toolbar/content stay native. */
-[class*="ControlPaneContainer"] {
-  column-gap: 12px !important;
-  display: grid !important;
-  grid-template-columns: minmax(180px, 1fr) minmax(160px, 1fr) minmax(104px, 0.45fr) !important;
-  padding-top: 12px !important;
-  row-gap: 8px !important;
+/* Import Inter Font for modern UI typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Global Reset & Base App Styles */
+body,
+[class*="AppContainer"] {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  background-color: #f8fafc !important;
+  color: #1e293b !important;
 }
 
+/* Glassmorphic Top Header */
+[class*="AppHeader"] {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+  padding: 12px 24px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+}
+
+[class*="AppHeaderContent"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  gap: 16px !important;
+}
+
+/* Back Link Button */
+[class*="BackLink"] {
+  color: #64748b !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: color 0.2s ease !important;
+}
+
+[class*="BackLink"]:hover {
+  color: #0f172a !important;
+}
+
+/* Header Text Indicators */
+[class*="StatusText"] {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #64748b !important;
+}
+
+[class*="StatusText"][class*="dirty"] {
+  color: #ef4444 !important; /* warning color */
+  background: #fee2e2 !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+}
+
+/* Header Buttons Layout */
+[class*="AppHeaderContent"] > div {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Base styling for all Editor controls buttons */
+[class*="AppHeader"] button,
+[class*="AppHeaderButton"] {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  padding: 8px 16px !important;
+  min-height: 36px !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  cursor: pointer !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Publish/Save Button */
+[class*="PublishButton"],
+[class*="AppHeaderButton"]:not([class*="Delete"]):not([class*="BackLink"]):not([class*="Cancel"]) {
+  background: #10b981 !important; /* emerald green */
+  color: #ffffff !important;
+  border: 1px solid #10b981 !important;
+}
+
+[class*="PublishButton"]:hover,
+[class*="AppHeaderButton"]:not([class*="Delete"]):not([class*="BackLink"]):not([class*="Cancel"]):hover {
+  background: #059669 !important;
+  border-color: #059669 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Dropdown arrow next to Publish button */
+[class*="PublishButton"] ~ button,
+[class*="AppHeaderButton"] ~ button {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  margin-left: -1px !important;
+  background: #10b981 !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+[class*="PublishButton"] ~ button:hover {
+  background: #059669 !important;
+}
+
+/* Delete Button */
+[class*="DeleteButton"],
+button[class*="Delete"] {
+  background: #fee2e2 !important;
+  color: #ef4444 !important;
+  border: 1px solid #fca5a5 !important;
+}
+
+[class*="DeleteButton"]:hover,
+button[class*="Delete"]:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Compact layout for Decap's outer form chrome */
+[class*="ControlPaneContainer"] {
+  column-gap: 16px !important;
+  display: grid !important;
+  grid-template-columns: minmax(180px, 1fr) minmax(160px, 1fr) minmax(104px, 0.45fr) !important;
+  padding: 24px 20px !important;
+  row-gap: 16px !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
+}
+
+/* Elevate controls containers into elegant cards */
 [class*="ControlContainer"] {
-  background: transparent !important;
-  border: 0 !important;
-  border-bottom: 1px solid #e7e8ec !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 0 0 8px !important;
-  padding: 0 0 10px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03) !important;
+  margin: 0 0 16px !important;
+  padding: 16px 20px !important;
+  transition: all 0.2s ease !important;
+}
+
+[class*="ControlContainer"]:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+[class*="ControlContainer"]:focus-within {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
 }
 
 [class*="ControlPaneContainer"] > [class*="ControlContainer"] {
   min-width: 0 !important;
 }
 
+/* Force first widget (Title) and Markdown editor (Body) to span full grid width */
 [class*="ControlPaneContainer"] > [class*="ControlContainer"]:first-of-type,
 [class*="ControlPaneContainer"] > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
   grid-column: 1 / -1 !important;
 }
 
 [class*="ControlPaneContainer"] > [class*="ControlContainer"]:has([class*="EditorControlBar"]) {
-  margin-top: 2px !important;
+  margin-top: 4px !important;
 }
 
 [class*="ControlContainer"]:first-of-type {
@@ -35,18 +180,20 @@
 }
 
 [class*="ControlTopbar"] {
-  margin: 0 0 5px !important;
+  margin: 0 0 6px !important;
   min-height: 0 !important;
 }
 
+/* Modern Typography for Labels */
 [class*="FieldLabel"] {
   background: transparent !important;
-  color: #5d6370 !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0 !important;
+  color: #475569 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
   padding: 0 !important;
   text-transform: uppercase !important;
+  display: block !important;
 }
 
 [class*="FieldLabel"]::before,
@@ -54,88 +201,381 @@
   content: none !important;
 }
 
+/* Field Description/Hint */
 [class*="ControlHint"] {
-  color: #7a808c !important;
+  color: #94a3b8 !important;
   font-size: 12px !important;
-  line-height: 1.35 !important;
-  margin: 2px 0 0 !important;
+  line-height: 1.4 !important;
+  margin: 4px 0 0 !important;
   padding: 0 !important;
 }
 
+/* Polished Form Inputs & Select Elements */
 [class*="ControlPaneContainer"] input:not([type="checkbox"]):not([type="radio"]),
 [class*="ControlPaneContainer"] select {
-  background: #fff !important;
-  border: 1px solid #d7d9df !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
-  color: #303441 !important;
-  font-size: 16px !important;
-  line-height: 1.35 !important;
-  min-height: 34px !important;
-  padding: 4px 9px !important;
+  width: 100% !important;
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+  color: #1e293b !important;
+  font-size: 15px !important;
+  font-family: inherit !important;
+  line-height: 1.5 !important;
+  min-height: 38px !important;
+  padding: 8px 12px !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
 }
 
 [class*="ControlPaneContainer"] input:not([type="checkbox"]):not([type="radio"]):focus,
 [class*="ControlPaneContainer"] select:focus {
-  border-color: #6b7280 !important;
-  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.16) !important;
+  background: #ffffff !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
   outline: none !important;
 }
 
+/* Modern Datetime Picker Control */
 [class*="DateTimeControl"] {
   align-items: center !important;
-  border: 1px solid #d7d9df !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
+  background: #f8fafc !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
   display: flex !important;
-  gap: 10px !important;
-  min-height: 34px !important;
-  padding: 4px 9px !important;
+  gap: 8px !important;
+  min-height: 38px !important;
+  padding: 6px 12px !important;
+  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+}
+
+[class*="DateTimeControl"]:focus-within {
+  background: #ffffff !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
 }
 
 [class*="DateTimeControl"] input {
   border: 0 !important;
+  background: transparent !important;
   min-height: 0 !important;
   padding: 0 !important;
+  font-size: 15px !important;
+  color: #1e293b !important;
+  outline: none !important;
+  flex-grow: 1 !important;
+  width: 100% !important;
 }
 
 [class*="DateTimeControl"] button {
-  border-radius: 4px !important;
-  min-height: 26px !important;
-  padding: 2px 8px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  color: #475569 !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  min-height: 28px !important;
+  padding: 4px 10px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+[class*="DateTimeControl"] button:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
 }
 
 [class*="DateTimeControl"] > * {
   margin: 0 !important;
 }
 
+/* iOS-style Toggle Switch for boolean fields */
 [class*="BooleanBackground"] {
-  margin: 4px 0 0 !important;
+  background: #e2e8f0 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 16px !important;
+  height: 28px !important;
+  width: 50px !important;
+  position: relative !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  margin: 8px 0 0 !important;
+  display: inline-block !important;
 }
 
-@media (max-width: 900px) {
-  [class*="ControlPaneContainer"] {
-    grid-template-columns: 1fr !important;
-  }
+[class*="BooleanBackground"]:hover {
+  background: #cbd5e1 !important;
 }
 
+/* Handle styled-components inline/class color toggling if set */
+[class*="BooleanBackground"][style*="background-color: rgb(16, 185, 129)"],
+[class*="BooleanBackground"][style*="background: rgb(16, 185, 129)"],
+[class*="BooleanBackground"][class*="active"] {
+  background-color: #10b981 !important;
+  border-color: #059669 !important;
+}
+
+/* Editor Rich Text / Markdown Control Bar (Toolbar) */
+[class*="EditorControlBar"] {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  border-top-left-radius: 10px !important;
+  border-top-right-radius: 10px !important;
+  padding: 8px 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-wrap: wrap !important;
+}
+
+/* Styling markdown toolbar buttons */
+[class*="EditorControlBar"] button,
+[class*="EditorControlBar"] [class*="ToolbarButton"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 32px !important;
+  width: 32px !important;
+  padding: 0 !important;
+  transition: all 0.15s ease !important;
+}
+
+[class*="EditorControlBar"] button:hover,
+[class*="EditorControlBar"] [class*="ToolbarButton"]:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[class*="EditorControlBar"] button[class*="active"],
+[class*="EditorControlBar"] [class*="ToolbarButton"][class*="active"] {
+  background: #e2e8f0 !important;
+  color: #3b82f6 !important;
+}
+
+/* Visual Editor Content Area */
+[class*="VisualEditor"],
+[class*="EditorContainer"] [class*="VisualEditorContent"] {
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+  padding: 20px !important;
+  font-size: 15px !important;
+  line-height: 1.62 !important;
+  color: #334155 !important;
+  font-family: inherit !important;
+  min-height: 280px !important;
+  background: #ffffff !important;
+  outline: none !important;
+}
+
+/* Markdown toggle switcher ("富文本" <-> "Markdown") */
+[class*="EditorToggle"] {
+  color: #64748b !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Custom Object Widget nested component style (e.g. image options block) */
 [class*="ObjectWidgetTopBar"] {
   display: none !important;
 }
 
-[class*="ObjectControl"] [class*="ControlContainer"] {
-  margin-bottom: 4px !important;
-  padding-bottom: 6px !important;
+[class*="ObjectControl"] {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  padding: 14px 16px !important;
+  margin: 12px 0 !important;
 }
 
+[class*="ObjectControl"] [class*="ControlContainer"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  margin-bottom: 8px !important;
+  padding: 0 !important;
+}
+
+[class*="ObjectControl"] [class*="FieldLabel"] {
+  font-size: 10px !important;
+  color: #64748b !important;
+  margin-bottom: 4px !important;
+}
+
+[class*="ObjectControl"] input {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+/* Add / Delete list control items styling */
 [class*="listControlItem"] {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  margin-top: 6px !important;
+  margin-top: 8px !important;
   padding: 0 !important;
 }
 
 [class*="listControlItem"]:first-of-type {
-  margin-top: 6px !important;
+  margin-top: 8px !important;
+}
+
+/* Thin, modern scrollbars for a cleaner visual weight */
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8 !important;
+}
+
+/* Screen Size adjustments */
+@media (max-width: 900px) {
+  [class*="ControlPaneContainer"] {
+    grid-template-columns: 1fr !important;
+    padding: 16px 12px !important;
+  }
+}
+
+/* ==========================================
+   Collections Dashboard & Sidebar Styling
+   ========================================== */
+
+/* Sidebar Navigation */
+[class*="SidebarContainer"] {
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  padding: 24px 16px !important;
+}
+
+[class*="SidebarHeading"] {
+  color: #475569 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 12px !important;
+  padding-left: 8px !important;
+}
+
+[class*="SidebarLink"] {
+  border-radius: 8px !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+  margin-bottom: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+[class*="SidebarLink"]:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+[class*="SidebarLink"][class*="active"],
+[class*="SidebarLink"]::before {
+  /* Some versions use custom classes, let's capture both */
+}
+
+/* Active Sidebar Link */
+[class*="SidebarLink"][class*="active"],
+[class*="SidebarLink"][style*="color: rgb(59, 130, 246)"] {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+}
+
+/* Search bar styling */
+[class*="SearchContainer"] input {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  padding: 8px 16px 8px 36px !important;
+  font-size: 14px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+[class*="SearchContainer"] input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  outline: none !important;
+}
+
+/* Cards & Collection Lists */
+[class*="Card"] {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  padding: 16px 20px !important;
+  transition: all 0.2s ease !important;
+}
+
+[class*="Card"]:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Table layout styling for list views */
+[class*="Table"] {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+[class*="Table"] th {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  text-align: left !important;
+}
+
+[class*="Table"] td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  color: #334155 !important;
+  font-size: 14px !important;
+}
+
+[class*="Table"] tr:last-child td {
+  border-bottom: none !important;
+}
+
+[class*="Table"] tr:hover td {
+  background: #f8fafc !important;
 }
