@@ -35,7 +35,6 @@ collections:
       depth: 10
       summary: "{{title}}"
       subfolders: false
-    meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
       - label: Date
@@ -48,9 +47,14 @@ collections:
         name: categories
         widget: list
         required: false
-        field: { label: Category, name: category, widget: string }
+        hint: Separate categories with commas.
       - { label: Draft, name: draft, widget: boolean, required: false, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - label: Body
+        name: body
+        widget: markdown
+        minimal: true
+        modes: [raw]
+        editor_components: [image]
 
   - name: weekly
     label: Weeklies
@@ -66,7 +70,6 @@ collections:
       depth: 10
       summary: "{{title}}"
       subfolders: false
-    meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
       - label: Date
@@ -76,7 +79,12 @@ collections:
         time_format: false
         picker_utc: true
       - { label: Draft, name: draft, widget: boolean, required: false, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - label: Body
+        name: body
+        widget: markdown
+        minimal: true
+        modes: [raw]
+        editor_components: [image]
 
   - name: translation
     label: Translations
@@ -92,7 +100,6 @@ collections:
       depth: 10
       summary: "{{title}}"
       subfolders: false
-    meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
       - label: Date
@@ -105,11 +112,16 @@ collections:
         name: categories
         widget: list
         required: false
-        field: { label: Category, name: category, widget: string }
+        hint: Separate categories with commas.
       - { label: Source Link, name: link, widget: string, required: false }
       - { label: Original Author, name: author, widget: string, required: false }
       - { label: Draft, name: draft, widget: boolean, required: false, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - label: Body
+        name: body
+        widget: markdown
+        minimal: true
+        modes: [raw]
+        editor_components: [image]
 
   - name: reproduction
     label: Reproductions
@@ -125,7 +137,6 @@ collections:
       depth: 10
       summary: "{{title}}"
       subfolders: false
-    meta: { path: { widget: string, label: Path, index_file: "_index" } }
     fields:
       - { label: Title, name: title, widget: string }
       - label: Date
@@ -138,10 +149,15 @@ collections:
         name: categories
         widget: list
         required: false
-        field: { label: Category, name: category, widget: string }
+        hint: Separate categories with commas.
       - { label: Source Link, name: link, widget: string, required: false }
       - { label: Draft, name: draft, widget: boolean, required: false, default: false }
-      - { label: Body, name: body, widget: markdown }
+      - label: Body
+        name: body
+        widget: markdown
+        minimal: true
+        modes: [raw]
+        editor_components: [image]
 
   - name: pages
     label: Pages
@@ -152,34 +168,69 @@ collections:
         file: content/_index.md
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Body, name: body, widget: markdown }
+          - label: Body
+            name: body
+            widget: markdown
+            minimal: true
+            modes: [raw]
+            editor_components: [image]
       - label: Articles Index
         name: articles_index
         file: content/article/_index.md
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - label: Body
+            name: body
+            widget: markdown
+            required: false
+            minimal: true
+            modes: [raw]
+            editor_components: [image]
       - label: Weeklies Index
         name: weeklies_index
         file: content/weekly/_index.markdown
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - label: Body
+            name: body
+            widget: markdown
+            required: false
+            minimal: true
+            modes: [raw]
+            editor_components: [image]
       - label: Translations Index
         name: translations_index
         file: content/translation/_index.markdown
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - label: Body
+            name: body
+            widget: markdown
+            required: false
+            minimal: true
+            modes: [raw]
+            editor_components: [image]
       - label: Reproductions Index
         name: reproductions_index
         file: content/reproduction/_index.md
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - label: Body
+            name: body
+            widget: markdown
+            required: false
+            minimal: true
+            modes: [raw]
+            editor_components: [image]
       - label: Resume
         name: resume
         file: content/resume/_index.md
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Body, name: body, widget: markdown, required: false }
+          - label: Body
+            name: body
+            widget: markdown
+            required: false
+            minimal: true
+            modes: [raw]
+            editor_components: [image]

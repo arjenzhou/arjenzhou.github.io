@@ -1,2 +1,27 @@
-/* Intentionally empty.
-   Decap CMS editor controls are fragile when styled by broad class selectors. */
+/* Compact only the outer Decap form chrome. Keep editor toolbars and editable content untouched. */
+[class*="ControlContainer"] {
+  margin-top: 10px !important;
+  padding: 10px 12px !important;
+}
+
+[class*="ControlContainer"]:first-of-type {
+  margin-top: 12px !important;
+}
+
+[class*="ControlTopbar"] {
+  margin-bottom: 4px !important;
+}
+
+[class*="FieldLabel"] {
+  font-size: 12px !important;
+  letter-spacing: 0 !important;
+  padding: 3px 8px !important;
+}
+
+[class*="ControlPaneContainer"] input:not([type="checkbox"]):not([type="radio"]),
+[class*="ControlPaneContainer"] select {
+  font-size: 16px !important;
+  line-height: 1.35 !important;
+  min-height: 36px !important;
+  padding: 6px 10px !important;
+}
