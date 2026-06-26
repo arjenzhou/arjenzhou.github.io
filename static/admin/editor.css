@@ -9,14 +9,14 @@ body,
   color: #1e293b !important;
 }
 
-/* Glassmorphic Top Header */
-[class*="AppHeader"] {
+/* Top Header */
+header[class*="AppHeader"] {
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
-  padding: 12px 24px !important;
+  padding: 10px 24px !important;
   position: sticky !important;
   top: 0 !important;
   z-index: 100 !important;
@@ -29,6 +29,16 @@ body,
   max-width: 1400px !important;
   margin: 0 auto !important;
   gap: 16px !important;
+}
+
+[class*="AppHeaderContent"],
+[class*="AppHeaderNavList"],
+[class*="AppHeaderActions"],
+[class*="AppHeaderLink"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 
 /* Back Link Button */
@@ -110,6 +120,21 @@ body,
 
 [class*="PublishButton"] ~ button:hover {
   background: #059669 !important;
+}
+
+[class*="AppHeaderNavLink"],
+[class*="AppHeaderButton"] {
+  box-shadow: none !important;
+}
+
+[class*="AppHeaderQuickNewButton"] {
+  background: #eef2f7 !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  color: #475569 !important;
+  min-height: 34px !important;
+  padding: 7px 12px !important;
 }
 
 /* Delete Button */
@@ -919,4 +944,174 @@ button[class*="Delete"]:hover {
   [class*="ControlPaneContainer"]:has(> [class*="ControlContainer"]) > [class*="ControlContainer"]:has([class*="BooleanBackground"]) {
     grid-column: 1 / -1 !important;
   }
+}
+
+/* ==========================================
+   Flat collection list view overrides
+   ========================================== */
+
+[class*="Collection"],
+[class*="Entries"],
+[class*="EntryListing"],
+[class*="ViewContainer"] {
+  box-shadow: none !important;
+}
+
+[class*="Collection"] [class*="Card"],
+[class*="Entries"] [class*="Card"],
+[class*="EntryListing"] [class*="Card"],
+[class*="ListView"] [class*="Card"],
+[class*="GridView"] [class*="Card"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+}
+
+[class*="Collection"] [class*="Card"]:hover,
+[class*="Entries"] [class*="Card"]:hover,
+[class*="EntryListing"] [class*="Card"]:hover,
+[class*="ListView"] [class*="Card"]:hover,
+[class*="GridView"] [class*="Card"]:hover {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+[class*="CollectionMain"],
+[class*="CollectionPage"],
+[class*="CollectionContainer"],
+[class*="EntriesCollection"],
+[class*="EntriesContainer"],
+[class*="EntryListingContainer"],
+[class*="ListViewContainer"],
+[class*="GridViewContainer"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+div[class*="CollectionTop"],
+div[class*="CollectionHeader"],
+div[class*="EntriesHeader"],
+div[class*="ListHeader"] {
+  align-items: center !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  gap: 16px !important;
+  margin: 0 0 18px !important;
+  padding: 0 !important;
+}
+
+[class*="CollectionTop"] h1,
+[class*="CollectionHeader"] h1,
+[class*="EntriesHeader"] h1,
+[class*="ListHeader"] h1 {
+  color: #263238 !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+a[class*="CollectionTopNewButton"],
+button[class*="CollectionTopNewButton"] {
+  align-items: center !important;
+  background: #263238 !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  display: inline-flex !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  gap: 6px !important;
+  min-height: 36px !important;
+  padding: 0 14px !important;
+  text-decoration: none !important;
+  transform: none !important;
+}
+
+a[class*="CollectionTopNewButton"]:hover,
+button[class*="CollectionTopNewButton"]:hover {
+  background: #111827 !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  transform: none !important;
+}
+
+[class*="SidebarContainer"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 22px 18px !important;
+}
+
+[class*="SidebarContainer"] [class*="Card"],
+[class*="SidebarContainer"] [class*="SidebarNav"],
+[class*="SidebarContainer"] [class*="SidebarContent"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+[class*="SidebarLink"] {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+[class*="SearchContainer"],
+[class*="SearchContainer"] > * {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[class*="SearchContainer"] input {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+[class*="Entries"] [class*="Table"],
+[class*="Collection"] [class*="Table"],
+[class*="EntryListing"] [class*="Table"] {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+[class*="Entries"] [class*="Table"] th,
+[class*="Collection"] [class*="Table"] th,
+[class*="EntryListing"] [class*="Table"] th,
+[class*="Entries"] [class*="Table"] td,
+[class*="Collection"] [class*="Table"] td,
+[class*="EntryListing"] [class*="Table"] td {
+  box-shadow: none !important;
+}
+
+[class*="Entries"] [class*="Grid"],
+[class*="Collection"] [class*="Grid"],
+[class*="EntryListing"] [class*="Grid"] {
+  gap: 10px !important;
+}
+
+[class*="Entries"] [class*="Grid"] > *,
+[class*="Collection"] [class*="Grid"] > *,
+[class*="EntryListing"] [class*="Grid"] > * {
+  border-radius: 8px !important;
+  box-shadow: none !important;
 }
