@@ -17,7 +17,7 @@ repository, or create it from Wrangler and deploy `public/` directly:
 
 ```sh
 hugo --gc --minify
-npx wrangler pages deploy public --project-name arjenzhou-blog --branch master
+npx wrangler pages deploy public --project-name arjenzhou --branch master
 ```
 
 ## Cloudflare Worker OAuth Proxy
@@ -44,8 +44,8 @@ echo "<github-client-secret>" | npx wrangler secret put GITHUB_CLIENT_SECRET --c
 npx wrangler deploy --config workers/decap-oauth/wrangler.jsonc
 ```
 
-After the Worker is deployed, add the custom domain
-`decap-oauth.arjenzhou.com` to the Worker in Cloudflare.
+The Worker config attaches `decap-oauth.arjenzhou.com` as a custom domain during
+deployment.
 
 ## Decap CMS
 
