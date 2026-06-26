@@ -13,9 +13,8 @@ Deployments are handled by `.github/workflows/deploy.yml`:
 - Cloudflare Pages project: `arjenzhou`
 - Production branch: `main`
 
-GitHub Actions needs these repository secrets:
+GitHub Actions needs this repository secret:
 
-- `CLOUDFLARE_ACCOUNT_ID`
 - `CLOUDFLARE_API_TOKEN` with Cloudflare Pages edit/deploy access
 
 The Cloudflare API token should allow Cloudflare Pages deployments for this
