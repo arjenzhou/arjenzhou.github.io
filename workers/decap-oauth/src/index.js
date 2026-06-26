@@ -42,11 +42,70 @@ function normalizeOrigin(value) {
   }
 }
 
+function configuredOrigins(env) {
+  return (env.CMS_ORIGINS || env.CMS_ORIGIN || "")
+    .split(",")
+    .map(normalizeOrigin)
+    .filter((origin, index, origins) => origin && origins.indexOf(origin) === index);
+}
+
+function originError(message, status = 403) {
+  return new Response(message, {
+    status,
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "no-store",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
+
+function selectOpenerOrigin(requestUrl, env) {
+  const allowedOrigins = configuredOrigins(env);
+
+  if (allowedOrigins.length === 0) {
+    return { error: originError("Missing CMS origin configuration", 500) };
+  }
+
+  const requestedOrigin = normalizeOrigin(requestUrl.searchParams.get("site_id"));
+
+  if (requestedOrigin && !allowedOrigins.includes(requestedOrigin)) {
+    return { error: originError("Unauthorized site_id") };
+  }
+
+  return { origin: requestedOrigin || allowedOrigins[0] };
+}
+
+function getCallbackOrigin(request, env) {
+  const allowedOrigins = configuredOrigins(env);
+  const storedOrigin = normalizeOrigin(getCookie(request, ORIGIN_COOKIE));
+
+  if (storedOrigin && allowedOrigins.includes(storedOrigin)) {
+    return storedOrigin;
+  }
+
+  return allowedOrigins[0] || "";
+}
+
+function selectScope(requestUrl, env) {
+  const configuredScope = env.GITHUB_OAUTH_SCOPE || "public_repo";
+  const requestedScope = requestUrl.searchParams.get("scope");
+
+  if (requestedScope && requestedScope !== configuredScope) {
+    return { error: originError("Unauthorized OAuth scope") };
+  }
+
+  return { scope: configuredScope };
+}
+
 function authHtml(message, openerOrigin, status = 200) {
   const payload = JSON.stringify(message);
   const expectedOrigin = JSON.stringify(openerOrigin);
   const headers = new Headers({ "Content-Type": "text/html; charset=utf-8" });
 
+  headers.set("Cache-Control", "no-store");
+  headers.set("Referrer-Policy", "no-referrer");
+  headers.set("X-Content-Type-Options", "nosniff");
   headers.append("Set-Cookie", clearCookieHeader(STATE_COOKIE));
   headers.append("Set-Cookie", clearCookieHeader(ORIGIN_COOKIE));
 
@@ -130,22 +189,30 @@ function redirectToGithub(request, env) {
   const requestUrl = new URL(request.url);
   const callbackUrl = new URL("/callback", requestUrl.origin);
   const state = randomState();
-  const openerOrigin = normalizeOrigin(requestUrl.searchParams.get("site_id") || env.CMS_ORIGIN);
-  const scope = requestUrl.searchParams.get("scope") || env.GITHUB_OAUTH_SCOPE || "public_repo";
+  const openerOriginResult = selectOpenerOrigin(requestUrl, env);
+  const scopeResult = selectScope(requestUrl, env);
   const authUrl = new URL("https://github.com/login/oauth/authorize");
   const headers = new Headers();
 
+  if (openerOriginResult.error) {
+    return openerOriginResult.error;
+  }
+
+  if (scopeResult.error) {
+    return scopeResult.error;
+  }
+
   authUrl.searchParams.set("client_id", env.GITHUB_CLIENT_ID);
   authUrl.searchParams.set("redirect_uri", callbackUrl.toString());
-  authUrl.searchParams.set("scope", scope);
+  authUrl.searchParams.set("scope", scopeResult.scope);
   authUrl.searchParams.set("state", state);
 
   headers.set("Location", authUrl.toString());
+  headers.set("Cache-Control", "no-store");
+  headers.set("Referrer-Policy", "no-referrer");
+  headers.set("X-Content-Type-Options", "nosniff");
   headers.append("Set-Cookie", cookieHeader(STATE_COOKIE, state, 600));
-
-  if (openerOrigin) {
-    headers.append("Set-Cookie", cookieHeader(ORIGIN_COOKIE, openerOrigin, 600));
-  }
+  headers.append("Set-Cookie", cookieHeader(ORIGIN_COOKIE, openerOriginResult.origin, 600));
 
   return new Response(null, {
     status: 302,
@@ -154,7 +221,7 @@ function redirectToGithub(request, env) {
 }
 
 async function handleCallback(request, env) {
-  const openerOrigin = getCookie(request, ORIGIN_COOKIE) || normalizeOrigin(env.CMS_ORIGIN);
+  const openerOrigin = getCallbackOrigin(request, env);
 
   if (!requireGithubClientId(env)) {
     return oauthError("Missing GITHUB_CLIENT_ID", openerOrigin, 500);
