@@ -15,11 +15,13 @@ Deployments are handled by `.github/workflows/deploy.yml`:
 
 GitHub Actions needs this repository secret:
 
-- `CLOUDFLARE_API_TOKEN` with Cloudflare Pages edit/deploy access
+- `CLOUDFLARE_API_TOKEN`, backed by a Cloudflare Account API Token with
+  `Pages: Write` access for this account
 
-The Cloudflare API token should allow Cloudflare Pages deployments for this
-account. The Pages project should not also be connected to Cloudflare's Git
-builds; leave GitHub Actions as the deploy source to avoid duplicate builds.
+Use an Account API Token rather than a User API Token so deployment is not tied
+to an individual Cloudflare profile. The Pages project should not also be
+connected to Cloudflare's Git builds; leave GitHub Actions as the deploy source
+to avoid duplicate builds.
 
 For a manual deploy from the local checkout:
 
