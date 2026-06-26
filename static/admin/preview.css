@@ -1,0 +1,225 @@
+@font-face {
+  font-family: "Fira Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/fira-sans-v10-latin-regular.woff2") format("woff2"),
+       url("/fonts/fira-sans-v10-latin-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/roboto-mono-v12-latin-regular.woff2") format("woff2"),
+       url("/fonts/roboto-mono-v12-latin-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: italic;
+  font-weight: 500;
+  src: url("/fonts/ibm-plex-mono-v6-latin-500italic.woff2") format("woff2"),
+       url("/fonts/ibm-plex-mono-v6-latin-500italic.woff") format("woff");
+}
+
+:root {
+  --maincolor: red;
+  --bordercl: rebeccapurple;
+  --callouctcolor: dodgerblue;
+  --hovercolor: navy;
+}
+
+html {
+  color: #232333;
+  font-family: "Roboto Mono", monospace;
+  font-size: 15px;
+  line-height: 1.6em;
+}
+
+body {
+  background: #fff;
+  display: block;
+  margin: 0;
+}
+
+::selection {
+  background: var(--maincolor);
+  color: #fff;
+}
+
+.decap-preview {
+  box-sizing: border-box;
+  margin: 0 auto 4em;
+  max-width: 800px;
+  padding: 24px 1ch 48px;
+  word-wrap: break-word;
+}
+
+.decap-preview header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 1em 0;
+}
+
+.decap-preview header .main {
+  font-size: 1.5rem;
+}
+
+.decap-preview nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7em;
+}
+
+.decap-preview p {
+  font-family: "Fira Sans", sans-serif;
+  line-height: 1.5;
+}
+
+.decap-preview hr {
+  border: 0;
+  border-top: 3px dotted var(--bordercl);
+  margin: 1em 0;
+}
+
+.decap-preview blockquote {
+  border-left: 3px solid var(--bordercl);
+  color: #737373;
+  margin: 0;
+  padding-left: 1em;
+}
+
+.decap-preview a {
+  border-bottom: 3px solid var(--maincolor);
+  color: inherit;
+  text-decoration: none;
+}
+
+.decap-preview a:hover {
+  background-color: var(--hovercolor);
+  color: #fff;
+}
+
+.decap-preview ul {
+  list-style: none;
+  padding-left: 2ch;
+}
+
+.decap-preview ul li {
+  text-indent: -2ch;
+}
+
+.decap-preview ul > li::before {
+  content: "* ";
+  font-weight: bold;
+}
+
+.decap-preview img {
+  border: 3px solid #ececec;
+  max-width: 100%;
+}
+
+.decap-preview figure {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+  max-width: 100%;
+}
+
+.decap-preview code {
+  background-color: #f4f0ff;
+  border: 1px solid #e1d8ff;
+  border-radius: 0.35rem;
+  color: #5b21b6;
+  font-size: 0.92em;
+  padding: 0.12em 0.35em;
+}
+
+.decap-preview pre {
+  background-color: #fbf7ff;
+  border: 1px solid #e1d8ff;
+  border-radius: 0.85rem;
+  box-shadow: 0 10px 30px rgba(91, 33, 182, 0.08);
+  line-height: 1.4;
+  overflow-x: auto;
+  padding: 1.1rem 1.15rem;
+}
+
+.decap-preview pre code {
+  background-color: transparent;
+  border: 0;
+  color: inherit;
+  font-size: 100%;
+  padding: 0;
+}
+
+.decap-preview h1,
+.decap-preview h2,
+.decap-preview h3,
+.decap-preview h4,
+.decap-preview h5,
+.decap-preview h6 {
+  font-size: 1.2rem;
+  margin-top: 2em;
+}
+
+.decap-preview h1::before { color: var(--maincolor); content: "# "; }
+.decap-preview h2::before { color: var(--maincolor); content: "## "; }
+.decap-preview h3::before { color: var(--maincolor); content: "### "; }
+.decap-preview h4::before { color: var(--maincolor); content: "#### "; }
+.decap-preview h5::before { color: var(--maincolor); content: "##### "; }
+.decap-preview h6::before { color: var(--maincolor); content: "###### "; }
+
+.decap-preview .title h1 {
+  margin-bottom: 0;
+}
+
+.decap-preview article .title {
+  margin-bottom: 1em;
+}
+
+.decap-preview .meta {
+  color: #999;
+  letter-spacing: 0;
+}
+
+.decap-preview .draft-label {
+  background-color: #f9f2f4;
+  border-radius: 4px;
+  color: var(--bordercl);
+  margin-left: 6px;
+  padding: 2px 4px;
+  text-decoration: none;
+}
+
+.decap-preview .callout {
+  background-color: var(--callouctcolor);
+  color: #fff;
+  padding: 1em;
+}
+
+.decap-preview .callout p {
+  font-family: "IBM Plex Mono", monospace;
+  margin: 0;
+}
+
+.decap-preview .post-tags ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em;
+  padding-left: 0;
+}
+
+.decap-preview .post-tags li {
+  text-indent: 0;
+}
+
+.decap-preview .post-tags li::before {
+  content: "🏷 ";
+}
+
+.decap-preview footer {
+  color: #999;
+  margin-top: 2em;
+}
