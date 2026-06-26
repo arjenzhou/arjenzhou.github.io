@@ -67,6 +67,25 @@ function oauthError(message, status = 400) {
   return authHtml(jsonMessage("error", { message }), status);
 }
 
+function statusPage(request) {
+  const body = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Decap CMS OAuth Proxy</title>
+  </head>
+  <body>
+    <h1>Decap CMS OAuth proxy is running</h1>
+    <p>This endpoint is used by Decap CMS for GitHub authorization.</p>
+    <p><a href="https://arjenzhou.com/admin/">Open CMS admin</a></p>
+  </body>
+</html>`;
+
+  return new Response(request.method === "HEAD" ? null : body, {
+    headers: { "Content-Type": "text/html; charset=utf-8" },
+  });
+}
+
 function requireGithubClientId(env) {
   return Boolean(env.GITHUB_CLIENT_ID);
 }
@@ -151,6 +170,7 @@ async function handleCallback(request, env) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const isRead = request.method === "GET" || request.method === "HEAD";
 
     if (request.method === "GET" && url.pathname === "/auth") {
       return redirectToGithub(request, env);
@@ -160,8 +180,14 @@ export default {
       return handleCallback(request, env);
     }
 
-    if (request.method === "GET" && url.pathname === "/health") {
-      return new Response("ok", { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+    if (isRead && url.pathname === "/") {
+      return statusPage(request);
+    }
+
+    if (isRead && url.pathname === "/health") {
+      return new Response(request.method === "HEAD" ? null : "ok", {
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
     }
 
     return new Response("Not found", { status: 404 });
