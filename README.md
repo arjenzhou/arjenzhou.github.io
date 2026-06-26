@@ -10,6 +10,7 @@ Cloudflare Pages reads the Pages output directory from `wrangler.jsonc`:
 - Build command: `hugo --gc --minify`
 - Publish directory: `public`
 - Production branch: `master`
+- Environment variable: `HUGO_VERSION=0.157.0`
 
 Create the Pages project from the Cloudflare dashboard by connecting this GitHub
 repository, or create it from Wrangler and deploy `public/` directly:
