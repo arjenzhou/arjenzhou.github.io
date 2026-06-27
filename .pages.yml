@@ -1,0 +1,288 @@
+media:
+  - name: uploads
+    label: Uploads
+    input: content/pic/uploads
+    output: /pic/uploads
+    rename: safe
+    categories: [image]
+    extensions: [png, jpg, jpeg, gif, webp, avif, svg]
+
+content:
+  - name: article
+    label: Articles
+    type: collection
+    path: content/article
+    filename: "{year}/{month}/{primary}.md"
+    subfolders: true
+    format: yaml-frontmatter
+    exclude: ["_index.md", "*.bak"]
+    view:
+      fields: [title, date, categories, draft]
+      primary: title
+      sort: [date, title]
+      search: [title, categories, body]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: date
+        label: Date
+        type: date
+        options:
+          time: false
+          format: yyyy-MM-dd
+      - name: categories
+        label: Categories
+        type: select
+        required: false
+        options:
+          multiple: true
+          values: &categories
+            - AI
+            - Big Data
+            - Compiler Related
+            - Configuration
+            - Culture
+            - Distributed Systems
+            - Security Related
+            - bitcoin
+            - build
+            - feeling
+            - network
+            - review
+      - name: draft
+        label: Draft
+        type: boolean
+        required: false
+        default: false
+      - name: body
+        label: Body
+        type: rich-text
+        options: &rich_text_options
+          media: uploads
+          switcher: true
+
+  - name: weekly
+    label: Weeklies
+    type: collection
+    path: content/weekly
+    filename: "{year}/{month}/{year}-{month}-{day}.md"
+    subfolders: true
+    format: yaml-frontmatter
+    exclude: ["_index.markdown"]
+    view:
+      fields: [title, date, draft]
+      primary: title
+      sort: [date, title]
+      search: [title, body]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: date
+        label: Date
+        type: date
+        options:
+          time: false
+          format: yyyy-MM-dd
+      - name: draft
+        label: Draft
+        type: boolean
+        required: false
+        default: false
+      - name: body
+        label: Body
+        type: rich-text
+        options: *rich_text_options
+
+  - name: translation
+    label: Translations
+    type: collection
+    path: content/translation
+    filename: "{year}/{month}/{primary}.md"
+    subfolders: true
+    format: yaml-frontmatter
+    exclude: ["_index.markdown"]
+    view:
+      fields: [title, date, categories, author, draft]
+      primary: title
+      sort: [date, title]
+      search: [title, categories, author, body]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: date
+        label: Date
+        type: date
+        options:
+          time: false
+          format: yyyy-MM-dd
+      - name: categories
+        label: Categories
+        type: select
+        required: false
+        options:
+          multiple: true
+          values: *categories
+      - name: link
+        label: Source Link
+        type: string
+        required: false
+      - name: author
+        label: Original Author
+        type: string
+        required: false
+      - name: draft
+        label: Draft
+        type: boolean
+        required: false
+        default: false
+      - name: body
+        label: Body
+        type: rich-text
+        options: *rich_text_options
+
+  - name: reproduction
+    label: Reproductions
+    type: collection
+    path: content/reproduction
+    filename: "{year}/{month}/{primary}.md"
+    subfolders: true
+    format: yaml-frontmatter
+    exclude: ["_index.md"]
+    view:
+      fields: [title, date, categories, draft]
+      primary: title
+      sort: [date, title]
+      search: [title, categories, body]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: date
+        label: Date
+        type: date
+        options:
+          time: false
+          format: yyyy-MM-dd
+      - name: categories
+        label: Categories
+        type: select
+        required: false
+        options:
+          multiple: true
+          values: *categories
+      - name: link
+        label: Source Link
+        type: string
+        required: false
+      - name: draft
+        label: Draft
+        type: boolean
+        required: false
+        default: false
+      - name: body
+        label: Body
+        type: rich-text
+        options: *rich_text_options
+
+  - name: pages
+    label: Pages
+    type: group
+    items:
+      - name: home
+        label: Home
+        type: file
+        path: content/_index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: rich-text
+            options: *rich_text_options
+      - name: articles_index
+        label: Articles Index
+        type: file
+        path: content/article/_index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options: *rich_text_options
+      - name: weeklies_index
+        label: Weeklies Index
+        type: file
+        path: content/weekly/_index.markdown
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options: *rich_text_options
+      - name: translations_index
+        label: Translations Index
+        type: file
+        path: content/translation/_index.markdown
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options: *rich_text_options
+      - name: reproductions_index
+        label: Reproductions Index
+        type: file
+        path: content/reproduction/_index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options: *rich_text_options
+      - name: resume
+        label: Resume
+        type: file
+        path: content/resume/_index.md
+        format: yaml-frontmatter
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: body
+            label: Body
+            type: rich-text
+            required: false
+            options: *rich_text_options

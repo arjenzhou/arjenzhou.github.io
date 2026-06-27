@@ -30,53 +30,25 @@ hugo --gc --minify
 npx wrangler pages deploy public --project-name arjenzhou --branch main
 ```
 
-## Cloudflare Worker OAuth Proxy
+## Pages CMS
 
-Decap CMS uses a standalone Worker for GitHub OAuth:
+Content editing is handled by Pages CMS using the repository-level
+`.pages.yml` config. Pages CMS writes Markdown files back to the `main` branch,
+and those commits trigger the same GitHub Actions deployment workflow.
 
-- Worker source: `workers/decap-oauth/`
-- Worker name: `arjenzhou-decap-oauth`
-- Recommended custom domain: `decap-oauth.arjenzhou.com`
-- Health check: `https://decap-oauth.arjenzhou.com/health`
+Install or open Pages CMS for this repository:
 
-Create a GitHub OAuth app:
+- Hosted CMS: https://app.pagescms.org/
+- Config file: `.pages.yml`
+- Editable content: `content/article`, `content/weekly`, `content/translation`,
+  `content/reproduction`, and selected index pages
+- Uploaded images: `content/pic/uploads/`, served from `/pic/uploads/`
 
-```txt
-Homepage URL: https://arjenzhou.com
-Authorization callback URL: https://decap-oauth.arjenzhou.com/callback
-```
-
-Set the Worker secrets and deploy:
-
-```sh
-echo "<github-client-id>" | npx wrangler secret put GITHUB_CLIENT_ID --config workers/decap-oauth/wrangler.jsonc
-echo "<github-client-secret>" | npx wrangler secret put GITHUB_CLIENT_SECRET --config workers/decap-oauth/wrangler.jsonc
-npx wrangler deploy --config workers/decap-oauth/wrangler.jsonc
-```
-
-The Worker config attaches `decap-oauth.arjenzhou.com` as a custom domain during
-deployment.
-
-## Decap CMS
-
-The CMS is available at `/admin/` and writes content back to the `main` branch
-through the Decap GitHub backend.
-
-CMS users must sign in with a GitHub account that has write access to this
-repository.
-
-Images uploaded from Decap CMS are committed under `content/pic/uploads/` and
-served from `/pic/uploads/`.
+CMS users need GitHub write access to this repository. There is no site-local
+`/admin/` panel and no standalone OAuth Worker in this setup.
 
 ## Local development
 
 ```sh
 hugo server --buildDrafts
-```
-
-To try Decap CMS locally, run a local backend server and open `/admin/` from the
-Hugo dev server:
-
-```sh
-npx decap-server
 ```
