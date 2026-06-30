@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 03：让 Agent 学会被打回重做"
 date: '2026-06-22'
-weight: 3
 categories:
     - AI
 ---

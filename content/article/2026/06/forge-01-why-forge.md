@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 01：为什么要把 Agent 拆开来教"
 date: '2026-06-20'
-weight: 1
 categories:
     - AI
 ---

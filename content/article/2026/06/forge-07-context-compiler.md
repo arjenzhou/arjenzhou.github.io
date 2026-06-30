@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 07：上下文不是越多越好"
 date: '2026-06-26'
-weight: 7
 categories:
     - AI
 ---

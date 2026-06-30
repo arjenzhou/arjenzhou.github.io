@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 04：如何评估一个 Agent"
 date: '2026-06-23'
-weight: 4
 categories:
     - AI
 ---

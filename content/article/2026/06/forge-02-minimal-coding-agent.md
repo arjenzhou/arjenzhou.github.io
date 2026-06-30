@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 02：最小 Coding Agent 是什么"
 date: '2026-06-21'
-weight: 2
 categories:
     - AI
 ---

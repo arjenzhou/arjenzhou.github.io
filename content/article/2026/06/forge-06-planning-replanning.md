@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 06：Planning 不是玄学，是可编辑的工作界面"
 date: '2026-06-25'
-weight: 6
 categories:
     - AI
 ---

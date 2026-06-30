@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 09：工具、协议和技能"
 date: '2026-06-28'
-weight: 9
 categories:
     - AI
 ---

@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 11：Forge 真正在教什么"
 date: '2026-06-30'
-weight: 11
 categories:
     - AI
 ---

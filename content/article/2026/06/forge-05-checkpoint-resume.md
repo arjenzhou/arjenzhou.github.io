@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 05：Agent 跑到一半断了怎么办"
 date: '2026-06-24'
-weight: 5
 categories:
     - AI
 ---

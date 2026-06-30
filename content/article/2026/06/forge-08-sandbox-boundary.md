@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 08：给 Agent 画边界"
 date: '2026-06-27'
-weight: 8
 categories:
     - AI
 ---

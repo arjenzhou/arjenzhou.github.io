@@ -1,7 +1,6 @@
 ---
 title: "Forge 开发笔记 10：从单 Agent 到多 Agent 协作"
 date: '2026-06-29'
-weight: 10
 categories:
     - AI
 ---
