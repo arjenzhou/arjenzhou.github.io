@@ -11,6 +11,8 @@ categories:
 
 Forge 真正在教的，不是如何实现某个特定 Agent，而是 Agent Literacy：理解一个会行动的 AI 系统如何被组织、观察、约束和扩展。
 
+源码仓库：[arjenzhou/forge](https://github.com/arjenzhou/forge)。这篇总结基于完整系列源码：[da3f54c](https://github.com/arjenzhou/forge/tree/da3f54cf829b03595dbcefd94d3f47139380db40)，对应 `v0.10.0-subagents`。
+
 # Agent Literacy 不是 Prompt 技巧
 
 Prompt 很重要。没有清楚的目标和约束，Agent 很难工作。但 prompt 只是入口，不是全部系统。

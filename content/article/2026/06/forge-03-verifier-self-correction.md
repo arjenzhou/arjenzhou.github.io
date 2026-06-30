@@ -11,6 +11,8 @@ Agent 最危险的时刻，往往不是它不知道怎么做，而是它以为�
 
 Forge 的 v0.2 加入 Verifier gatekeeper，就是为了让“完成”变成一个可执行检查，而不是模型自己的声明。
 
+源码版本：[arjenzhou/forge@7b7045f](https://github.com/arjenzhou/forge/tree/7b7045f86fcf20f78d5591d994ab48c8c37b33a2)，对应 `v0.2.0-verifier`。
+
 # 设计思路：完成必须经过外部现实
 
 v0.2 的核心原则很简单：模型可以申请完成，但不能批准自己完成。

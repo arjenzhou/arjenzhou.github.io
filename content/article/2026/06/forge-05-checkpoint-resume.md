@@ -11,6 +11,8 @@ categories:
 
 Forge 的 v0.4 加入 Checkpoint 和 Resume，就是为了把这种脆弱性补上。
 
+源码版本：[arjenzhou/forge@fe1be4c](https://github.com/arjenzhou/forge/tree/fe1be4c1cb89ac974c258e6d96331012182dafdd)，对应 `v0.4.0-checkpoint`。
+
 # 设计思路：Agent 状态是一等公民
 
 普通函数失败后可以重试，因为输入通常还在，副作用也比较明确。但 Agent 不一样。它的“当前状态”不是一个变量，而是一整段过程：读过哪些文件，调用过哪些工具，哪些工具返回了什么，模型已经做过哪些判断，workspace 里已经发生了哪些修改。

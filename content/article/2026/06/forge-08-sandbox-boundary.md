@@ -11,6 +11,8 @@ categories:
 
 Forge 的 v0.7 引入 Sandbox 和执行限制，就是为了把这个问题摆到台面上。
 
+源码版本：[arjenzhou/forge@3be6fb9](https://github.com/arjenzhou/forge/tree/3be6fb972087ae27c2c5447c128ebcbf251e5584)，对应 `v0.7.0-sandbox`。
+
 # 设计思路：工具能力必须被授权
 
 Agent 能调用工具，不代表它应该默认拥有无限权限。尤其是 `run_command` 这种工具，既能跑测试，也能删除文件、挂起进程、访问网络。系统必须把“模型请求行动”和“系统批准行动”分开。

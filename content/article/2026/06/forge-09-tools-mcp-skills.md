@@ -11,6 +11,8 @@ v0.1 里 Forge 有 7 个核心工具，足够展示 Coding Agent 的基本动作
 
 Forge 的 v0.8 和 v0.9 分别引入 MCP 和 Skills，就是为了展示 Agent 能力扩展的两条路径。
 
+源码版本：MCP 部分对应 [arjenzhou/forge@6ec50aa](https://github.com/arjenzhou/forge/tree/6ec50aaa68f2229c2e051dd1f8a3532238c43678)（`v0.8.0-mcp`），Skills 部分对应 [arjenzhou/forge@a376480](https://github.com/arjenzhou/forge/tree/a376480288e91e27ff4ea7f57246226ca3d03ef2)（`v0.9.0-skills`）。
+
 # 设计思路：能力扩展分成两类
 
 Agent 的能力扩展至少有两种问题。

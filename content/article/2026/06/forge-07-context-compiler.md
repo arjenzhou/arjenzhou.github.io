@@ -11,6 +11,8 @@ Agent 跑得越久，上下文就越重。
 
 Forge 的 v0.6 引入 Context Compiler，就是为了回答一个问题：长任务里，Agent 到底应该把什么发给模型？
 
+源码版本：[arjenzhou/forge@74dbe17](https://github.com/arjenzhou/forge/tree/74dbe170814093ce93768ce3bf625167a1806621)，对应 `v0.6.0-context`。
+
 # 设计思路：完整历史和当前输入要分开
 
 上下文管理最容易犯的错，是把“保存历史”和“发送历史”混成一件事。完整历史应该保存在本地，用来恢复、审计和复盘；但模型每一轮需要的是当前决策最相关的信息窗口。

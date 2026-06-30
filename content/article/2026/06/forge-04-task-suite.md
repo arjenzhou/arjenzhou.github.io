@@ -11,6 +11,8 @@ categories:
 
 Forge 的 v0.3 引入 Task Suite，就是为了让评估从“看一次演示”变成“跑一组可复现任务”。
 
+源码版本：[arjenzhou/forge@e428de4](https://github.com/arjenzhou/forge/tree/e428de423f28df3129fa7dab5b335a4654e53faa)，对应 `v0.3.0-suite`。
+
 # 设计思路：评估要把变量收住
 
 Agent 评估最怕变量混在一起。模型输出会变，文件环境会变，任务描述会变，验证方式也会变。如果所有东西同时变化，一次失败很难解释：到底是模型没理解、工具没执行好、测试设计不清楚，还是上一次运行污染了工作目录？
