@@ -11,7 +11,7 @@ categories:
 
 Forge 的 v0.10 引入 concurrent Subagents，就是为了展示这个多 Agent 协作模式。
 
-源码版本：[arjenzhou/forge@da3f54c](https://github.com/arjenzhou/forge/tree/da3f54cf829b03595dbcefd94d3f47139380db40)，对应 `v0.10.0-subagents`。
+> 源码版本：[arjenzhou/forge@da3f54c](https://github.com/arjenzhou/forge/tree/da3f54cf829b03595dbcefd94d3f47139380db40)，对应 `v0.10.0-subagents`。
 
 # 设计思路：多 Agent 是组织问题
 

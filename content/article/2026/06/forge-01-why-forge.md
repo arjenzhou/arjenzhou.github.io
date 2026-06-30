@@ -11,7 +11,7 @@ categories:
 
 这也是我做 Forge 的原因。
 
-Forge 源码仓库在 [arjenzhou/forge](https://github.com/arjenzhou/forge)。这篇总览基于最终演进到 v0.10 的源码版本：[da3f54c](https://github.com/arjenzhou/forge/tree/da3f54cf829b03595dbcefd94d3f47139380db40)。
+> Forge 源码仓库在 [arjenzhou/forge](https://github.com/arjenzhou/forge)。这篇总览基于最终演进到 v0.10 的源码版本：[da3f54c](https://github.com/arjenzhou/forge/tree/da3f54cf829b03595dbcefd94d3f47139380db40)。
 
 Forge 不是为了再造一个生产级 Coding Agent。它更像一个教学用的剖面模型：把 agent 的核心结构拆开，做成足够小、足够清楚、可以本地运行、可以观察每一步的系统。
 

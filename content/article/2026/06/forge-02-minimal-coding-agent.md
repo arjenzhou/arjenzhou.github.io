@@ -11,7 +11,7 @@ categories:
 
 Forge 的 v0.1 就是为了展示这个最小闭环。
 
-源码版本：[arjenzhou/forge@6aa96ff](https://github.com/arjenzhou/forge/tree/6aa96ffa9781a642625f4d64a9129fa38644ed3d)，对应 `v0.1.0-mvp`。
+> 源码版本：[arjenzhou/forge@6aa96ff](https://github.com/arjenzhou/forge/tree/6aa96ffa9781a642625f4d64a9129fa38644ed3d)，对应 `v0.1.0-mvp`。
 
 # 最小闭环的设计思路
 

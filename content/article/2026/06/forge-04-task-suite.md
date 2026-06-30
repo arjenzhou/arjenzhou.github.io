@@ -11,7 +11,7 @@ categories:
 
 Forge 的 v0.3 引入 Task Suite，就是为了让评估从“看一次演示”变成“跑一组可复现任务”。
 
-源码版本：[arjenzhou/forge@e428de4](https://github.com/arjenzhou/forge/tree/e428de423f28df3129fa7dab5b335a4654e53faa)，对应 `v0.3.0-suite`。
+> 源码版本：[arjenzhou/forge@e428de4](https://github.com/arjenzhou/forge/tree/e428de423f28df3129fa7dab5b335a4654e53faa)，对应 `v0.3.0-suite`。
 
 # 设计思路：评估要把变量收住
 

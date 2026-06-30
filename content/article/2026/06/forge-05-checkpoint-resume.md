@@ -11,7 +11,7 @@ categories:
 
 Forge 的 v0.4 加入 Checkpoint 和 Resume，就是为了把这种脆弱性补上。
 
-源码版本：[arjenzhou/forge@fe1be4c](https://github.com/arjenzhou/forge/tree/fe1be4c1cb89ac974c258e6d96331012182dafdd)，对应 `v0.4.0-checkpoint`。
+> 源码版本：[arjenzhou/forge@fe1be4c](https://github.com/arjenzhou/forge/tree/fe1be4c1cb89ac974c258e6d96331012182dafdd)，对应 `v0.4.0-checkpoint`。
 
 # 设计思路：Agent 状态是一等公民
 

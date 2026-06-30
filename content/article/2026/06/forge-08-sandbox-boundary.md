@@ -11,7 +11,7 @@ categories:
 
 Forge 的 v0.7 引入 Sandbox 和执行限制，就是为了把这个问题摆到台面上。
 
-源码版本：[arjenzhou/forge@3be6fb9](https://github.com/arjenzhou/forge/tree/3be6fb972087ae27c2c5447c128ebcbf251e5584)，对应 `v0.7.0-sandbox`。
+> 源码版本：[arjenzhou/forge@3be6fb9](https://github.com/arjenzhou/forge/tree/3be6fb972087ae27c2c5447c128ebcbf251e5584)，对应 `v0.7.0-sandbox`。
 
 # 设计思路：工具能力必须被授权
 

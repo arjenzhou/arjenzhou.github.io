@@ -11,7 +11,7 @@ Agent 的 plan 很容易被写成装饰品。
 
 Forge 的 v0.5 想解决的不是“让模型会列计划”，而是让计划在执行过程中持续更新。
 
-源码版本：[arjenzhou/forge@89171e6](https://github.com/arjenzhou/forge/tree/89171e6054a019886b4a16d6a2db270b8f754b51)，对应 `v0.5.0-planning`。
+> 源码版本：[arjenzhou/forge@89171e6](https://github.com/arjenzhou/forge/tree/89171e6054a019886b4a16d6a2db270b8f754b51)，对应 `v0.5.0-planning`。
 
 # 设计思路：计划是协作界面，不是开场白
 
