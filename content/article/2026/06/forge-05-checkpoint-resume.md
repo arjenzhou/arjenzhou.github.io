@@ -1,46 +1,149 @@
 ---
 title: "Forge 开发笔记 05：Agent 跑到一半断了怎么办"
-date: '2026-06-30'
+date: '2026-06-24'
+weight: 5
 categories:
     - AI
 ---
 
 短任务可以靠一次运行完成，长任务不能。
 
-只要你认真用过 Coding Agent，就会遇到这种情况：任务跑到一半，模型 API 超时；本地进程断掉；电脑睡眠；网络抖动；上下文已经走了好几轮，文件也改了一半。这时候如果系统没有保存状态，用户只能重新开始，然后希望 Agent 能“猜”出前面发生了什么。
+只要认真用过 Coding Agent，就会遇到这种情况：任务跑到一半，模型 API 超时；本地进程断掉；电脑睡眠；网络抖动；上下文已经走了好几轮，文件也改了一半。这时候如果系统没有保存状态，用户只能重新开始，然后希望 Agent 能“猜”出前面发生了什么。
 
 Forge 的 v0.4 加入 Checkpoint 和 Resume，就是为了把这种脆弱性补上。
 
-# Agent 任务是过程，不只是结果
+# 设计思路：Agent 状态是一等公民
 
-普通函数调用失败后可以重试，因为输入通常还在，副作用也比较明确。但 Agent 不一样。
+普通函数失败后可以重试，因为输入通常还在，副作用也比较明确。但 Agent 不一样。它的“当前状态”不是一个变量，而是一整段过程：读过哪些文件，调用过哪些工具，哪些工具返回了什么，模型已经做过哪些判断，workspace 里已经发生了哪些修改。
 
-一个 Coding Agent 的运行状态至少包括：
+所以 checkpoint 不能只是保存“第几步”。它必须保存足够恢复下一轮决策的材料，尤其是 message history 和 trace。恢复时也不是重新开始，而是把这些材料重新装回 runner，让下一轮模型接着已经发生的上下文继续行动。
 
-- 原始任务
-- 当前迭代轮次
-- system prompt
-- message history
-- tool calls 和 tool results
-- verifier 配置
-- trace steps
-- workspace 中已经发生的文件修改
+# 代码落点
 
-如果这些状态没有保存，所谓“恢复”就只能靠重新描述任务。可重新描述任务并不能还原过程。模型不知道前面读过什么、改过什么、失败过什么，也不知道哪些路径已经被排除。
+对应源码：
 
-所以 v0.4 的核心思路很直接：每轮迭代后保存 checkpoint，把 Agent 的对话状态和 trace 序列化到磁盘。
+```text
+examples/demo_checkpoint.py  # 两阶段 demo：先中断，再恢复
+forge/runner.py              # save_checkpoint / load_checkpoint / resume_from
+forge/trace.py               # StepTrace 反序列化
+```
 
 # Checkpoint 保存什么
 
-Forge 的 checkpoint 不是只保存一个“进度条”，而是保存足够恢复 agent loop 的运行材料。
+Agent 的状态不是一个进度条。它至少包括任务、轮次、system prompt、message history、verifier 配置和 trace。
 
-它包括当前任务、当前 iteration、system prompt、messages、test command，以及已经记录的 trace steps。Resume 时，runner 会读取 checkpoint，恢复 message history 和 trace，然后从下一轮继续跑。
+`forge/runner.py` 里的保存逻辑很直接：
+
+```python
+def save_checkpoint(self, filepath, current_iteration, context, trace):
+    data = {
+        "task": trace.task,
+        "current_iteration": current_iteration,
+        "system_prompt": self.system_prompt,
+        "messages": context.messages,
+        "test_command": self.verifier.test_command,
+        "trace_steps": [step.to_dict() for step in trace.steps]
+    }
+    with open(filepath, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+```
+
+这里最关键的是 `messages` 和 `trace_steps`。
+
+只保存“当前做到第几步”没有意义，因为模型下一轮需要看到前面工具返回过什么、自己说过什么、哪里失败过。Checkpoint 必须保存足够恢复 agent loop 的运行材料。
+
+# Resume 如何恢复
+
+恢复时，runner 会读回 checkpoint，重建 message history 和 trace：
+
+```python
+if resume_from and os.path.exists(resume_from):
+    data = self.load_checkpoint(resume_from)
+    task = data["task"]
+    start_iteration = data["current_iteration"]
+
+    context.messages = data["messages"]
+
+    trace = ExecutionTrace(task)
+    for step_data in data["trace_steps"]:
+        trace.add_step(StepTrace.from_dict(step_data))
+
+    print(f"[Runner] Resuming agent loop from Iteration {start_iteration + 1}...")
+```
 
 这让中断后的 Agent 不必重新理解世界。它可以接着之前的上下文继续行动。
 
-`examples/demo_checkpoint.py` 里故意模拟了一次 API 断连：Agent 已经列文件、读文件、打了补丁，下一轮模型调用时抛出异常。第一次运行保存了 checkpoint；第二次启动时从 checkpoint 恢复，继续运行测试并完成任务。
+# Demo 如何模拟断线
 
-这个 demo 展示的不是“异常处理写得好”，而是一个更重要的事实：Agent 的状态必须被当作一等公民。
+`examples/demo_checkpoint.py` 里有一个 `CheckpointMockModel`。它不是用内部计数器判断步骤，而是根据当前 messages 数量判断自己走到哪里：
+
+```python
+msg_count = len(messages)
+
+if msg_count <= 2:
+    return "I will list workspace files.", [list_files_call]
+elif msg_count <= 4:
+    return "I will read main.py.", [read_file_call]
+elif msg_count <= 6:
+    return "I will patch main.py...", [apply_patch_call]
+elif msg_count <= 8 and not self.is_resumed:
+    raise RuntimeError("API Connection Lost: Network Timeout.")
+```
+
+这个设计很巧：模型对象本身可以是新的，但只要 message history 恢复了，它就能知道任务已经进行到哪里。
+
+demo 分成两段：
+
+```python
+runner_1.run(task, max_iterations=6, checkpoint_path=checkpoint_file)
+
+runner_2.run(
+    task,
+    max_iterations=6,
+    resume_from=checkpoint_file,
+    checkpoint_path=checkpoint_file
+)
+```
+
+第一段故意在第 4 轮抛异常；第二段从 checkpoint 接着跑。
+
+# 跑出来是什么样
+
+运行：
+
+```bash
+python examples/demo_checkpoint.py
+```
+
+第一阶段会在已经改完文件之后崩掉：
+
+```text
+[Runner] === Iteration 3 ===
+[Runner] Requesting Tool (Sequential): apply_patch
+[Checkpoint] Successfully saved session state to checkpoint.json
+
+[Runner] === Iteration 4 ===
+!!! [MockModel] CRITICAL ERROR: Simulated API Connection Disconnected !!!
+[Runner] Fatal Error calling model: API Connection Lost: Network Timeout.
+```
+
+然后 demo 检查 checkpoint 是否存在：
+
+```text
+[System Status] Answer: YES (State Preserved!)
+```
+
+第二阶段恢复：
+
+```text
+[Checkpoint] Successfully loaded session state from checkpoint.json
+[Runner] Resuming agent loop from Iteration 4...
+
+[Runner] === Iteration 4 ===
+[Runner] Requesting Tool (Sequential): run_command
+```
+
+最后 trace 仍然包含完整的 5 步，而不是只记录恢复后的两步。
 
 # Trace 和 Checkpoint 是一对
 
@@ -48,26 +151,6 @@ Checkpoint 解决恢复问题，Trace 解决观察问题。两者看起来用途
 
 如果只有 checkpoint，没有 trace，你可以继续运行，但很难知道之前发生了什么。如果只有 trace，没有 checkpoint，你可以复盘失败，但不能从失败点继续。
 
-Forge 在 v0.4 里给 `StepTrace` 增加了反序列化能力，让历史 trace steps 也能被恢复。这意味着一次被中断的任务，在恢复后仍然保留完整故事：中断前做了什么，中断后又怎么继续。
+v0.4 的核心判断很朴素：Agent 是连续过程。只要是连续过程，就要考虑中断；只要考虑中断，就要设计状态。
 
-对教学应用来说，这一点很有价值。因为真实 Agent 的学习材料不只来自成功完成的任务，也来自“中途坏掉又恢复”的任务。恢复过程本身，就是理解 Agent 状态管理的最好案例。
-
-# 长任务需要工程耐心
-
-很多 Agent 系统一开始都会低估长任务。
-
-短任务里，状态存在内存里就够了；长任务里，内存状态随时可能消失。短任务里，用户可以忍受失败重来；长任务里，失败重来会让人完全失去信任。短任务里，模型输出看起来像重点；长任务里，调度、保存、恢复、验证这些基础设施才决定系统是否可用。
-
-Checkpoint 的加入，让 Forge 从一个演示型 agent loop 向真实工作流靠近了一步。
-
-它也传达了一个朴素但重要的教学点：Agent 是连续过程。只要是连续过程，就要考虑中断；只要考虑中断，就要设计状态。
-
-# Resume 改变用户心智
-
-当系统支持 resume，用户和 Agent 的关系也会变化。
-
-用户不再需要把每次运行都当成一次孤注一掷的尝试。任务可以被暂停，可以失败，可以恢复，可以继续验证。这种心智更接近真实软件开发：我们不会因为一次测试失败就把项目删掉，而是保留上下文，修正问题，继续前进。
-
-Forge 想教的不是“Agent 永远不断”，而是“Agent 断了以后也能知道自己在哪里”。
-
-这才是长任务协作的基础。
+Forge 追求的不是“Agent 永远不断”，而是“Agent 断了以后也能知道自己在哪里”。

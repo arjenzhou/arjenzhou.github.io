@@ -1,6 +1,7 @@
 ---
 title: "Forge 开发笔记 08：给 Agent 画边界"
-date: '2026-06-30'
+date: '2026-06-27'
+weight: 8
 categories:
     - AI
 ---
@@ -9,72 +10,183 @@ categories:
 
 如果 Agent 只能聊天，风险主要在内容层面；一旦它能执行本地命令，风险就进入了系统层面。它可能误删文件，访问不该访问的路径，运行长时间卡死的命令，或者尝试联网下载东西。即使模型没有恶意，错误的工具调用也可能造成真实副作用。
 
-Forge 的 v0.7 引入 Sandbox 和执行限制，就是为了在教学系统里把这个问题摆到台面上。
+Forge 的 v0.7 引入 Sandbox 和执行限制，就是为了把这个问题摆到台面上。
+
+# 设计思路：工具能力必须被授权
+
+Agent 能调用工具，不代表它应该默认拥有无限权限。尤其是 `run_command` 这种工具，既能跑测试，也能删除文件、挂起进程、访问网络。系统必须把“模型请求行动”和“系统批准行动”分开。
+
+Forge v0.7 的目标不是做生产级隔离，而是把最小边界放进执行路径：路径必须在 workspace 内，命令要经过危险模式过滤，子进程要有 timeout，工具执行时由系统注入 sandbox。
+
+这个设计的重点是：边界不是 prompt 里的建议，而是工具执行层的规则。
+
+# 代码落点
+
+对应源码：
+
+```text
+examples/demo_sandbox.py  # 危险命令、网络请求、超时命令
+forge/sandbox.py          # LocalRestrictedSandbox
+forge/tools.py            # 工具通过 sandbox 执行
+forge/runner.py           # runner 注入 sandbox
+```
 
 # 这不是 hardened sandbox
 
 先说清楚：Forge 的 sandbox 不是生产级安全沙箱，也不是用来运行不可信代码的 OS 级隔离环境。
 
-它更准确的名字，是 local execution boundary。它用一些简单机制限制教学 demo 中的危险动作：
+源码自己也这么写：
 
-- workspace path checks
-- 命令关键字过滤
-- 子进程 timeout
-- shell-free command execution
-- 工具层依赖注入 sandbox
+```python
+class LocalRestrictedSandbox(BaseSandbox):
+    """A local execution boundary for path checks, timeouts, and shell-free commands.
 
-这些机制不能替代容器、虚拟机、系统用户隔离或权限模型。但它们很适合教学，因为它们让学习者看到：Agent 工具不是应该裸奔执行的，执行环境必须有边界。
+    This is not an OS security sandbox. Commands still run as the current user,
+    so untrusted code requires a real container or process isolation layer.
+    """
+```
+
+它更准确的名字，是 local execution boundary。它用一些简单机制限制危险动作：
+
+- workspace path checks；
+- 命令关键字过滤；
+- 子进程 timeout；
+- shell-free command execution；
+- 工具层依赖注入 sandbox。
 
 # 路径边界
 
 Coding Agent 最基本的边界是 workspace。
 
-用户给 Agent 一个项目目录，意思通常是：你可以在这里读写、搜索、运行测试。但如果工具实现不检查路径，模型可能因为错误参数读到 workspace 外部文件，甚至修改不相关目录。
+Forge 用 `_validate_path()` 防止工具访问 workspace 外部：
 
-Forge 的 `LocalRestrictedSandbox` 会校验路径，确保文件读写发生在 workspace 内部。这是一个很小的机制，但它表达了一个重要原则：Agent 的行动范围应该由系统定义，而不是由模型自由解释。
+```python
+def _validate_path(self, filepath):
+    target_path = os.path.abspath(os.path.join(self.workspace_dir, filepath))
+    if os.path.commonpath([self.workspace_dir, target_path]) != self.workspace_dir:
+        raise SecurityViolationError(
+            f"Directory Traversal Denied: Path '{filepath}' is outside sandbox"
+        )
+    return target_path
+```
 
-模型可以请求读某个路径，sandbox 负责判断这个请求是否合法。
+`read_file()` 和 `write_file()` 都先过这个检查：
+
+```python
+def read_file(self, filepath):
+    target_path = self._validate_path(filepath)
+    with open(target_path, "r", encoding="utf-8") as f:
+        return f.read()
+```
+
+模型可以请求读某个路径，但 sandbox 负责判断这个请求是否合法。
 
 # 命令边界
 
 `run_command` 是 Coding Agent 最有用、也最危险的工具之一。
 
-它能运行测试，也能运行删除命令；能执行格式化，也能挂起进程；能调用本地脚本，也能尝试网络访问。Forge v0.7 对命令加了两类限制：关键字过滤和 timeout。
+Forge v0.7 在 `LocalRestrictedSandbox` 里加了 blocklist 和 timeout：
 
-关键字过滤会拦截一些明显危险或不适合教学环境的命令，比如 `rm -rf`、`sudo`、`curl` 等。Timeout 则防止命令无限运行，拖死整个 agent loop。
+```python
+self.blocked_patterns = [
+    r"\brm\s+-[rf]+\b",
+    r"\bsudo\b",
+    r"\bchown\b",
+    r"\bchmod\b",
+    r"\bcurl\b",
+    r"\bwget\b",
+    r"\bsh\b",
+    r"/etc/passwd",
+]
+```
 
-`examples/demo_sandbox.py` 故意让 MockModel 尝试危险命令、网络请求和长时间 sleep。Sandbox 逐步拦截这些动作，最后 Agent 回到真正任务上，读取文件并用安全工具修改代码。
+执行命令前先扫一遍：
 
-这个 demo 很有教学价值，因为它展示的不是“Agent 永远听话”，而是“系统可以拒绝 Agent 的行动请求”。
+```python
+for pattern in self.blocked_patterns:
+    if re.search(pattern, command):
+        return f"[Security Error] Execution Blocked: Command contains dangerous pattern '{pattern}'."
 
-# 工具实现也要配合边界
+argv = shlex.split(command)
+res = subprocess.run(
+    argv,
+    cwd=self.workspace_dir,
+    capture_output=True,
+    text=True,
+    timeout=timeout_seconds
+)
+```
 
-Sandbox 不是单独存在的模块，它必须进入工具执行路径。
+这里还有两个细节：不用 shell，先 `shlex.split()`；命令在 workspace 里运行，并设置 timeout。
 
-Forge 在 v0.7 里让 `ToolRegistry.execute()` 支持依赖注入：如果工具签名里有 `sandbox` 参数，registry 会自动注入 runner 当前的 sandbox。这样工具 schema 对模型保持干净，模型不需要知道 sandbox 对象存在，但实际执行时每个工具都能走边界检查。
+# 工具如何拿到 sandbox
 
-这个设计对教学也很清楚：LLM 看到的是“可调用工具”，系统内部看到的是“带执行策略的工具”。
+模型看到的 `run_command` 参数只有 `command`，但真实函数签名里还有隐藏参数：
 
-同一个 `read_file`，在没有 sandbox 时可以直接读文件；在 runner 中执行时，则通过 sandbox 读受限路径。模型接口不变，执行语义更安全。
+```python
+def run_command(command: str, sandbox: Optional[BaseSandbox] = None) -> str:
+    if sandbox:
+        return sandbox.execute_command(command, timeout_seconds=10)
+```
+
+`ToolRegistry.register()` 生成 schema 时会跳过 `sandbox`：
+
+```python
+if param_name in ("self", "cls", "sandbox", "runner"):
+    continue
+```
+
+执行时，runner 再把 sandbox 注入进去：
+
+```python
+result = self.tool_registry.execute(
+    func_name,
+    args,
+    sandbox=self.sandbox,
+    runner=self
+)
+```
+
+这让 LLM 看到的是“可调用工具”，系统内部看到的是“带执行策略的工具”。
+
+# Demo 里发生了什么
+
+运行：
+
+```bash
+python examples/demo_sandbox.py
+```
+
+前几轮 MockModel 会故意尝试危险动作：
+
+```text
+[Runner] Requesting Tool (Sequential): run_command
+args: {"command": "rm -rf /some/dangerous/path"}
+[Tool Output]: [Security Error] Execution Blocked: Command contains dangerous pattern '\brm\s+-[rf]+\b'.
+```
+
+接着尝试 `curl`：
+
+```text
+args: {"command": "curl -s http://example.com/asset.zip"}
+[Tool Output]: [Security Error] Execution Blocked: Command contains dangerous pattern '\bcurl\b'.
+```
+
+再尝试一个睡 15 秒的命令：
+
+```text
+args: {"command": "python -c \"import time; time.sleep(15)\""}
+[Tool Output]: [Timeout Error] Command exceeded execution limit of 10 seconds and was forcefully terminated.
+```
+
+这些都被系统拒绝后，Agent 才回到真正任务上：读 `calculator.py`，修复 divide-by-zero，再跑测试。
 
 # 边界不是不信任，是协作前提
 
-给 Agent 画边界，不是因为我们假设它一定会作恶，而是因为任何自动执行系统都应该有边界。
+给 Agent 画边界，不是因为假设它一定会作恶，而是因为任何自动执行系统都应该有边界。
 
 人类开发者也有边界：权限、代码评审、CI、测试环境、生产审批。Agent 只是把行动速度提高了，所以边界更不能省。
 
-Forge 的 sandbox 很轻，但它让学习者从一开始就建立一个正确心智：Agent 的能力应该被授权，而不是默认无限。
+Forge 的 sandbox 很轻，但它明确表达了一个心智：Agent 的能力应该被授权，而不是默认无限。
 
-# 从教学边界走向真实隔离
-
-如果把 Forge 用在更真实的环境，v0.7 的思路可以继续往外扩：
-
-- 用独立系统用户隔离权限
-- 用容器或虚拟机隔离文件系统和网络
-- 用 allowlist 替代简单 keyword blacklist
-- 给不同工具设置不同权限级别
-- 对高风险动作增加用户确认
-
-Forge 没有一次性把这些都做完，因为它的目标是教学。它先让最小机制可见，再让读者理解为什么生产系统需要更强隔离。
-
-Agent 可以行动，就必须有边界。v0.7 要教的就是这件事。
+如果把这套思路扩展到生产系统，就会走向更强的隔离：独立系统用户、容器或虚拟机、网络隔离、allowlist、用户确认、高风险工具分级。Forge 没有一次性做完这些，但它把最小边界放进了执行路径。

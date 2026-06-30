@@ -1,6 +1,7 @@
 ---
 title: "Forge 开发笔记 06：Planning 不是玄学，是可编辑的工作界面"
-date: '2026-06-30'
+date: '2026-06-25'
+weight: 6
 categories:
     - AI
 ---
@@ -9,7 +10,25 @@ Agent 的 plan 很容易被写成装饰品。
 
 很多系统会让模型先输出一个计划，看起来很有条理：第一步分析需求，第二步修改代码，第三步运行测试。但真正跑起来以后，计划常常就消失了。模型遇到报错，临时改方向；环境缺依赖，临时绕路；测试失败，临时补丁。最后你再看最初的 plan，已经和真实执行过程没什么关系。
 
-Forge 的 v0.5 想解决的就是这个问题：计划不应该只是开场白，而应该是 Agent 工作过程里持续更新的界面。
+Forge 的 v0.5 想解决的不是“让模型会列计划”，而是让计划在执行过程中持续更新。
+
+# 设计思路：计划是协作界面，不是开场白
+
+一个有用的 plan 不应该只出现在第一轮。它应该在任务推进时持续反映现实：哪一步完成了，哪一步正在做，哪一步被阻塞了，为什么要加新步骤。
+
+这也是 replanning 的意义。真实开发里，计划经常被测试失败、缺依赖、文件结构、权限边界打断。Agent 如果假装计划没变，用户就很难判断它是在稳步推进，还是已经偏航。把 plan 写成每轮可见的状态界面，可以让任务变化被看见。
+
+在 Forge v0.5 里，这个机制先不做复杂状态机，而是通过输出协议实现：要求模型每轮都给出 Plan / Thought / Action。runner 不解析计划，只把它记录进 trace。
+
+# 代码落点
+
+对应源码：
+
+```text
+examples/demo_planning.py  # 缺依赖触发 replanning
+forge/runner.py            # 不理解 plan，只记录每轮模型响应
+forge/trace.py             # plan/thought/action 进入 trace
+```
 
 # Plan / Thought / Action
 
@@ -21,62 +40,117 @@ Thought:
 Action:
 ```
 
-其中 Plan 用 checklist 表示任务状态：
+在 `examples/demo_planning.py` 里，第一轮模型输出是：
 
-- `[x]` 表示已完成
-- `[/]` 表示当前正在做
-- `[ ]` 表示未来步骤
+```text
+Plan:
+- [/] 1. Scan directory files to locate tests
+- [ ] 2. Run the test suite
 
-这不是为了让输出更漂亮，而是为了让 Agent 的任务状态可见。
+Thought:
+I need to examine the workspace directory to find which python files contain our unit tests.
 
-Thought 负责解释它从上一步工具结果里学到了什么，以及为什么下一步要这样做。Action 则说明当前要采取的行动，并在需要时跟随 tool calls。
+Action:
+Listing files in the workspace.
+```
 
-这三个区块合起来，相当于给 Agent 的每一轮决策加了一层结构：先看计划，再看判断，再看行动。
+这不是为了让输出更漂亮，而是为了把任务状态放到每一轮 trace 里。用户看到的不只是“我要执行命令”，还包括 Agent 当前认为自己在哪一步。
 
 # Replanning 才是重点
 
-如果只是要求模型每轮复述计划，意义并不大。v0.5 真正想展示的是 replanning。
+demo 故意创建了一个带无用依赖的测试文件：
 
-`examples/demo_planning.py` 里设计了一个很典型的场景：Agent 一开始计划找到测试并运行它。结果测试失败，不是业务逻辑错，而是存在一个不存在的依赖导入。于是 Agent 必须修改计划：新增一步，移除无用 import，再重新运行测试。
+```python
+with open(os.path.join(workspace, "test_math.py"), "w", encoding="utf-8") as f:
+    f.write('''import nonexistent_dependency_abc123
+import unittest
 
-这个过程很重要，因为真实开发里计划经常会被环境打断。
+class TestSimple(unittest.TestCase):
+    def test_ok(self):
+        self.assertTrue(True)
+''')
+```
 
-好的 Agent 不应该假装计划没有变。它应该显式承认阻塞，解释原因，并把新的步骤写进计划。这样用户才能看到任务为什么变长、方向为什么改变、当前到底卡在哪里。
+第二轮 Agent 运行测试，遇到 `ModuleNotFoundError`。第三轮它不只是继续修，而是修改计划：
 
-这也是 Forge 里 planning 的教学价值：不是教模型“列计划”，而是教学习者观察 Agent 如何维护任务状态。
+```text
+Plan:
+- [x] 1. Scan directory files to locate tests
+- [x] 2. Run the test suite (Blocked: missing nonexistent_dependency_abc123 dependency)
+- [/] 3. Remove redundant nonexistent_dependency_abc123 import in test_math.py (Replanned step)
+- [ ] 4. Re-run test suite
+```
 
-# 计划是协作界面
+这才是 planning 有意义的地方：计划必须被现实编辑。
 
-如果把 Agent 看成一个协作者，plan 就不仅是内部推理格式，也是一种协作界面。
+现实来自文件内容，来自命令输出，来自测试失败，来自缺失依赖。一个好的 Agent 不应该固执执行最初计划，而应该在每轮观察后更新自己的任务地图。
 
-用户看 plan，可以快速判断：
+# Runner 并不“理解”计划
 
-- Agent 是否理解了目标？
-- 它现在做到哪一步？
-- 它是否忽略了验证？
-- 它遇到阻塞后有没有调整策略？
-- 它是不是在重复无效动作？
+有意思的是，Forge 的 runner 并没有专门解析这个 checklist。
 
-这些信息如果藏在长长的自然语言里，用户很难持续跟踪。Checklist 虽然简单，却能让任务状态变得可扫描。
+在 `forge/runner.py` 里，模型文本只是被记录进 `step.model_text_response`：
 
-这对教学尤其有帮助。学习者不需要一开始就理解所有代码，只要看 plan 的变化，就能抓住 Agent 的行动节奏。
+```python
+content, tool_calls = self.model.generate(messages, tool_definitions)
+
+step.model_text_response = content
+if tool_calls:
+    step.tool_calls = tool_calls
+
+if content:
+    print(f"[Model Thought/Message]: {content.strip()}")
+```
+
+也就是说，v0.5 的 planning 主要是协议层的约定：system prompt 要求模型用结构化格式表达状态，runner 把它完整记录进 trace。
+
+这反而是一个很好的最小实现。它先证明“计划作为协作界面”有价值，再考虑更复杂的 plan parser、状态机或 UI。
+
+# 跑出来是什么样
+
+运行：
+
+```bash
+python examples/demo_planning.py
+```
+
+你会看到计划随着现实变化：
+
+```text
+[Runner] === Iteration 2 ===
+Plan:
+- [x] 1. Scan directory files to locate tests
+- [/] 2. Run the test suite
+
+[Runner] Requesting Tool (Sequential): run_command
+```
+
+测试失败后，下一轮计划插入了新步骤：
+
+```text
+[Runner] === Iteration 3 ===
+Plan:
+- [x] 1. Scan directory files to locate tests
+- [x] 2. Run the test suite (Blocked: missing nonexistent_dependency_abc123 dependency)
+- [/] 3. Remove redundant nonexistent_dependency_abc123 import in test_math.py (Replanned step)
+- [ ] 4. Re-run test suite
+```
+
+最后重新运行测试并通过：
+
+```text
+[Runner] === Iteration 5 ===
+Plan:
+- [x] 1. Scan directory files to locate tests
+- [x] 2. Run the test suite (Blocked: missing nonexistent_dependency_abc123 dependency)
+- [x] 3. Remove redundant nonexistent_dependency_abc123 import in test_math.py
+- [x] 4. Re-run test suite (Passed)
+```
 
 # Planning 不是替代执行
 
-当然，计划不是魔法。
-
 一个漂亮的 plan 不能保证代码正确，也不能替代 verifier。Forge 的设计里，planning 只是 agent loop 的一部分。它帮助模型组织行动，帮助用户观察状态，但最终仍然要靠工具执行和验证器确认。
 
-这点很重要。因为很多关于 Agent 的讨论，会把 planning 讲得过于神秘，好像只要会规划，系统就自然可靠。实际情况相反：规划只有和工具、反馈、验证、上下文结合起来，才有意义。
+这点很重要。规划只有和工具、反馈、验证、上下文结合起来，才有意义。
 
-Forge 把 planning 放在 v0.5，而不是 v0.1，也正是因为它不是第一层地基。第一层地基是 loop 和 tools；第二层是 verifier 和 suite；再往后，计划才有地方落地。
-
-# 让计划跟着现实变化
-
-v0.5 传达的核心直觉可以概括成一句话：Agent 的计划必须被现实编辑。
-
-现实来自文件内容，来自命令输出，来自测试失败，来自缺失依赖，来自 sandbox 拒绝，来自用户反馈。一个好的 Agent 不应该固执地执行最初计划，而应该在每轮观察后更新自己的任务地图。
-
-所以，Planning 不是为了让 Agent 显得更聪明，而是为了让它的变化变得可见。
-
-这就是教学应用里最需要的东西：不是只展示答案，而是展示答案如何被现实一步步塑形。
+v0.5 的核心直觉可以概括成一句话：Agent 的计划必须被现实编辑。答案不是凭空出现的，它是被现实反馈一步步塑形出来的。

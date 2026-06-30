@@ -1,97 +1,167 @@
 ---
 title: "Forge 开发笔记 02：最小 Coding Agent 是什么"
-date: '2026-06-30'
+date: '2026-06-21'
+weight: 2
 categories:
     - AI
 ---
 
-如果要从零解释 Coding Agent，我不会先讲模型，也不会先讲 prompt。我会先画一个循环。
+如果要从零解释 Coding Agent，我不会先讲模型，也不会先讲 prompt。我会先讲循环。
 
-Agent 最容易被误解的地方，是把它看成“一次更聪明的模型调用”。但一个 Coding Agent 真正开始工作，是从循环开始的：它接收任务，整理上下文，请模型决定下一步，执行工具，把工具结果放回上下文，然后再次请模型决定下一步。直到任务完成，或者达到系统设置的边界。
+因为 Agent 最容易被误解的地方，是把它看成“一次更聪明的模型调用”。但一个 Coding Agent 真正开始工作，是从循环开始的：整理上下文，请模型决定下一步，执行工具，把工具结果放回上下文，然后再次请模型决定下一步。
 
 Forge 的 v0.1 就是为了展示这个最小闭环。
 
-# 最小闭环
+# 最小闭环的设计思路
 
-Forge 的 README 里有一张很简单的流程图：
+最小 Coding Agent 至少要回答五个问题。
+
+第一，谁来推进任务？模型只负责给建议，不能自己控制循环，所以需要一个 runner。
+
+第二，模型每一轮能看到什么？用户目标、system prompt、历史工具结果都要被整理成 message，所以需要 context。
+
+第三，模型如何行动？它不能直接读写文件，只能请求调用工具，所以需要 tool registry。
+
+第四，系统如何知道发生过什么？Agent 行为不是一次函数返回，而是一串可复盘步骤，所以需要 trace。
+
+第五，什么时候结束？最小版本里可以先让模型通过“没有 tool calls”表达结束意图，后面的 verifier 再把结束判断收紧。
+
+这五个问题推导出 v0.1 的基本形状：runner 推进循环，context 提供输入，model 产生决策，tools 执行动作，trace 记录过程。
+
+# 代码落点
+
+理解这个分工以后，再看源码就清楚很多：
 
 ```text
-Task
- ↓
-Agent Runner / Loop
- ↓
-Context Builder (Message History & Prompts)
- ↓
-Model (LLM Client / MockModel)
- ↓
-Tool Executor
- ↓
-Trace & Evaluation (Execution Logging)
+examples/demo_mock.py  # 最小 demo 入口
+forge/runner.py        # agent loop
+forge/tools.py         # 7 个核心编码工具
+forge/context.py       # message history
+forge/trace.py         # 执行记录
 ```
 
-这张图看起来朴素，但它已经包含了 Coding Agent 的骨架。
+# Runner 只是调度者
 
-`AgentRunner` 是调度者。它不负责“聪明”，而是负责一轮一轮推进任务：什么时候调用模型，什么时候执行工具，什么时候记录日志，什么时候判断结束。
+`AgentRunner` 初始化时并没有很多神秘对象。它拿到模型、系统提示、workspace、verifier、sandbox 和工具表：
 
-`Context` 是记忆管理器。它把 system prompt、用户任务、assistant 输出、tool result 都整理成模型可以理解的 message 列表。
+```python
+class AgentRunner:
+    def __init__(self, model, system_prompt=None, workspace_dir=".",
+                 test_command=None, tool_registry=None, model_lock=None,
+                 tool_lock=None):
+        self.model = model
+        self.system_prompt = system_prompt or DEFAULT_SYSTEM_PROMPT
+        self.workspace_dir = os.path.abspath(workspace_dir)
+        self.verifier = Verifier(workspace_dir=self.workspace_dir,
+                                 test_command=test_command)
+        self.sandbox = LocalRestrictedSandbox(self.workspace_dir)
+        self.tool_registry = tool_registry or registry
+```
 
-`Model` 是决策来源。Forge 里既可以接真实 OpenAI/Gemini 兼容接口，也可以用 `MockModel` 离线模拟。后者对教学特别重要，因为它让学习者不用 API key，也能完整看到 agent loop 如何运转。
+这里最重要的不是“模型”，而是职责边界：
 
-`ToolRegistry` 是工具系统。模型不能直接改文件或跑命令，它只能声明自己想调用哪个工具、参数是什么。真正执行发生在 registry 里。
+- 模型负责决定下一步；
+- runner 负责推进循环；
+- context 负责保存消息；
+- tool registry 负责执行动作；
+- verifier 负责判断完成；
+- sandbox 负责限制边界。
 
-`ExecutionTrace` 是观察窗口。没有 trace，Agent 就像一个只给结果的黑盒；有了 trace，每一步的输入、输出、工具调用、耗时都可以复盘。
+一个最小 Agent，不是一个大函数，而是一组角色分明的模块。
+
+# 一轮循环发生了什么
+
+在 `run()` 里，runner 每一轮都会做三件事：编译上下文、调用模型、处理工具或结束请求。
+
+关键代码可以压成这样看：
+
+```python
+messages = context.get_messages()
+tool_definitions = self.tool_registry.tool_definitions
+
+content, tool_calls = self.model.generate(messages, tool_definitions)
+step.model_text_response = content
+
+if tool_calls:
+    context.add_assistant(content, tool_calls)
+    result = self.tool_registry.execute(func_name, args,
+                                        sandbox=self.sandbox,
+                                        runner=self)
+    context.add_tool_result(tc_id, func_name, result)
+else:
+    is_passed, report = self.verifier.verify()
+```
+
+这就是 Coding Agent 和普通聊天的根本区别。
+
+普通聊天到 `model.generate()` 就差不多结束了；Coding Agent 还要处理 `tool_calls`。模型不能直接改文件，它只能声明“我要调用哪个工具，参数是什么”。真正的文件读写、命令执行、patch 应用，都在工具层完成。
 
 # 为什么是 7 个工具
 
-v0.1 里 Forge 给了 7 个核心编码工具：
+v0.1 的核心工具都在 `forge/tools.py`：
 
-- `list_files`
-- `search_code`
-- `read_file`
-- `apply_patch`
-- `edit_file_block`
-- `run_command`
-- `git_diff`
+```text
+list_files
+search_code
+read_file
+apply_patch
+edit_file_block
+run_command
+git_diff
+```
 
 这 7 个工具其实对应了一个开发者修 bug 的基本动作。
 
 先看目录，找到可能相关的文件；再搜索关键词，定位代码位置；读文件理解上下文；修改代码；运行测试或命令验证；最后看 diff，确认自己改了什么。
 
-换句话说，Forge 不是在给模型一堆花哨能力，而是在模拟一个开发者最基本的工作流。Agent 的工具设计越贴近真实工作动作，学习者就越容易理解：所谓“Agent 会写代码”，不是模型凭空吐出正确答案，而是模型在一个受限工具集合里不断观察和行动。
+工具注册也很直接。`@tool` 装饰器把 Python 函数放进 registry，registry 再从函数签名和 docstring 生成给模型看的 schema：
 
-# MockModel 的教学价值
+```python
+def register(self, func):
+    name = func.__name__
+    self.tools[name] = func
 
-很多 Agent 教程一开始就接真实模型，这当然更接近生产环境，但也会带来一个问题：输出不稳定。
+    sig = inspect.signature(func)
+    properties = {}
+    required = []
 
-教学时，稳定性很重要。你希望每次运行 demo，学生都能看到同一个结构：第一步列文件，第二步读代码，第三步打补丁，第四步跑测试，第五步看 diff。真实模型可能每次都稍有不同，容易让学习者把注意力放到模型性格上，而不是系统结构上。
+    for param_name, param in sig.parameters.items():
+        if param_name in ("self", "cls", "sandbox", "runner"):
+            continue
+        properties[param_name] = {"type": "string"}
+```
 
-所以 Forge 保留了 `MockModel`。它模拟一个模型的决策过程，但每一步都是确定的。这样我们就可以把“模型到底多聪明”这个变量先拿掉，只看 agent loop 本身。
+注意这里跳过了 `sandbox` 和 `runner`。模型不需要知道这些内部依赖，但工具执行时系统会注入它们。这为后面的 sandbox 和 subagent 铺了路。
 
-这也是 Forge 作为教学应用的一个基本取舍：先让机制可见，再让能力变强。
+# 跑 demo 会看到什么
 
-# Trace 让 Agent 可观察
+运行：
 
-在 v0.1 里，trace 已经是核心能力，而不是后面才补的调试功能。
+```bash
+python examples/demo_mock.py
+```
 
-原因很简单：Agent 的每一步都可能出错。模型可能选错工具，工具参数可能不合法，文件修改可能没命中目标，测试命令可能失败。没有 trace，你只能看到最后失败了；有 trace，你能知道失败从哪一步开始。
+你会看到 runner 一轮一轮推进：
 
-对教学来说，trace 还有另一层意义。它把 Agent 的过程变成了材料。学习者可以拿着 trace 去问：
+```text
+[Runner] === Iteration 1 ===
+[Runner] Requesting Tool (Sequential): list_files
 
-- 这一轮模型看到了哪些上下文？
-- 它为什么选择这个工具？
-- 工具返回结果是否足够支持下一步？
-- 它有没有在没验证的情况下就想结束？
+[Runner] === Iteration 2 ===
+[Runner] Requesting Tool (Sequential): read_file
 
-这些问题，比“怎样写一个更好的 prompt”更接近 Agent 工程的本质。
+[Runner] === Iteration 3 ===
+[Runner] Requesting Tool (Sequential): apply_patch
+```
+
+这比“模型会写代码”具体得多。Forge 展示的是：模型在每一轮只能通过有限工具观察世界、改变文件、验证结果。Agent 的能力不是凭空来的，而是由 loop、context、tool 和 trace 共同组成的。
 
 # 最小不是简陋
 
-v0.1 的 Forge 很小，但它不只是 demo。它已经包含了 Agent 的几个关键边界：模型只负责决策，工具负责行动，runner 负责循环，context 负责记忆，trace 负责观察。
+v0.1 的 Forge 很小，但它已经包含了 Agent 的几个关键边界：模型只负责决策，工具负责行动，runner 负责循环，context 负责记忆，trace 负责观察。
 
-后面所有版本，其实都是在这个骨架上补能力：验证、评估、恢复、规划、压缩、安全、扩展和协作。
+后面所有版本，都是在这个骨架上补能力：验证、评估、恢复、规划、压缩、安全、扩展和协作。
 
-所以，理解 v0.1 的意义很重要。因为一旦你看懂了这个最小闭环，再复杂的 Agent 系统都可以被拆回这几个问题：
+所以理解 v0.1 的意义很重要。因为一旦看懂了这个最小闭环，再复杂的 Agent 系统都可以被拆回这几个问题：
 
 谁在推进循环？谁在整理上下文？谁在执行动作？谁在判断完成？谁在记录过程？
-
-Forge 的第一课，就是让这些问题不再藏在黑盒里。
