@@ -19,10 +19,6 @@ footnotereturnlinkcontents = "↩"
     url = "/article"
     weight = 2
 [[menu.main]]
-    name = "Lifestyle"
-    url = "https://arjenzhouhz.notion.site/Lifestyle-8fb50bd672af4d7fa64a406e586a8c4b?pvs=74"
-    weight = 3
-[[menu.main]]
     name = "Translation"
     url = "/translation"
     weight = 4
@@ -35,8 +31,13 @@ footnotereturnlinkcontents = "↩"
     url = "/categories"
     weight = 6
 [[menu.main]]
+    name = "Baomi App"
+    url = "https://baomi.app"
+    weight = 7
+[[menu.main]]
     name = "Subscribe"
     url = "/feed.xml"
+    weight = 8
 
 [params]
     url = "arjenzhou.com"
