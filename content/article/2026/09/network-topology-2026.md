@@ -15,7 +15,7 @@ categories:
 
 第一个变化是主路由。
 
-2022 年用的 RouterOS，当时就吐槽过把登录密码忘了。用了一段时间后觉得 ROS 对家用场景太重了——配置全靠命令行，改个防火墙规则都得翻文档。后来换成了 iKuai，Web 界面点点就行，DHCP、流控、行为管理都是开箱即用。
+2022 年用的 RouterOS，当时就吐槽过把登录密码忘了。用了一段时间后觉得 ROS 对我的家用场景太重了——我当时主要靠命令行配置，改个防火墙规则都得翻文档。后来换成了 iKuai，Web 界面点点就行，DHCP、流控、行为管理都是开箱即用。
 
 OpenWrt 保留作为旁路由，只负责它擅长的事情。两者各司其职，iKuai 管路由和 DHCP，OpenWrt 管插件。
 
@@ -37,7 +37,7 @@ OpenWrt 保留作为旁路由，只负责它擅长的事情。两者各司其职
 
 搬了新家后房间多了，无线覆盖成了问题。
 
-一开始把跟了我好几年的矿渣 K2P 设成 AP 顶着用，但覆盖和性能都不够看了。后来新买了 TP-Link 和中兴的路由器当 AP，书房和电视柜各放一台，有线回程到弱电箱交换机。覆盖问题彻底解决。
+一开始把跟了我好几年的矿渣 K2P 设成 AP 顶着用，但覆盖和性能都不够看了。后来新买了 TP-Link 和中兴的路由器当 AP，书房和电视柜各放一台，通过预埋网线接回弱电箱里的 J4125 LAN 口。覆盖问题彻底解决。
 
 到这一步，网络拓扑大概是这样：
 
@@ -70,15 +70,17 @@ graph TD
 
 装 IPTV 这件事打破了原来简单的网络结构。
 
-IPTV 的流量和普通上网流量需要隔离。运营商的 IPTV 走专门的组播 VLAN，光猫上有一个单独的 IPTV 口输出这路信号。机顶盒必须接在这个 VLAN 里才能正常收看。
+这里要解决的是光猫有独立 IPTV 口的接入场景：普通上网和 IPTV 分别从不同网口输出，机顶盒接 IPTV 口。要把两路业务放进家里同一根网线，就需要保持它们各自独立，避免把两边的 DHCP 和其他流量混在一起。
 
 问题在于：光猫在弱电箱，机顶盒在客厅电视柜，中间只有一根网线。这根网线既要给 AP 走上网流量，又要给机顶盒走 IPTV 流量。
 
-一根线，两路流量，答案只有一个：**VLAN Trunk**。
+一根线，两路流量，我选择用 **802.1Q VLAN Trunk** 来复用。
 
-解决方案有好几种，比如让软路由直接处理 VLAN 透传，但我选择了加**网管交换机**的方案——弱电箱一台，电视柜一台。原因是这样做拓扑最简洁，IPTV 流量完全在交换机层面隔离，不用改动软路由的任何配置，稳定性也更好。
+解决方案有好几种，比如让软路由直接处理 VLAN 透传，但我选择了加**网管交换机**的方案——弱电箱一台，电视柜一台。这样机顶盒的 IPTV 链路只经过光猫和两台交换机，不依赖软路由转发，排查问题也方便。
 
-J4125 WAN 口直连光猫这条线完全不用动——iKuai 继续老老实实做它的路由，IPTV 的事跟它没关系。
+J4125 WAN 口直连光猫这条线不用动，iKuai 继续做路由和 DHCP。另一个想实现的功能是让 OpenWrt 跑 udpxy，把 IPTV 组播转成局域网里的 HTTP 单播；这部分需要调整 PVE 网桥和 OpenWrt，能否播放还要验证当地运营商的接入条件。
+
+下面按光猫 IPTV 口输出无 VLAN 标签、机顶盒也接收无标签报文的情况给出配置规划。实际出口是否带标签，需要先查看光猫端口配置，必要时抓包确认。
 
 ## 改造后的拓扑
 
@@ -90,12 +92,16 @@ graph TD
         ONT[光猫 192.168.1.1 拨号+IPTV]
         subgraph J4125[J4125 PVE 主机 192.168.6.2]
             iKuai[iKuai 主路由 192.168.6.1]
-            OpenWrt[OpenWrt 旁路由 192.168.6.3<br/>udpxy 组播转单播] --- iKuai
+            PVEBridge[PVE LAN 网桥<br/>VLAN aware]
+            OpenWrt[OpenWrt 旁路由 192.168.6.3<br/>udpxy 组播转单播]
+            PVEBridge ---|家庭网络| iKuai
+            PVEBridge ---|LAN 网卡 家庭网络| OpenWrt
+            PVEBridge ---|IPTV 网卡 Tag 100| OpenWrt
         end
         SW1[网管交换机 8口 2.5G 192.168.6.11]
         ONT -->|上网口 直连| iKuai
-        ONT -->|IPTV口| SW1
-        iKuai <-->|Trunk 上网+IPTV| SW1
+        ONT -->|IPTV口 无标签| SW1
+        PVEBridge <-->|Trunk 经物理 LAN 口<br/>VLAN 1 无标签 + VLAN 100 带标签| SW1
     end
 
     subgraph 书房
@@ -121,10 +127,10 @@ graph TD
         SW2[网管交换机 5口 192.168.6.12]
         TVAP[AP 192.168.6.6]
         STB[IPTV 机顶盒]
-        SW2 -->|上网 VLAN| TVAP
-        SW2 -->|IPTV VLAN| STB
+        SW2 -->|VLAN 1 出口无标签| TVAP
+        SW2 -->|VLAN 100 出口无标签| STB
     end
-    SW1 -->|Trunk 上网+IPTV| SW2
+    SW1 -->|Trunk<br/>VLAN 1 无标签 + VLAN 100 带标签| SW2
 
     style 弱电箱 fill:#f5f5f5,stroke:#999
     style 书房 fill:#f5f5f5,stroke:#999
@@ -135,54 +141,84 @@ graph TD
 
 ## VLAN 规划
 
-整套方案只需要两个 VLAN：
+这套家庭网络规划只需要两个 VLAN：
 
 | VLAN ID | 用途 | 说明 |
 |---|---|---|
-| 默认 VLAN | 上网 | iKuai 管理的 192.168.6.0/24 网段 |
-| IPTV VLAN（运营商指定） | IPTV | 透传光猫的 IPTV 组播流量 |
+| 1 | 家庭网络 | iKuai 管理的 192.168.6.0/24 网段，承载上网和局域网通信 |
+| 100 | IPTV | 家里自定义的隔离网络，二层透传光猫 IPTV 口的流量 |
 
-> IPTV 的 VLAN ID 需要根据运营商的配置来定，可以通过光猫管理页面查看，各地不同。
+**运营商侧的 VLAN 和家里的 VLAN 是两回事。** 如果光猫 IPTV 口输出的是无标签报文，运营商侧的标签已经由光猫处理，家里的 VLAN ID 可以自行选择，不必与运营商相同。这里用 `100` 只是为了方便说明。如果光猫出口仍带标签，就要按实际标签和端口模式重新配置，不能直接套用下面的无标签接入口配置。
+
+交换机界面不一定有 Access、Trunk 这样的选项，有些只提供 VLAN 成员、Tagged/Untagged 和 PVID。配置时需要同时检查这三项：
+
+- **Tagged / Untagged：** 该 VLAN 的报文从端口发出时，保留还是去掉标签。
+- **PVID：** 无标签报文从这个端口进入时，归入哪个 VLAN。
+- **不加入：** 端口不属于这个 VLAN，不转发该 VLAN 的流量。尤其要把 IPTV 接入口从默认 VLAN 1 中移除，不能只添加 VLAN 100。
+
+下面两条 Trunk 都保留 VLAN 1 为无标签流量，只给 VLAN 100 加标签，两端配置一致。这样现有家庭网络可以保持原来的接入方式。具体概念可参考 [TP-Link 的 802.1Q VLAN 配置说明](https://static.tp-link.com/en/configuration-guides/pdf/configuring_802_1q_vlan.pdf)。
 
 ## 弱电箱交换机（SW1）口分配
 
-| 端口 | 用途 | VLAN 模式 |
-|---|---|---|
-| 口1 | 光猫 IPTV 口 | Access - IPTV |
-| 口2 | J4125 iKuai LAN | Trunk - 上网 + IPTV |
-| 口3 | 书房 | Access - 上网 |
-| 口4 | 厨房（预留） | Access - 上网 |
-| 口5 | 卧室1（预留） | Access - 上网 |
-| 口6 | 卧室2（预留） | Access - 上网 |
-| 口7 | 预留 | - |
-| 口8 | 电视柜 Trunk | Trunk - 上网 + IPTV |
+| 端口 | 用途 | VLAN 1 | VLAN 100 | PVID |
+|---|---|---|---|---|
+| 口1 | 光猫 IPTV 口 | 不加入 | Untagged | 100 |
+| 口2 | J4125 物理 LAN 口，接入 PVE 网桥 | Untagged | Tagged | 1 |
+| 口3 | 书房普通交换机 | Untagged | 不加入 | 1 |
+| 口4 | 厨房（预留） | Untagged | 不加入 | 1 |
+| 口5 | 卧室1（预留） | Untagged | 不加入 | 1 |
+| 口6 | 卧室2（预留） | Untagged | 不加入 | 1 |
+| 口7 | 预留 LAN 口 | Untagged | 不加入 | 1 |
+| 口8 | 电视柜 SW2 上联 | Untagged | Tagged | 1 |
 
-光猫上网口直连 J4125 WAN，不经过 SW1，所以比之前的方案省出一个口。
+光猫上网口直连 J4125 WAN，不经过 SW1，不占用交换机端口。
 
 ## 电视柜交换机（SW2）口分配
 
-| 端口 | 用途 | VLAN 模式 |
-|---|---|---|
-| 口1 | Trunk 上联 | Trunk - 上网 + IPTV |
-| 口2 | AP | Access - 上网 |
-| 口3 | IPTV 机顶盒 | Access - IPTV |
-| 口4-5 | 预留 | - |
+| 端口 | 用途 | VLAN 1 | VLAN 100 | PVID |
+|---|---|---|---|---|
+| 口1 | 上联 SW1 | Untagged | Tagged | 1 |
+| 口2 | AP | Untagged | 不加入 | 1 |
+| 口3 | IPTV 机顶盒 | 不加入 | Untagged | 100 |
+| 口4-5 | 预留 LAN 口 | Untagged | 不加入 | 1 |
+
+两台交换机的管理地址仍在家庭网络 VLAN 1，分别是 `192.168.6.11` 和 `192.168.6.12`。
 
 ## 几个细节
 
-**改动量很小。** 弱电箱加一台网管交换机（SW1），电视柜加一台网管交换机（SW2），光猫 IPTV 口拉一根短线到 SW1，J4125 LAN 口从直连改接 SW1。J4125 WAN 口直连光猫不变。
+**接线改动不多。** 弱电箱加一台网管交换机（SW1），电视柜加一台网管交换机（SW2），光猫 IPTV 口拉一根短线到 SW1，J4125 LAN 口从直连改接 SW1。J4125 WAN 口直连光猫不变。
 
-**J4125 到 SW1 走 Trunk。** 因为要让 OpenWrt 能收到 IPTV 的组播流量做转换，所以这条线需要同时透传上网和 IPTV 两个 VLAN。PVE 里给 OpenWrt 加一个 IPTV VLAN 的虚拟网卡即可。有意思的是，这根线上两个 VLAN 的流量方向是反的——上网流量从 J4125 往下走到 SW1，IPTV 流量从 SW1 往上走到 J4125。这没有问题，以太网是全双工的，一根线可以同时双向传输。
+**Trunk 接到 PVE 网桥。** J4125 的对应物理 LAN 口应接入启用了 VLAN aware 的 PVE 网桥，并允许 VLAN 1 和 VLAN 100 通过。PVE 管理口、iKuai LAN 和 OpenWrt 原有 LAN 网卡继续使用原来的无标签家庭网络。给 OpenWrt 增加第二张虚拟网卡，接到同一网桥，在 PVE 中设置 `VLAN Tag = 100`。标签由 PVE 处理，OpenWrt 内看到的是普通网卡，不要再给它重复套一层 VLAN 100。具体机制见 [Proxmox 网络配置文档](https://github.com/proxmox/pve-docs/blob/master/pve-network.adoc#vlan-8021q)。
 
-**udpxy 组播转单播。** OpenWrt 上跑 udpxy，监听 IPTV VLAN 接口的组播流量，转成 HTTP 单播流。局域网内任何设备访问 `http://192.168.6.3:4022/udp/组播地址:端口` 就能看 IPTV，手机、平板、电脑都行。
+这里有个前提：这张物理 LAN 网卡由 PVE 管理。如果它目前是 PCI 直通给 iKuai 的，就不能直接这样共享给 OpenWrt，需要先调整为 PVE 网桥，或者另用一个物理口接入 IPTV。iKuai 的路由逻辑可以保持不变，但不能说 PVE 和 OpenWrt 也完全不用改。
 
-**机顶盒照常工作。** 电视柜的机顶盒还是走 IPTV VLAN 直连，不受 udpxy 影响。两种看法并存。
+**udpxy 需要主动订阅组播。** OpenWrt 上的 udpxy 收到客户端请求后，通过指定的 IPTV 接口订阅对应组播，再把收到的数据转成 HTTP 单播。接收接口指定为新增的 IPTV 网卡，HTTP 服务监听家庭网络地址 `192.168.6.3:4022`；它不负责转码，也不负责解密。参数和请求格式见 [udpxy 官方手册](https://github.com/pcherenkov/udpxy/blob/master/chipmunk/doc/en/udpxy.1)。
+
+所以机顶盒能看，不等于装上 udpxy 就一定能看。还需要确认 OpenWrt 的 IPTV 接口能完成当地运营商要求的接入、取得所需地址，是否需要特殊 DHCP 参数或其他认证，以及是否有可用的组播频道地址。IPTV 接口要独立配置，不加入 `br-lan`，不开 DHCP 服务；如果通过 DHCP 获取地址，不要让它下发的默认路由和 DNS 覆盖原来的上网配置。防火墙也需要允许 IPTV 接口上的必要 IGMP、组播 UDP，以及家庭网络访问 udpxy 的 HTTP 端口。
+
+这些条件满足后，局域网设备可以用 VLC 等支持对应流格式和编码的播放器打开 `http://192.168.6.3:4022/udp/组播地址:端口`。这部分提供的是可接收、可解码的直播流，不能据此认为机顶盒的认证、点播和回看功能也能一起替代。
+
+**组播还要检查 IGMP。** VLAN 负责把 IPTV 和家庭网络隔开，IGMP Snooping 负责在 IPTV VLAN 内按订阅关系转发组播。可以在两台交换机的 VLAN 100 上启用 Snooping，但要确认上游 IGMP Query 能到达、通向光猫的上联能正确识别为组播路由器端口。PVE 网桥如果启用了组播侦听，也要检查虚拟网卡这一段的转发。
+
+先确认现有查询器，再决定是否补充 Querier，不要盲目打开多个查询器或在承载多个接收者的端口上开启快速离开。测试时除了看能否出画面，还要持续播放、反复切台，并检查机顶盒和 udpxy 同时观看时是否互相影响。相关行为可参考 [TP-Link 的组播配置说明](https://www.tp-link.com/us/configuration-guides/configuring_layer_2_multicast/)。
+
+**机顶盒走独立的二层路径。** 机顶盒的 IPTV 链路经过两台交换机，不经过 J4125。按这个接法，J4125 重启不会切断机顶盒到光猫 IPTV 口的链路；udpxy 则依赖 PVE 和 OpenWrt 正常运行。
 
 **IPTV 流量的两条路径：**
-- **机顶盒：** 光猫 IPTV 口 → SW1 → Trunk → SW2 → 机顶盒（二层直通）
-- **其他设备：** 光猫 IPTV 口 → SW1 → Trunk → J4125 → OpenWrt udpxy → 上网 VLAN → 任意设备（组播转单播）
 
-**书房交换机不用换。** 书房只有上网流量，普通交换机足够。
+- **机顶盒：** 光猫 IPTV 口 → SW1 → Trunk → SW2 → 机顶盒（二层直通）
+- **使用 udpxy 的设备：** 光猫 IPTV 口 → SW1 → Trunk → PVE 网桥 → OpenWrt IPTV 网卡 → udpxy → OpenWrt LAN 网卡 → 家庭网络 → 播放器
+
+**书房交换机不用换。** 书房只接入家庭网络，不需要透传 IPTV VLAN，普通交换机足够。
+
+## 分两步验证
+
+实施时先把机顶盒的二层路径跑通，再加 udpxy：
+
+1. 先确认机顶盒直连光猫 IPTV 口时，直播、切台、点播和回看正常；再接入两台交换机，验证这些功能和长时间播放，检查 AP 上网以及交换机管理地址是否正常。这一步不需要把 IPTV VLAN 接入 PVE。
+2. 再配置 J4125 到 SW1 的 Trunk、PVE 网桥和 OpenWrt 的 IPTV 网卡，验证接入、组播订阅和 HTTP 播放，最后测试机顶盒与 udpxy 同时观看、切台的情况。
+
+这样哪一步出问题就查哪一段，不用把光猫、交换机和软路由一起翻个底朝天。交换机配置确认后记得保存，重启后再检查一次。
 
 # IP 分配汇总
 
