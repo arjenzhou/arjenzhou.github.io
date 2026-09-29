@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" width="800" height="460" role="img" aria-labelledby="title description">
+  <title id="title">IPTV 改造前的家庭网络拓扑</title>
+  <desc id="description">光纤接入光猫，由光猫拨号；光猫上网口连接 J4125 的物理 WAN 口，内部接入 iKuai。LAN 侧按 PVE 虚拟网桥接入示意：iKuai 和 OpenWrt 各自的 LAN 虚拟网卡接到同一 LAN 虚拟网桥，网桥接入多个物理 LAN 口，分别用网线连接书房 AP、电视柜 AP 和 MS-A1。图中没有独立交换机，也没有 IPTV 专用网卡；实线表示物理布线，虚线表示内部连接。WAN 内部接入方式未展开，不预设网桥或 PCI 直通。</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; fill: #253044; font-size: 13px; }
+    .room { fill: #f7f8fa; stroke: #c6ccd4; }
+    .host { fill: #eaf2ff; stroke: #83aaf3; }
+    .vm { fill: #f7faff; stroke: #aaa0ce; }
+    .guest { fill: #fffde9; stroke: #c6c281; }
+    .device { fill: #fff; stroke: #aaa0ce; }
+    .physical, .internal { fill: none; stroke: #626c7b; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .internal { stroke-dasharray: 4 4; }
+    .group-label { font-size: 14px; font-weight: 600; }
+    .port-label { font-size: 11.5px; fill: #46536a; paint-order: stroke; stroke: #f7f8fa; stroke-width: 4px; stroke-linejoin: round; }
+    .small { font-size: 11.5px; fill: #46536a; }
+    .center { text-anchor: middle; }
+  </style>
+
+  <rect width="800" height="460" fill="#fff"/>
+
+  <!-- Location and host boundaries share the styling of the upgraded topology. -->
+  <rect class="room" x="8" y="8" width="500" height="418" rx="8"/>
+  <text class="group-label" x="26" y="30">弱电箱</text>
+  <rect class="host" x="28" y="166" width="456" height="248" rx="6"/>
+  <text class="group-label center" x="256" y="189">J4125 · PVE<tspan class="small" font-weight="400"> · 管理 192.168.6.2</tspan></text>
+  <rect class="vm" x="166" y="204" width="170" height="94" rx="5"/>
+  <text class="group-label center" x="251" y="225">iKuai 主路由</text>
+  <rect class="guest" x="48" y="314" width="240" height="86" rx="5"/>
+  <text class="group-label center" x="168" y="336">OpenWrt 旁路由</text>
+  <rect class="room" x="548" y="8" width="244" height="418" rx="8"/>
+  <text class="group-label center" x="670" y="30">家庭网络</text>
+  <text class="small center" x="670" y="48">192.168.6.0/24</text>
+
+  <!-- Separate, undirected physical cables; there is no standalone switch. -->
+  <g class="physical">
+    <path id="fiber-ont" d="M96 70 V96"/>
+    <path id="ont-wan" d="M96 144 V218"/>
+    <path id="lan-study-ap" d="M468 230 H510 V94 H572"/>
+    <path id="lan-tv-ap" d="M468 244 H520 V214 H572"/>
+    <path id="lan-msa1" d="M468 258 H530 V346 H572"/>
+  </g>
+
+  <!-- LAN bridge example; WAN attachment remains implementation-neutral. -->
+  <g class="internal">
+    <path id="wan-ikuai" d="M142 238 H156 V262 H180"/>
+    <path id="ikuai-lan-bridge" d="M284 282 V304 H318 V342 H346"/>
+    <path id="openwrt-lan-bridge" d="M236 368 H330 V356 H346"/>
+    <path id="bridge-physical-lan" d="M414 322 V276"/>
+  </g>
+
+  <g id="fiber">
+    <rect class="device" x="48" y="36" width="96" height="34" rx="4"/>
+    <text class="center" x="96" y="58">光纤入户</text>
+  </g>
+  <g id="ont">
+    <rect class="device" x="48" y="96" width="96" height="48" rx="4"/>
+    <text class="center" x="96" y="117">光猫 · 拨号</text>
+    <text class="small center" x="96" y="135">192.168.1.1</text>
+  </g>
+  <g id="wan">
+    <rect class="device" x="48" y="218" width="94" height="40" rx="4"/>
+    <text class="center" x="95" y="243">物理 WAN 口</text>
+  </g>
+  <g id="ikuai-wan">
+    <rect class="device" x="180" y="242" width="54" height="40" rx="4"/>
+    <text class="center" x="207" y="259">WAN</text>
+    <text class="small center" x="207" y="275">接入</text>
+  </g>
+  <g id="ikuai-lan">
+    <rect class="device" x="244" y="242" width="80" height="40" rx="4"/>
+    <text class="small center" x="284" y="259">LAN 虚拟网卡</text>
+    <text class="small center" x="284" y="275">192.168.6.1</text>
+  </g>
+  <g id="lan-ports">
+    <rect class="device" x="360" y="218" width="108" height="58" rx="4"/>
+    <text class="center" x="414" y="240">物理 LAN 口</text>
+    <text class="small center" x="414" y="260">各接一根网线</text>
+  </g>
+  <g id="pve-lan-bridge">
+    <rect class="device" x="346" y="322" width="122" height="48" rx="4"/>
+    <text class="center" x="407" y="342">LAN 虚拟网桥</text>
+    <text class="small center" x="407" y="360">家庭网络</text>
+  </g>
+  <g id="openwrt-lan">
+    <rect class="device" x="100" y="350" width="136" height="36" rx="4"/>
+    <text class="center" x="168" y="365">LAN 虚拟网卡</text>
+    <text class="small center" x="168" y="380">192.168.6.3</text>
+  </g>
+  <g id="study-ap">
+    <rect class="device" x="572" y="72" width="196" height="44" rx="4"/>
+    <text class="center" x="670" y="90">书房 AP</text>
+    <text class="small center" x="670" y="107">192.168.6.5</text>
+  </g>
+  <g id="tv-ap">
+    <rect class="device" x="572" y="192" width="196" height="44" rx="4"/>
+    <text class="center" x="670" y="210">电视柜 AP</text>
+    <text class="small center" x="670" y="227">192.168.6.6</text>
+  </g>
+  <g id="msa1">
+    <rect class="host" x="572" y="306" width="196" height="96" rx="4"/>
+    <text class="center" x="670" y="329">MS-A1 · PVE</text>
+    <text class="small center" x="670" y="348">管理 192.168.6.10</text>
+    <text class="small center" x="670" y="369">Home Assistant / fnOS</text>
+    <text class="small center" x="670" y="387">及其他服务</text>
+  </g>
+
+  <text class="port-label" x="108" y="158">上网口</text>
+
+  <!-- Same line legend as the upgraded topology. -->
+  <path class="physical" d="M18 444 H50"/>
+  <text class="small" x="58" y="448">物理布线</text>
+  <path class="internal" d="M138 444 H170"/>
+  <text class="small" x="178" y="448">内部 / 虚拟连接</text>
+  <text class="small" x="354" y="448">连线不表示流量方向 · IP 标在设备或 LAN 接口旁</text>
+</svg>

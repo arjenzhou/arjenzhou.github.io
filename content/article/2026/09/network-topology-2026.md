@@ -41,26 +41,9 @@ OpenWrt 保留作为旁路由，只负责它擅长的事情。两者各司其职
 
 到这一步，网络拓扑大概是这样：
 
-{{< mermaid >}}
-graph TD
-    ISP[光纤入户] --> ONT[光猫 192.168.1.1 拨号]
+图中实线表示物理布线，虚线表示内部连接，不表示流量方向。LAN 侧按 PVE 网桥接入示意：iKuai 和 OpenWrt 的 LAN 虚拟网卡、物理 LAN 口都接到同一网桥。WAN 内部接入方式省略，不预设网桥或 PCI 直通。
 
-    subgraph J4125[J4125 PVE 主机 192.168.6.2]
-        iKuai[iKuai 主路由 192.168.6.1]
-        OpenWrt[OpenWrt 旁路由 192.168.6.3] --- iKuai
-    end
-
-    ONT --> iKuai
-    iKuai --> StudyAP[书房 AP 192.168.6.5]
-    iKuai --> TVAP[电视柜 AP 192.168.6.6]
-
-    subgraph MSA1[MS-A1 PVE 192.168.6.10]
-        HA[Home Assistant]
-        fnOS[fnOS]
-        other1[...]
-    end
-    iKuai --> MSA1
-{{< /mermaid >}}
+![IPTV 改造前的家庭网络拓扑：LAN 虚拟网桥连接两台虚拟机的网卡和物理 LAN 口，外接两个 AP 与 MS-A1](/images/network-topology-2026-before.svg)
 
 网段统一 `192.168.6.0/24`，一个 VLAN 都不需要。这套方案跑了很长时间，稳定省心。
 
@@ -84,60 +67,13 @@ J4125 WAN 口直连光猫这条线不用动，iKuai 继续做路由和 DHCP。�
 
 ## 改造后的拓扑
 
-{{< mermaid >}}
-graph TD
-    ISP[光纤入户] --> ONT
+下面把设备间的接线和 PVE 内部连接放在同一张图里：实线表示物理布线，虚线表示内部接入或虚拟网卡连接，均不表示流量方向。两条 Trunk 都承载 VLAN 1（无标签）和 VLAN 100（带标签）。IP 直接标在对应设备或 LAN 接口上，完整端口配置见后面的表格。
 
-    subgraph 弱电箱
-        ONT[光猫 192.168.1.1 拨号+IPTV]
-        subgraph J4125[J4125 PVE 主机 192.168.6.2]
-            iKuai[iKuai 主路由 192.168.6.1]
-            PVEBridge[PVE LAN 网桥<br/>VLAN aware]
-            OpenWrt[OpenWrt 旁路由 192.168.6.3<br/>udpxy 组播转单播]
-            PVEBridge ---|家庭网络| iKuai
-            PVEBridge ---|LAN 网卡 家庭网络| OpenWrt
-            PVEBridge ---|IPTV 网卡 Tag 100| OpenWrt
-        end
-        SW1[网管交换机 8口 2.5G 192.168.6.11]
-        ONT -->|上网口 直连| iKuai
-        ONT -->|IPTV口 无标签| SW1
-        PVEBridge <-->|Trunk 经物理 LAN 口<br/>VLAN 1 无标签 + VLAN 100 带标签| SW1
-    end
+![家庭网络改造拓扑：弱电箱内的 PVE、OpenWrt 双网卡及各房间接线](/images/network-topology-2026.svg)
 
-    subgraph 书房
-        StudySW[5口 2.5G 交换机]
-        PC[电脑]
-        StudyAP[AP 192.168.6.5]
-        subgraph MSA1[MS-A1 PVE 192.168.6.10]
-            HA2[Home Assistant]
-            fnOS2[fnOS]
-            other2[...]
-        end
-        StudySW --> PC
-        StudySW --> StudyAP
-        StudySW --> MSA1
-    end
-    SW1 --> StudySW
+预留网口合并展示，对应 SW1 口4接厨房、口5接卧室1、口6接卧室2；它们各用一根网线。SW1 口7 和 SW2 口4–5 是空闲端口，图中省略。
 
-    SW1 --> Kitchen[厨房 预留]
-    SW1 --> Bed1[卧室1 预留]
-    SW1 --> Bed2[卧室2 预留]
-
-    subgraph 电视柜
-        SW2[网管交换机 5口 192.168.6.12]
-        TVAP[AP 192.168.6.6]
-        STB[IPTV 机顶盒]
-        SW2 -->|VLAN 1 出口无标签| TVAP
-        SW2 -->|VLAN 100 出口无标签| STB
-    end
-    SW1 -->|Trunk<br/>VLAN 1 无标签 + VLAN 100 带标签| SW2
-
-    style 弱电箱 fill:#f5f5f5,stroke:#999
-    style 书房 fill:#f5f5f5,stroke:#999
-    style 电视柜 fill:#f5f5f5,stroke:#999
-    style J4125 fill:#dbeafe,stroke:#3b82f6
-    style MSA1 fill:#dbeafe,stroke:#3b82f6
-{{< /mermaid >}}
+WAN 口到 iKuai 的虚线只表示内部接入关系，不预设网桥或 PCI 直通方式。OpenWrt 的两张网卡分别接入家庭网络和 IPTV，`192.168.6.3` 只属于 LAN 网卡；IPTV 网卡的地址按实际接入情况确定。图中的 `Tag 100` 在 PVE 侧配置，OpenWrt 内不再重复打标签。iKuai 的 LAN 和 OpenWrt 的 LAN 网卡均接入家庭网络，不接入 IPTV VLAN。
 
 ## VLAN 规划
 
@@ -182,7 +118,7 @@ graph TD
 | 口3 | IPTV 机顶盒 | 不加入 | Untagged | 100 |
 | 口4-5 | 预留 LAN 口 | Untagged | 不加入 | 1 |
 
-两台交换机的管理地址仍在家庭网络 VLAN 1，分别是 `192.168.6.11` 和 `192.168.6.12`。
+两台交换机的管理接口仍接入家庭网络 VLAN 1。
 
 ## 几个细节
 
@@ -219,20 +155,6 @@ graph TD
 2. 再配置 J4125 到 SW1 的 Trunk、PVE 网桥和 OpenWrt 的 IPTV 网卡，验证接入、组播订阅和 HTTP 播放，最后测试机顶盒与 udpxy 同时观看、切台的情况。
 
 这样哪一步出问题就查哪一段，不用把光猫、交换机和软路由一起翻个底朝天。交换机配置确认后记得保存，重启后再检查一次。
-
-# IP 分配汇总
-
-| 设备 | IP | 位置 |
-|---|---|---|
-| 光猫 | 192.168.1.1 | 弱电箱 |
-| iKuai 主路由 | 192.168.6.1 | J4125 PVE |
-| PVE 管理口 | 192.168.6.2 | J4125 PVE |
-| OpenWrt 旁路由 | 192.168.6.3 | J4125 PVE |
-| 书房 AP | 192.168.6.5 | 书房 |
-| 电视柜 AP | 192.168.6.6 | 电视柜 |
-| MS-A1 | 192.168.6.10 | 书房 |
-| 弱电箱交换机 | 192.168.6.11 | 弱电箱 |
-| 电视柜交换机 | 192.168.6.12 | 电视柜 |
 
 # 后记
 

@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 548" width="800" height="548" role="img" aria-labelledby="title description">
+  <title id="title">家庭网络改造拓扑</title>
+  <desc id="description">一张图展示弱电箱、J4125 PVE 内部、书房和电视柜。实线表示物理连接，虚线表示主机内部接入。光猫上网口连接物理 WAN 口并接入 iKuai；光猫 IPTV 口连接 SW1 口1。PVE LAN 网桥连接 iKuai、OpenWrt 的 LAN 和 IPTV 两张虚拟网卡，以及物理 LAN 口。物理 LAN 口连接 SW1 口2；SW1 口3连接书房，口8连接电视柜 SW2 口1，口4至6连接三个预留网口。两条 Trunk 承载无标签 VLAN 1 和带标签 VLAN 100。</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; fill: #253044; font-size: 13px; }
+    .room { fill: #f7f8fa; stroke: #c6ccd4; }
+    .host { fill: #eaf2ff; stroke: #83aaf3; }
+    .guest { fill: #fffde9; stroke: #c6c281; }
+    .device { fill: #fff; stroke: #aaa0ce; }
+    .physical, .internal { fill: none; stroke: #626c7b; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .internal { stroke-dasharray: 4 4; }
+    .group-label { font-size: 14px; font-weight: 600; }
+    .port-label { font-size: 11.5px; fill: #46536a; paint-order: stroke; stroke: #f7f8fa; stroke-width: 4px; stroke-linejoin: round; }
+    .small { font-size: 11.5px; fill: #46536a; }
+    .center { text-anchor: middle; }
+  </style>
+
+  <rect width="800" height="548" fill="#fff"/>
+
+  <!-- Location and host boundaries. These do not represent network links. -->
+  <rect class="room" x="8" y="8" width="500" height="496" rx="8"/>
+  <text class="group-label" x="26" y="30">弱电箱</text>
+  <rect class="host" x="28" y="216" width="456" height="274" rx="6"/>
+  <text class="group-label center" x="256" y="239">J4125 · PVE<tspan class="small" font-weight="400"> · 管理 192.168.6.2</tspan></text>
+  <rect class="guest" x="50" y="352" width="260" height="118" rx="5"/>
+  <text class="group-label center" x="180" y="455">OpenWrt · udpxy</text>
+  <rect class="room" x="548" y="8" width="244" height="170" rx="8"/>
+  <text class="group-label center" x="670" y="30">书房</text>
+  <rect class="room" x="548" y="198" width="244" height="172" rx="8"/>
+  <text class="group-label center" x="670" y="220">电视柜</text>
+  <rect class="room" x="548" y="390" width="244" height="84" rx="8"/>
+  <text class="group-label center" x="670" y="413">预留网口 · SW1 口4–6</text>
+
+  <!-- Physical cabling: every path is undirected. -->
+  <g class="physical">
+    <path id="fiber-ont" d="M96 70 V96"/>
+    <path id="ont-wan" d="M96 152 V268"/>
+    <path id="ont-iptv-sw1" d="M144 122 H344"/>
+    <path id="sw1-pve-lan" d="M414 152 V194 H464 V368 H448"/>
+    <path id="sw1-study" d="M484 108 H532 V73 H572"/>
+    <path id="sw1-sw2" d="M484 126 H522 V270 H572"/>
+    <path id="sw1-reserved" d="M484 144 H512 V443 H564"/>
+    <path id="study-pc" d="M581 92 V120"/>
+    <path id="study-ap-link" d="M650 92 V120"/>
+    <path id="study-msa1" d="M740 92 V120"/>
+    <path id="sw2-ap" d="M612 290 V320"/>
+    <path id="sw2-stb" d="M729 290 V320"/>
+  </g>
+
+  <!-- Host-internal connections; WAN attachment does not assume passthrough or bridging. -->
+  <g class="internal">
+    <path id="wan-ikuai" d="M142 288 H168"/>
+    <path id="ikuai-bridge" d="M264 288 H296"/>
+    <path id="bridge-physical-lan" d="M390 308 V328 H402 V350"/>
+    <path id="bridge-openwrt-lan" d="M340 308 V330 H118 V384"/>
+    <path id="bridge-openwrt-iptv" d="M364 308 V342 H242 V384"/>
+  </g>
+
+  <!-- Addresses are shown on their device or LAN interface; IPTV has a separate address. -->
+  <g id="fiber">
+    <rect class="device" x="48" y="36" width="96" height="34" rx="4"/>
+    <text class="center" x="96" y="58">光纤入户</text>
+  </g>
+  <g id="ont">
+    <rect class="device" x="48" y="96" width="96" height="56" rx="4"/>
+    <text class="center" x="96" y="111">光猫</text>
+    <text class="small center" x="96" y="128">拨号 + IPTV</text>
+    <text class="small center" x="96" y="144">192.168.1.1</text>
+  </g>
+  <g id="sw1">
+    <rect class="device" x="344" y="92" width="140" height="60" rx="4"/>
+    <text class="center" x="414" y="109">SW1 网管交换机</text>
+    <text class="small center" x="414" y="126">8口 · 2.5G</text>
+    <text class="small center" x="414" y="143">管理 192.168.6.11</text>
+  </g>
+  <g id="wan">
+    <rect class="device" x="48" y="268" width="94" height="40" rx="4"/>
+    <text class="center" x="95" y="293">物理 WAN 口</text>
+  </g>
+  <g id="ikuai">
+    <rect class="device" x="168" y="268" width="96" height="40" rx="4"/>
+    <text class="center" x="216" y="284">iKuai · LAN</text>
+    <text class="small center" x="216" y="300">192.168.6.1</text>
+  </g>
+  <g id="pve-bridge">
+    <rect class="device" x="296" y="268" width="142" height="40" rx="4"/>
+    <text class="center" x="367" y="285">PVE LAN 网桥</text>
+    <text class="small center" x="367" y="300">VLAN aware</text>
+  </g>
+  <g id="lan">
+    <rect class="device" x="356" y="350" width="92" height="36" rx="4"/>
+    <text class="center" x="402" y="373">物理 LAN 口</text>
+  </g>
+  <g id="openwrt-lan">
+    <rect class="device" x="68" y="384" width="100" height="42" rx="4"/>
+    <text class="center" x="118" y="402">LAN 网卡</text>
+    <text class="small center" x="118" y="418">192.168.6.3</text>
+  </g>
+  <g id="openwrt-iptv">
+    <rect class="device" x="192" y="384" width="100" height="42" rx="4"/>
+    <text class="center" x="242" y="402">IPTV 网卡</text>
+    <text class="small center" x="242" y="418">PVE Tag 100</text>
+  </g>
+  <g id="study-switch">
+    <rect class="device" x="572" y="54" width="194" height="38" rx="4"/>
+    <text class="center" x="669" y="78">5口 2.5G 普通交换机</text>
+  </g>
+  <g id="pc">
+    <rect class="device" x="560" y="120" width="42" height="42" rx="4"/>
+    <text class="center" x="581" y="145">电脑</text>
+  </g>
+  <g id="study-ap">
+    <rect class="device" x="610" y="120" width="80" height="42" rx="4"/>
+    <text class="center" x="650" y="136">AP</text>
+    <text class="small center" x="650" y="152">192.168.6.5</text>
+  </g>
+  <g id="msa1">
+    <rect class="device" x="698" y="120" width="84" height="42" rx="4"/>
+    <text class="center" x="740" y="136">MS-A1 · PVE</text>
+    <text class="small center" x="740" y="152">192.168.6.10</text>
+  </g>
+  <g id="sw2">
+    <rect class="device" x="572" y="250" width="194" height="40" rx="4"/>
+    <text class="center" x="669" y="267">SW2 · 5口网管交换机</text>
+    <text class="small center" x="669" y="283">管理 192.168.6.12</text>
+  </g>
+  <g id="tv-ap">
+    <rect class="device" x="572" y="320" width="80" height="42" rx="4"/>
+    <text class="center" x="612" y="336">AP</text>
+    <text class="small center" x="612" y="352">192.168.6.6</text>
+  </g>
+  <g id="stb">
+    <rect class="device" x="690" y="320" width="78" height="34" rx="4"/>
+    <text class="center" x="729" y="342">机顶盒</text>
+  </g>
+  <g id="reserved">
+    <rect class="device" x="564" y="428" width="212" height="30" rx="4"/>
+    <text class="center" x="670" y="448">厨房 · 卧室1 · 卧室2</text>
+  </g>
+
+  <!-- Port labels are kept next to their physical cable. -->
+  <text class="port-label" x="108" y="191">上网口</text>
+  <text class="port-label center" x="244" y="113">IPTV 口 — SW1 口1</text>
+  <text class="port-label center" x="425" y="184">口2 · Trunk</text>
+  <text class="port-label" x="503" y="63">口3</text>
+  <text class="port-label" x="574" y="242">SW1 口8 — SW2 口1 · Trunk</text>
+  <text class="port-label" x="574" y="312">口2 · LAN</text>
+  <text class="port-label" x="690" y="312">口3 · IPTV</text>
+
+  <!-- Legend. No link in this diagram implies one-way traffic. -->
+  <path class="physical" d="M18 530 H50"/>
+  <text class="small" x="58" y="534">物理布线</text>
+  <path class="internal" d="M138 530 H170"/>
+  <text class="small" x="178" y="534">内部 / 虚拟连接</text>
+  <text class="small" x="310" y="534">Trunk：VLAN 1 无标签 + VLAN 100 带标签</text>
+  <text class="small" x="620" y="534">口4–6 各用一根网线</text>
+</svg>
